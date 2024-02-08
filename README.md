@@ -67,4 +67,4 @@ Sensitive data and original configuration files are not publicly available but c
 
 ## Project Origins 🏛️
 
-This project was originally developed as my bachelor’s thesis in 2019 when styding on VŠPJ - you can download check the thesis text ([here](https://is.vspj.cz/bp/get-bp/student/54954/thema/7531))
+This project was originally developed as my bachelor’s thesis in 2019 when styding on VŠPJ - you can download the original thesis ([here](https://is.vspj.cz/bp/get-bp/student/54954/thema/7531))

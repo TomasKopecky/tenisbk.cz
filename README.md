@@ -6,14 +6,14 @@ Explore my project live at ([tenisbk.cz](https://tenisbk.cz))
 
 ---
 
-## Introduction 🎾
+## Introduction 💡
 A PHP web application utilizing the Nette framework and PostgreSQL for comprehensive management of local tennis competitions. Originally developed as my bachelor’s thesis in 2019, this project has been continuously improved and is currently running on PHP 7.3 and Nette 2.4.
 
 Admin access is granted upon request.
 
 ## Technologies Used 📖
 
-<img src="https://github.com/ronadlisko/ronadlisko/blob/main/media/icons/php/php-original.svg" width="75"><img src="https://github.com/ronadlisko/ronadlisko/blob/main/media/icons/nette/nette-resized.png" width="80">
+<img src="https://github.com/ronadlisko/ronadlisko/blob/main/media/icons/php/php-original.svg" width="75"><img src="https://github.com/ronadlisko/ronadlisko/blob/main/media/icons/nette/nette-resized.png" width="80"><img src="https://github.com/ronadlisko/ronadlisko/blob/main/media/icons/postgresql/postgresql-original.svg" width="60"><img src="https://github.com/ronadlisko/ronadlisko/blob/main/media/icons/javascript/javascript-original.svg" width="57">
 
 I've built the application using:
 - PHP: Server-side scripting language.

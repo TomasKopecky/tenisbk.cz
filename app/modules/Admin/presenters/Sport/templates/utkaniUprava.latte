@@ -1,0 +1,118 @@
+{import '../../../templates/playForms.latte'}
+{block title}
+ATS Blansko - Úprava utkání
+{/block}
+{block formTitle}
+Úprava utkání
+{/block}
+{block formInfo}
+Zde můžete upravovat jednotlivá utkání. Berte na vědomí, že při chybném zadání údajů utkání se tyto změny projeví ve všech dalších sekcích, zejména v tabulce pořadí.
+{/block}
+{block formTitleDetail}
+Upravit utkání
+{/block}
+{block container}
+{include parent}
+{/block}
+{block js_admin}
+{include parent}
+{include js_nette_ajax}
+{include js_datepicker_basic}
+<script>
+    $(function () {
+        endLoadingPicture();
+        calendar();
+        $("input[name*='kontumace']").change(function () {
+            if ($(this).attr("name") == "utkani_kontumace_domaci")
+            {
+                $("input[name=utkani_kontumace_hoste]").prop('checked', false);
+            }
+            if ($(this).attr("name") == "utkani_kontumace_hoste")
+            {
+                $("input[name=utkani_kontumace_domaci]").prop('checked', false);
+            }
+        });
+
+
+        $('[name=id_soutez], [name=rocnik]').change(function () {
+            if ($('[name=id_soutez]').val() && $('[name=rocnik]').val())
+            {
+                startLoadingPicture();
+                $.nette.ajax({ // manuální zavolání ajax pro nette z knihovny nette.ajax.js
+                    url: {link PlayInput!}, // handle v presenteru TabulkaPresenter
+                    data: {
+                        'seasonYear': $('[name=rocnik]').val(),
+                        'competition': $('[name=id_soutez]').val()
+                    }
+                });
+            }
+        });
+
+        $(document).ajaxComplete(function () {
+            calendar();
+            endLoadingPicture();
+        });
+        $('button[name=playButton]').on('click', '.formDeleteButton', function (event) {
+            button = $(this)[0];
+            $('#modalUpdate').modal('toggle');
+            if (clicked)
+            {
+                return;
+            } else
+            {
+                //alert("nemažu");
+                event.preventDefault();
+            }
+        });
+        $('.modalUpdateButton').click(function () {
+            clicked = true;
+            //alert("mažu");
+            button.click();
+        });
+
+        function calendar()
+        {
+            //Date picker nastavení - JS bootstrap-datepicker  
+            $('input[name=utkani_datum]' /*, input[name=datum_nahradni]*/).datepicker({
+                clearBtn: true,
+                autoclose: false,
+                language: 'cs',
+                format: 'dd.mm.yyyy'
+            });
+        }
+
+        function startLoadingPicture()
+        {
+            $('#overlayImg').removeClass('hideIt');
+            $('#overlayedTable').addClass('hideIt');
+        }
+
+        function endLoadingPicture()
+        {
+            $('#overlayImg').addClass('hideIt');
+            $('#overlayedTable').removeClass('hideIt');
+        }
+
+    });
+</script>
+<div class="modal modal-danger fade" id="modalUpdate">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Úprava kontumovaného utkání</h4>
+            </div>
+            <div class="modal-body">
+                <p>Opravdu chcete změnit kontumaci daného utkání? Daný krok již nepůjde vzít zpět!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Zavřít</button>
+                <button type="button" class="btn btn-outline modalUpdateButton">Upravit utkání s kontumací</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+{/block}

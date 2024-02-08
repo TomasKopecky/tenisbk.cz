@@ -1,0 +1,146 @@
+{block js_admin}
+
+{block js_web}
+
+{block js_no_javascript}
+<!-- kód pro případ, ře webový prohlížeč nemá povolen či nepodporuje použití javascript-->
+<noscript>
+<meta http-equiv="refresh" content="0; url=Error">
+</noscript>
+{/block}
+{block js_jquery_min}
+<script src="{$basePath}/bootstrap-3.3.7/dist/js/jquery.min.js"></script>
+{/block}
+{block js_bootstrap_min}
+<script src="{$basePath}/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+{/block}
+{block js_form_validation}
+<script src="{$basePath}/my_scripts/live-form-validation.js"></script>
+<script>
+    $(function () {
+        // kód pro validační hlášky na formulářích
+        LiveForm.setOptions({
+            messageParentClass: 'form-group'
+        });
+    });
+</script>
+{/block}
+
+{block js_adminlte_min}
+<script src="{$basePath}/AdminLTE-2.4.3/dist/js/adminlte.min.js"></script>
+{/block}
+
+{/block}
+
+{/block}
+
+{block js_form_operator}
+
+<script src="{$basePath}/my_scripts/formOperator.js"></script>
+
+{/block}
+
+{block js_nette_ajax}
+
+<script src="{$basePath}/my_scripts/nette.ajax.js"></script>
+
+{/block}
+
+{block js_jquery_knob}
+<script src="{$basePath}/AdminLTE-2.4.3/bower_components/jquery-knob/js/jquery.knob.js"></script>
+{/block}
+
+{block js_datatables_all}
+
+{block js_datatables_basic}
+
+{block js_datatables_jquery_min}
+<script src="{$basePath}/AdminLTE-2.4.3/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+{/block}
+{block js_datatables_bootstrap_min}
+<script src="{$basePath}/AdminLTE-2.4.3/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+{/block}
+
+{/block}
+
+{block js_datatables_my_script}
+<script src="{$basePath}/my_scripts/datatables.js"></script>
+{/block}
+
+{block js_datatables_numeric_coma}
+<script src="{$basePath}/datatables/numeric-comma.js"></script>
+{/block}
+{block js_datatables_buttons}
+
+{*<script src="{$basePath}/datatables/jquery-1.12.4.js"></script>*}
+{block js_datatables_buttons_jszip}
+<script src="{$basePath}/datatables/JSZip-2.5.0/jszip.min.js"></script>
+{/block}
+{block js_datatables_buttons_pdfmake}
+<script src="{$basePath}/datatables/pdfmake-0.1.32/pdfmake.min.js"></script>
+{/block}
+{block js_datatables_buttons_vfs_fonts}
+<script src="{$basePath}/datatables/pdfmake-0.1.32/vfs_fonts.js"></script>    
+{/block}
+{block js_datatables_buttons_min}
+<script src="{$basePath}/datatables/Buttons-1.5.1/js/dataTables.buttons.min.js"></script>
+{/block}
+{block js_datatables_buttons_flash}
+<script src="{$basePath}/datatables/Buttons-1.5.1/js/buttons.flash.min.js"></script>
+{/block}
+{block js_datatables_buttons_html5}
+<script src="{$basePath}/datatables/Buttons-1.5.1/js/buttons.html5.min.js"></script>
+{/block}
+{block js_datatables_buttons_print}
+<script src="{$basePath}/datatables/Buttons-1.5.1/js/buttons.print.min.js"></script>
+{/block}
+{block js_datatables_buttons_bootstrap}
+<script src="{$basePath}/datatables/Buttons-1.5.1/js/buttons.bootstrap.min.js"></script>
+{/block}
+
+{/block}
+
+{/block}
+
+{block js_fullcalendar_basic}
+
+{block js_moment}
+<script src="{$basePath}/my_scripts/moment.js"></script>
+{/block}
+{block js_fullcalendar_min}
+<script src="{$basePath}/AdminLTE-2.4.3/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+{/block}
+{block js_fullcalendar_locale_cs}
+<script src="{$basePath}/AdminLTE-2.4.3/bower_components/fullcalendar/dist/locale/cs.js"></script>
+{/block}
+
+{/block}
+
+{block js_bootstrap_slider_basic}
+
+{block js_bootstrap_slider}
+<script src="{$basePath}/AdminLTE-2.4.3/plugins/bootstrap-slider/bootstrap-slider.js"></script>
+{/block}
+
+{/block}
+
+{block js_datepicker_basic}
+
+{block js_datepicker_min}
+<script src="{$basePath}/AdminLTE-2.4.3/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+{/block}
+{block js_datepicker_cs}
+<script src="{$basePath}/AdminLTE-2.4.3/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.cs.min.js"></script>
+{/block}
+
+{/block}
+
+{block js_wysiwyg}
+<script src="{$basePath}/AdminLTE-2.4.3/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js"></script>
+{*{$basePath}/AdminLTE-2.4.3/plugins/summernote/summernote-bs4.min.js"></script>*}
+{*https://jhollingworth.github.io/bootstrap-wysihtml5/src/bootstrap-wysihtml5.js*}
+{/block}
+
+{block js_image_picker}
+<script src="{$basePath}/image-picker-master/image-picker/image-picker.js"></script>
+{/block}

@@ -1,0 +1,43 @@
+{import '../../../templates/articleForms.latte'}
+{block css_admin}
+{include parent}
+{include css_wysiwyg}
+{include css_image_picker}
+{/block}
+{block title}
+ATS Blansko - Vložení nového článku
+{/block}
+{block formTitle}
+Vložení nového článku
+{/block}
+{block formInfo}
+Zde můžete vložit nový článek. Daný článek bude poté zobrazován na hlavní stránce.
+{/block}
+{block formTitleDetail}
+Vložit nový článek
+{/block}
+{block container}
+{include parent}
+{/block}
+{block js_admin}
+{include parent}
+{include js_wysiwyg}
+{include js_image_picker}
+<script>
+    $(function () {
+        $('.textarea').wysihtml5({
+            toolbar: {
+                "font-styles": false, // Font styling, e.g. h1, h2, etc.
+                "emphasis": true, // Italics, bold, etc.
+                "lists": false, // (Un)ordered lists, e.g. Bullets, Numbers.
+                "html": false, // Button which allows you to edit the generated HTML.
+                "link": true, // Button to insert a link.
+                "image": false, // Button to insert an image.
+                "color": false, // Button to change color of font
+                "blockquote": false // Blockquote
+            }
+        });
+        $("select").imagepicker();
+    });
+</script>
+{/block}

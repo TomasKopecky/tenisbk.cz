@@ -1,0 +1,85 @@
+{block utkani}
+
+ <div class="row">
+      <div class="col-xs-12">
+                         <div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+                             PARAMETRY
+                         </div>
+        </div>
+<div class="col-xs-12">
+                       <select id="seasonYear" class="form-control selectYear">
+                              {foreach $competitionsList->getActiveYears() as $activeYear}
+                           <option value="{$activeYear}"{if $selectedYear == $activeYear} selected = selected{/if}>{$activeYear == 0 ? 'Celá historie' : $activeYear}</option>       
+                                   {/foreach}
+                                   {if isset($currentEmptyYear)}<option value="{$currentEmptyYear}" selected = selected>{$currentEmptyYear}</option>{/if}
+                       </select>
+                       <select id="competition" class="form-control selectYear">
+                           <option selected="selected" value="{$selectedCompetition}">Všechny soutěže</option>
+                          {foreach $competitionsList->getCompetitionsList() as $competition}
+                           <option value="{$competition->getId()}">{$competition->getName()}</option>       
+                                   {/foreach}
+                       </select>
+                       <select id="round" class="form-control selectYear">
+                           <option selected="selected" value="{$selectedRound}">Všechna kola</option>
+                          {foreach $roundsList as $round}
+                           <option value="{$round->getNumber()}">{$round->getNumber()}</option>       
+                                   {/foreach}
+                       </select>
+                        <select id="matchType" class="form-control selectYear">
+                           {foreach $matchTypeList as $key => $value}
+                           <option value="{$key}">{$key}</option>       
+                                   {/foreach}
+                       </select>
+                   </div>
+ </div>
+
+<div id='overlayImg'>
+    <img src='{$basePath}/images/web/loader.gif'/>
+</div>
+{snippet ajaxResults}
+<div id="overlayedTable" class="hideIt">    
+<div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+UTKÁNÍ
+</div>
+    <div class="row">
+        <div class="col-xs-12" style="margin-bottom: 20px">
+            <div class="table-responsive zebricek" style="margin-top: 0px; text-align: center;"> 
+                <table id="utkani" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <thead class="thead_tabulky" style="background-color: #337AB7; color: white;">
+                        <tr>
+                            <th style="text-align: center;">DATUM</th>
+                            <th style="text-align: center;">ROČNÍK</th>
+                            <th style="text-align: center;">KOLO</th>
+                            <th style="text-align: center;">SOUTĚŽ</th>
+                            <th style="text-align: center;">KLUB DOMÁCÍ</th>
+                            <th style="text-align: center;">VÝSLEDEK</th>
+                            <th style="text-align: center;">KLUB HOSTÉ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {foreach $playsTable as $plays}
+                            <tr>
+                                <td>{$plays->getDate() ? date_format($plays->getDate(),'d.m.Y') : NULL}</td>
+                                <td>{$plays->getSeason()}</td>
+                                <td>{$plays->getRound()->getNumber()}</td>
+                                <td>{$plays->getCompetition()->getName()}</td>
+                                <td><a class="resultDetailLinks" n:href="Kluby:detail /*$plays->getClubHome()->getId()*/ $plays->getClubHome()->getSlug()">{$plays->getClubHome()->getName()}</a></td>
+                                <td><a class="resultDetailLinks" n:href="Utkani:detail $plays->getId()">{$plays->getMatchesHome()}:{$plays->getMatchesVisitors()}{if $plays->getLossDefaultHome() || $plays->getLossDefaultVisitors()} (K){/if}</a></td>
+                                <td><a class="resultDetailLinks" n:href="Kluby:detail /*$plays->getClubVisitors()->getId()*/ $plays->getClubVisitors()->getSlug()">{$plays->getClubVisitors()->getName()}</a></td>
+                            </tr>
+                        {/foreach}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+                    {include zapasy}
+</div>
+{/snippet}
+
+
+<!-- /.content -->
+
+
+
+{/block}

@@ -1,0 +1,65 @@
+{block zapasy}
+ <div class="row">
+        <div class="col-xs-12" style="margin-bottom: 20px">
+
+            <div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+                ZÁPASY
+            </div>
+            <div class="table-responsive zebricek" style="margin-top: 0px; text-align: center;"> 
+                <table id="zapasy" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <thead class="thead_tabulky" style="background-color: #337AB7; color: white;">
+                        <tr>
+                            <th style="text-align: center;">DATUM</th>
+                            <th style="text-align: center; min-width: 47px;">TYP</th>
+                            {*
+                            <th style="text-align: center;">ROČNÍK</th>
+                            <th style="text-align: center;">KOLO</th>
+                            *}
+                            <th style="text-align: center;">KLUB DOMÁCÍ</th>
+                            <th style="text-align: center;">HRÁČI</th>
+                            <th style="text-align: center;">VÝSLEDEK</th>
+                            <th style="text-align: center;">HRÁČI</th>
+                            <th style="text-align: center;">KLUB HOSTÉ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {foreach $matchesTableList as $matches}
+                            <tr>
+                                <td>{date_format($matches->getDate(),'d.m.Y')}</td>
+                                <td>
+                                {if $matches->getMatchTypeId() == 1}
+                                <i class="fa fa-male mine_men_match"></i><span style="font-weight: bold;"> {$matches->getMatchMenOrder() !== NULL ? $matches->getMatchMenOrder().' ' : '- '}</span><i class="fa fa-male mine_men_match"></i>
+                                {elseif $matches->getMatchTypeId() == 2}
+                                <i class="fa fa-male mine_men_match"></i><i class="fa fa-male mine_men_match"></i> - <i class="fa fa-male mine_men_match"></i><i class="fa fa-male mine_men_match"></i>
+                                {elseif $matches->getMatchTypeId() == 3}
+                                <i class="fa fa-female mine_women_match"></i> - <i class="fa fa-female mine_women_match"></i>
+                                {elseif $matches->getMatchTypeId() == 4}
+                                <i class="fa fa-male mine_men_match"></i><i class="fa fa-female mine_women_match"></i> - <i class="fa fa-male mine_men_match"></i><i class="fa fa-female mine_women_match"></i>
+                                {/if}
+                                </td>
+                                {*
+                                <td>{$matches->getSeasonYear()}</td>
+                                <td>{$matches->getRound()}</td>
+                                *}
+                                <td><a class="resultDetailLinks" n:href="Kluby:detail /*$matches->getClubHome()->getId()*/ $matches->getClubHome()->getSlug()">{$matches->getClubHome()->getName()}</a></td>
+                                {if $matches->getLossDefaultHome() || $matches->getLossDefaultVisitors()}
+                                <td>KONTUMACE</td>
+                                {else}
+                                <td><a class="resultDetailLinks" n:href="Hraci:detail /*$matches->getPlayerHome1()->getId(),*/ $matches->getPlayerHome1()->getSlug()">{$matches->getPlayerHome1()->getName()}</a>{if is_null($matches->getPlayerHome2()->getId()) == false}, <a class="resultDetailLinks" n:href="Hraci:detail /*$matches->getPlayerHome2()->getId(),*/ $matches->getPlayerHome2()->getSlug()">{$matches->getPlayerHome2()->getName()}</a>{/if}{if $matches->getRetireHome()} - SKREČ{/if}</td>
+                                {/if}
+                                <td><a class="resultDetailLinks" n:href="Zapasy:detail $matches->getId()">{$matches->getResults()->getSetsHome()} : {$matches->getResults()->getSetsVisitors()}{if $matches->getRetireHome() || $matches->getRetireVisitors()} (S){/if}{if $matches->getLossDefaultHome() || $matches->getLossDefaultVisitors()} (K){/if}</a></td>
+                                {if $matches->getLossDefaultHome() || $matches->getLossDefaultVisitors()}
+                                <td>KONTUMACE</td>
+                                {else}
+                                <td><a class="resultDetailLinks" n:href="Hraci:detail /*$matches->getPlayerVisitors1()->getId(),*/ $matches->getPlayerVisitors1()->getSlug()">{$matches->getPlayerVisitors1()->getName()}</a>{if is_null($matches->getPlayerVisitors2()->getId()) == false}, <a class="resultDetailLinks" n:href="Hraci:detail /*$matches->getPlayerVisitors2()->getId(),*/ $matches->getPlayerVisitors2()->getSlug()">{$matches->getPlayerVisitors2()->getName()}</a>{/if}{if $matches->getRetireVisitors()} - SKREČ{/if}</td>
+                                {/if}
+                                <td><a class="resultDetailLinks" n:href="Kluby:detail /*$matches->getClubVisitors()->getId()*/ $matches->getClubVisitors()->getSlug()">{$matches->getClubVisitors()->getName()}</a></td>
+                                
+                            </tr>
+                        {/foreach}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{/block}

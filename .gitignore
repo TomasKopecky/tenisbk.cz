@@ -1,0 +1,31 @@
+# ignore ALL files in ANY directory named temp
+temp/
+
+# ignore ALL files in ANY directory named log or _log
+log/
+_log/
+
+# ignore ALL files in ANY directory named backups
+backups/
+
+# ignore ALL files in ANY directory named nbproject - Netbeans and PHPStorm files
+nbproject/
+.idea/
+
+# ignore config files with passwords
+app/config/config.local.neon
+app/config/config.neon
+
+# ignore the original authenticator
+app/authenticator/MyAuthenticator.php
+
+# ignore the composer dependencies
+vendor/
+
+# ignore the pictures uploaded in the deployment web version
+www/images
+
+# ignore the web sitemap
+www/sitemap.xml
+
+

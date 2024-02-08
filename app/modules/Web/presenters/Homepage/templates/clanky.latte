@@ -1,0 +1,60 @@
+{block clanky}
+
+<div class="row">
+    <div id='overlayImg'>
+        <img src='{$basePath}/images/web/loader.gif'/>
+    </div>
+    {snippet ajaxArticlesList}
+        {if empty($articlesTableList)}
+            <div id="noNews" class="container-fluid" style="margin-top: 60px">
+                <div class="alert alert-info">
+                    <h4><i class="icon fa fa-info"></i> Žádné aktuality</h4>
+                    Pro zadaný ročník nejsou k dispozici žádné aktuality
+                </div>
+            </div>
+        {else}
+            <div id="overlayedTable" class="hideIt">    
+                {foreach $articlesTableList as $articles}
+                    <div n:class="$iterator->first && count($articlesTableList) % 2 != 0 ? col-md-12 : col-md-6">
+                        <div class="article_div">
+                            <!-- Box Comment -->
+                            <div class="image_overflow">
+                                <a n:href="Clanky:detail /*$articles->getId()*/ $articles->getSlug()"><img class="img-responsive-mine imageClip" src="{$basePath}/images/uploaded/{$articles->getImage()->getUploadYear()}/{$articles->getImage()->getFilename()}"/></a>
+                            </div>
+                            <a n:href="Clanky:detail /*$articles->getId()*/ $articles->getSlug()"><button class="button_detail"><span class="fa fa-search-plus fa_button_detail"></span></button></a>
+                            <div class="article_card">
+
+
+                                <h3 class="article_title">{$articles->getTitle()}</h3>
+
+                                <div>{$articles->getPreview()}</div>
+
+                            </div>
+                            <div class="article_footer">
+                                <span class="article_author"><i class="fa fa-user"></i> {$articles->getEditorRole()->getTitle()} - {$articles->getEditor()->getName()}</span>
+                                <span class="article_date"><i class="fa fa-clock-o"></i> {date_format($articles->getEditDate(),'d.m.Y, H:i')}</span>
+                            </div>
+
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                {/foreach}
+                                </div>
+            {/if}
+        
+    <div class="col-md-12">
+        <div style="text-align: center;">
+            <div class="pagination">
+                <a id="minusPage">&laquo;</a>
+                {for $i = 0; $i < ceil($articlesTableListCount/$articlesTableListPageLength); $i++}
+                    <a n:class="$currentPage == $i+1 ? 'selectPage active' : 'selectPage'">{$i+1}</a>
+                {/for}
+                <a id="plusPage">&raquo;</a>
+            </div>
+        </div>
+    </div>
+{/snippet}
+</div>
+
+
+{/block}

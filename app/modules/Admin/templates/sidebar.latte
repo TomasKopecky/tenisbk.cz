@@ -1,0 +1,126 @@
+{block sidebar}
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="{$basePath}/images/web/personUnknown.jpg" class="img-circle" alt="Foto uživatele">
+            </div>
+            <div class="pull-left info">
+
+                {*
+                {$prevSite}
+                {$delOp}
+                {$entId}
+                *}
+
+                <p>{$user->getIdentity()->getData()['jmeno']}</p>
+                {foreach $user->getRoles() as $role}
+                    <a><i n:class="$role=='Admin' ? 'fa fa-circle text-success' : ($role=='Správce' ? 'fa fa-circle text-aqua' : 'fa fa-circle text-orange')"></i>{$role}</a>
+                    {/foreach}
+            </div>
+        </div>
+
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" data-widget="tree">
+            {if $user->isInRole('Admin') || $user->isInRole('Správce')}
+                <li n:class="$presenter->isLinkCurrent('Sport:hraci') || $presenter->isLinkCurrent('Sport:hraciUprava') || $presenter->isLinkCurrent('Sport:hraciNovy') ||
+                     $presenter->isLinkCurrent('Sport:registrace') || $presenter->isLinkCurrent('Sport:registraceUprava') || $presenter->isLinkCurrent('Sport:registraceNova') ? 'treeview active menu open' : treeview">
+                    <a href="#">
+                        <i class="fa fa-male"></i> 
+                        <span>Hráči</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li n:class="$presenter->isLinkCurrent('Sport:hraci') || $presenter->isLinkCurrent('Sport:hraciUprava') || $presenter->isLinkCurrent('Sport:hraciNovy') ? active"><a href="{link Sport:hraci}"><i class="fa fa-address-book"></i> Editace hráčů</a></li>
+                        <li n:class="$presenter->isLinkCurrent('Sport:registrace') || $presenter->isLinkCurrent('Sport:registraceUprava') || $presenter->isLinkCurrent('Sport:registraceNova') ? active"><a href="{link Sport:registrace}"><i class="fa fa-address-card"></i> Registrace v klubu</a></li>
+                    </ul>
+                </li>
+                <li n:class="$presenter->isLinkCurrent('Sport:kluby') || $presenter->isLinkCurrent('Sport:klubyUprava') || $presenter->isLinkCurrent('Sport:klubyNovy') ||
+                    $presenter->isLinkCurrent('Sport:pusobeni') || $presenter->isLinkCurrent('Sport:pusobeniUprava') || $presenter->isLinkCurrent('Sport:pusobeniNove') ? 'treeview active menu open' : treeview">
+                    <a href="#">
+                        <i class="fa fa-group"></i> 
+                        <span>Kluby</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li n:class="$presenter->isLinkCurrent('Sport:kluby') || $presenter->isLinkCurrent('Sport:klubyUprava') || $presenter->isLinkCurrent('Sport:klubyNovy') ? active"><a href="{link Sport:kluby}"><i class="fa fa-group"></i> Editace klubů</a></li>
+                        <li n:class="$presenter->isLinkCurrent('Sport:pusobeni') || $presenter->isLinkCurrent('Sport:pusobeniUprava') || $presenter->isLinkCurrent('Sport:pusobeniNove') ? active"><a href="{link Sport:pusobeni}"><i class="fa fa-handshake-o"></i> Působení v soutěži</a></li>
+                    </ul>
+                </li>
+                <li n:class="$presenter->isLinkCurrent('Sport:souteze') || $presenter->isLinkCurrent('Sport:soutezeUprava') || $presenter->isLinkCurrent('Sport:soutezeNova') ||
+ $presenter->isLinkCurrent('Sport:systemy') || $presenter->isLinkCurrent('Sport:systemyUprava') || $presenter->isLinkCurrent('Sport:systemyNovy') ? 'treeview active menu open' : treeview">
+                    <a href="#">
+                        <i class="fa fa-trophy"></i> 
+                        <span>Soutěže</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li n:class="$presenter->isLinkCurrent('Sport:souteze') || $presenter->isLinkCurrent('Sport:soutezeUprava') || $presenter->isLinkCurrent('Sport:soutezeNova') ? active"><a href="{link Sport:souteze}"><i class="fa fa-trophy"></i> Editace soutěží</a></li>
+                        <li n:class="$presenter->isLinkCurrent('Sport:systemy') || $presenter->isLinkCurrent('Sport:systemyUprava') || $presenter->isLinkCurrent('Sport:systemyNovy') ? active"><a href="{link Sport:systemy}"><i class="fa fa-cogs"></i> Editace systémů soutěží</a></li>
+
+                    </ul>
+                </li>
+            {/if}
+            <li n:class="$presenter->isLinkCurrent('Sport:utkani') || $presenter->isLinkCurrent('Sport:utkaniUprava') || $presenter->isLinkCurrent('Sport:utkaniNove') || $presenter->isLinkCurrent('Sport:utkaniZapasy') ||
+                         $presenter->isLinkCurrent('Sport:zapasy') || $presenter->isLinkCurrent('Sport:zapasyUprava') || $presenter->isLinkCurrent('Sport:zapasyNovyDvouhraZeny') || $presenter->isLinkCurrent('Sport:zapasyNovyDvouhraMuzi') || $presenter->isLinkCurrent('Sport:zapasyNovyCtyrhraMuzi') || $presenter->isLinkCurrent('Sport:zapasyNovyCtyrhraMix') ? 'treeview active menu open' : treeview">
+                <a href="#">
+                    <i class="fa fa-list-alt"></i> 
+                    <span>Výsledky</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li n:class="$presenter->isLinkCurrent('Sport:utkani') || $presenter->isLinkCurrent('Sport:utkaniUprava') || $presenter->isLinkCurrent('Sport:utkaniNove') || $presenter->isLinkCurrent('Sport:utkaniZapasy') ? active"><a href="{link Sport:utkani}"><i class="fa fa-address-book"></i> Editace utkání</a></li>
+                    <li n:class="$presenter->isLinkCurrent('Sport:zapasy') || $presenter->isLinkCurrent('Sport:zapasyUprava') || $presenter->isLinkCurrent('Sport:zapasyNovyDvouhraZeny') || $presenter->isLinkCurrent('Sport:zapasyNovyDvouhraMuzi') || $presenter->isLinkCurrent('Sport:zapasyNovyCtyrhraMuzi') || $presenter->isLinkCurrent('Sport:zapasyNovyCtyrhraMix') ? active"><a href="{link Sport:zapasy}"><i class="fa fa-address-card"></i> Editace zápasů</a></li>
+                </ul>
+            </li>
+            {if $user->isInRole('Admin')}
+                <li n:class="$presenter->isLinkCurrent('Uzivatele:*') ? 'treeview active menu open' : treeview">
+                    <a href="{link Uzivatele:default}">
+                        <i class="fa fa-male"></i> 
+                        <span>Uživatelé</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li n:class="$presenter->isLinkCurrent('Uzivatele:uzivatele') || $presenter->isLinkCurrent('Uzivatele:uzivateleUprava') || $presenter->isLinkCurrent('Uzivatele:uzivateleNovy') ? active"><a href="{link Uzivatele:uzivatele}"><i class="fa fa-male"></i> Seznam uživatelů</a></li>
+                        <li n:class="$presenter->isLinkCurrent('Uzivatele:opravneni') || $presenter->isLinkCurrent('Uzivatele:opravneniUprava') || $presenter->isLinkCurrent('Uzivatele:opravneniNove') ? active"><a href="{link Uzivatele:opravneni}"><i class="fa fa-address-book"></i> Přidělená oprávnění</a></li>
+
+                        <li n:class="$presenter->isLinkCurrent('Uzivatele:logy') ? active"><a href="{link Uzivatele:logy}"><i class="fa fa-calendar"></i> Uživatelské logy</a></li>
+
+                        {*
+                        <li n:class="$presenter->isLinkCurrent('Sport:zapasy') || $presenter->isLinkCurrent('Sport:zapasyUprava') || $presenter->isLinkCurrent('Sport:zapasyNovy') ? active"><a href="{link Sport:zapasy}"><i class="fa fa-address-card"></i> Editace zápasů</a></li>
+                        *}
+                    </ul>
+                </li>   
+            {/if}
+            {if $user->isInRole('Admin') || $user->isInRole('Správce')}
+                <li n:class="$presenter->isLinkCurrent('Cms:*') ? 'treeview active menu open' : treeview">
+                    <a href="{link Cms:default}">
+                        <i class="fa fa-file-o"></i> 
+                        <span>CMS</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li n:class="$presenter->isLinkCurrent('Cms:clanky') || $presenter->isLinkCurrent('Cms:clankyUprava') || $presenter->isLinkCurrent('Cms:clankyNovy') ? active"><a href="{link Cms:clanky}"><i class="fa fa-newspaper-o"></i> Seznam článků</a></li>
+                        {*<li n:class="$presenter->isLinkCurrent('Cms:fotogalerie') || $presenter->isLinkCurrent('Cms:fotogalerieUprava') || $presenter->isLinkCurrent('Uzivatele:fotogalerieNova') ? active"><a href="{link Cms:fotogalerie}"><i class="fa fa-photo"></i> Seznam Fotogalerií</a></li>*}
+                    </ul>
+                </li>  
+            {/if}
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>
+{/block}

@@ -1,0 +1,85 @@
+{import '../../../templates/basicForms.latte'}
+{block title}
+ATS Blansko - Editace hráčů
+{/block}
+{block formTitle}
+Editace hráčů
+{/block}
+{block formInfo}
+Vítejte v editačním menu pro hráče. Můžete provádět úpravu hráčů či vkládání nových. Berte na vědomí, že mazání hráčů je zakázáno, proto v případě chybného vložení hráče toto vložení opravte. V případě nutné potřeby výmazu hráče kontaktujte hlavního správce
+{/block}
+{define deletedEntity}
+zvoleného hráče?
+{/define}
+{define deleteModalName}
+hráče
+{/define}
+{define deleteButtonName}
+hráče
+{/define}
+{block table}
+<div class="info-box bg-green addButton">
+
+    <div style="width: 90px; margin: auto;">
+        <a href="{link Sport:hraciNovy}" class="noLink">
+            <span class="info-box-icon centerButton"><i class="fa fa-plus"></i></span>
+        </a>
+    </div>
+</div>
+                                                               <div id='overlayImg'>
+    <img src='{$basePath}/images/web/loader.gif'/>
+</div>
+                 <div id="overlayedTable" class="hideIt">
+<div class="box">         
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="table-responsive"> 
+            <table id="dataTable" class="table table-bordered table-striped">
+                <thead class="thead_tabulky">
+                    <tr>
+                        <th>Pohlaví</th>
+                        <th>Jméno</th>
+                        <th>Rok narození</th>
+                        <th>Ruka</th>
+                        <th>Výška</th>
+                        <th>Váha</th>
+                        <th>Detail</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                    {foreach $players as $player}
+                        <tr>
+                            <td>{if ($player->getSex() == 'M')}<i class="fa fa-male mine_men"></i><span style="display:none">1</span>{else}<i class="fa fa-female mine_women"></i><span style="display:none">2</span>{/if}</td>
+                            <td>{$player->getName()}</td>
+                            <td>{$player->getBirthYear()}</td>
+                            <td>{$player->getHand()}</td>
+                            <td>{$player->getHeight()}</td>
+                            <td>{$player->getWeight()}</td>
+                            <td>
+
+                              <div style="text-align: center;">
+                                <a class="btn btn-success editButton hidden-xs hidden-sm hidden-md" n:href=":Web:Hraci:detail $player->getSlug()"><i class="fa fa-bar-chart"></i> Statistiky</a>
+                                <a class="btn btn-success editButton hidden-lg" n:href=":Web:Hraci:detail $player->getSlug()"><i class="fa fa-bar-chart"></i></a>
+                                 
+                             
+                                <a class="btn btn-info editButton hidden-xs hidden-sm hidden-md" n:href="Sport:hraciUprava $player->getId()"><i class="fa fa-edit"></i> Editace</a>
+                                 <a class="btn btn-info editButton hidden-lg" n:href="Sport:hraciUprava $player->getId()"><i class="fa fa-edit"></i></a>
+                             
+                                 {if $user->isInRole('Admin')}
+                                <a class="btn btn-danger editButton hidden-xs hidden-sm hidden-md formDeleteButton" n:href="deletePlayer! $player->getId()"><i class="fa fa-trash-o"></i> Vymazat</a>
+                                <a class="btn btn-danger editButton hidden-lg formDeleteButton" n:href="deletePlayer! $player->getId()"><i class="fa fa-trash-o"></i></a>
+                           {/if}  
+                              </div>
+                                </td>
+                        </tr>
+                    {/foreach}
+                </tbody>                
+            </table>
+        </div>
+    </div>
+</div>
+                
+           </div>
+
+        <!-- /.modal -->
+{/block}

@@ -1,0 +1,77 @@
+{block ctyrhra}
+<div class="table-responsive">
+<table id="ctyrhra" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                <thead class="tablePlayerResults">
+                <tr role="row">
+                    <th class="sorting_disabled" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending"></th>
+                    <th class="sorting_disabled columnPlayer" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Hráči domácí</th>
+                    <th class="sorting_disabled" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Výsledek</th>
+                    <th class="sorting_disabled columnPlayer" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Hráči hosté</th>
+                    <th class="sorting_disabled columnSets" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Sety</th>
+                    <th class="invisible"></th>
+                    <th class="invisible"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {foreach $matches as $doubles}
+                    {if $doubles->getMatchTypeName() == 'Čtyřhra muži' /* || $doubles->getMatchTypeName() == 'Čtyřhra ženy'*/ }
+                <tr role="row">
+                  <td></td>
+                  <td>
+                  {if $doubles->getPlayerHome1()->getId() != $player->getId()}<a class="resultDetailLinks" n:href="Hraci:detail /*$doubles->getPlayerHome1()->getId(),*/ $doubles->getPlayerHome1()->getSlug()">{$doubles->getPlayerHome1()->getName()}</a>,{else}{$doubles->getPlayerHome1()->getName()},{/if}
+                  {if $doubles->getPlayerHome2()->getId() != $player->getId()}<a class="resultDetailLinks" n:href="Hraci:detail /*$doubles->getPlayerHome2()->getId(),*/ $doubles->getPlayerHome2()->getSlug()">{$doubles->getPlayerHome2()->getName()}</a>{else}{$doubles->getPlayerHome2()->getName()}{/if} 
+                  {if $doubles->getRetireHome()} - SKREČ{/if}
+                  </td>
+                  <td><a n:href="Zapasy:detail $doubles->getId()">{$doubles->getResults()->getSetsHome()} : {$doubles->getResults()->getSetsVisitors()}</a></td>
+                    <td>
+                  {if $doubles->getPlayerVisitors1()->getId() != $player->getId()}<a class="resultDetailLinks" n:href="Hraci:detail /*$doubles->getPlayerVisitors1()->getId(),*/ $doubles->getPlayerVisitors1()->getSlug()">{$doubles->getPlayerVisitors1()->getName()}</a>,{else}{$doubles->getPlayerVisitors1()->getName()},{/if}
+                  {if $doubles->getPlayerVisitors2()->getId() != $player->getId()}<a class="resultDetailLinks" n:href="Hraci:detail /*$doubles->getPlayerVisitors2()->getId(),*/ $doubles->getPlayerVisitors2()->getSlug()">{$doubles->getPlayerVisitors2()->getName()}</a>{else}{$doubles->getPlayerVisitors2()->getName()}{/if} 
+                  {if $doubles->getRetireVisitors()} - SKREČ{/if}
+                    </td>
+                  <td>{$doubles->getResults()->getFullSetsResult()}{if $doubles->getRetireHome() || $doubles->getRetireVisitors()} (S){/if}</td>
+                  <td class="invisible">{$doubles->getWinHome()}</td>
+                  <td class="invisible">{$doubles->getWinVisitors()}</td>
+                </tr>
+                {/if}
+                {/foreach}
+                                
+                </tbody>
+                <tfoot>
+               </tfoot>
+              </table>
+</div>
+{/block}
+
+{block ctyrhraStat}
+<div class="row">
+            
+        <div class="col-xs-4 col-sm-4">
+          <div class="info-box bg-aqua boxVysledkyAll">
+              <div class="boxVysledkyYear">{$doublesStats ? round($doublesStats->getSuccessRate()) : 0} %</div>
+              <div class="progress-barPerc" style="width: {$doublesStats->getSuccessRate() ? round($doublesStats->getSuccessRate()) : 0}%; height: 90px"></div>
+              
+              </div>
+</div>
+            <!-- /.info-box-content -->
+      
+              <div class="col-xs-4 col-sm-4">
+          <div class="info-box bg-green boxVysledkyAll">
+          <div class="boxVysledkyYear boxVysledkyYearWinLoss">{$doublesStats ? $doublesStats->getWins() : 0}</div>
+              <div class="progress-barWin" style="width: {$doublesStats->getMatches()!=0 ? round($doublesStats->getWins()/$doublesStats->getMatches()*100) : 0}%; height: 90px"></div> 
+
+           
+            <!-- /.info-box-content -->
+          </div>
+        </div>
+                   <div class="col-xs-4 col-sm-4">
+          <div class="info-box bg-red boxVysledkyAll">
+            <div class="boxVysledkyYear boxVysledkyYearWinLoss">{$doublesStats ? $doublesStats->getDefeats() : 0}</div>
+              <div class="progress-barLoss" style="width: {$doublesStats->getMatches()!=0 ? round($doublesStats->getDefeats()/$doublesStats->getMatches()*100) : 0}%; height: 90px"></div>               
+
+           
+            <!-- /.info-box-content -->
+          </div>
+        </div>
+         
+</div>
+{/block}

@@ -1,0 +1,45 @@
+{* Latte template *}
+
+{block login_modal}
+<div class="modal fade loginModal" id="login_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- /.login-logo -->
+  <div class="login-box-body loginModalBox">
+      <img class="img img-responsive imgLoginModal" src="{$basePath}/images/web/mainLogo.png" />
+<form n:name="loginForm">
+<div class="form-group has-feedback">
+        <input n:name=uzivatelske_jmeno class="form-control">
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input n:name=heslo class="form-control">
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="row">
+          <!--
+        <div class="col-xs-8">
+          <div class="checkbox icheck">
+            <label>
+              <input type="checkbox"> Remember Me
+            </label>
+          </div>
+        </div>
+          -->
+        <!-- /.col -->
+        <div class="col-xs-12">
+          <button n:name="loginButton" type="submit" class="btn btn-primary btn-block btn-flat">Přihlásit se</button>
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+<!--
+    <div class="social-auth-links text-center">
+      <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using
+        Facebook</a>
+      <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using
+        Google+</a>
+    </div>
+-->
+  </div>
+  <!-- /.login-box-body -->
+</div>
+<!-- /.login-box -->

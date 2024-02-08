@@ -1,0 +1,44 @@
+{import 'utkani.latte'}
+{import 'zapasy.latte'}
+{block title}
+ATS Blansko - amatérské tenisové soutěže okresu Blansko - utkání klubů
+{/block}
+{block meta}
+Amatérské tenisové soutěže okresu Blansko - detailní informace o uktání mezi kluby
+{/block}
+{block css_web}
+{include parent}
+{include css_datatables_bootstrap}
+{/block}
+{block js_web}
+{include parent}
+{include js_jquery_knob}
+{include js_datatables_basic}
+{include js_nette_ajax}
+<script>
+  $(function () {
+                     $('#overlayImg').addClass('hideIt');
+               $('#overlayedTable').removeClass('hideIt');
+     $('#utkani').DataTable({ // jinak znovu zavolej datatables s veškerým nastavením
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : false,
+      'info'        : true,
+      'autoWidth'   : false,
+      'pageLength'  : 5
+    }); 
+    }
+    
+  );
+</script>
+{/block}
+{block heading}
+DETAIL
+{/block}
+{block heading2}
+UTKÁNÍ
+{/block}
+{block content}
+{include utkani}
+{/block}

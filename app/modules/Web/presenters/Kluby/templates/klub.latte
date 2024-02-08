@@ -1,0 +1,241 @@
+{block klub}
+
+
+<!-- Left side column. contains the logo and sidebar -->
+
+<!-- Content Wrapper. Contains page content -->
+
+
+<!-- Content Header (Page header) -->
+
+<!-- Main content -->
+<div class="row">
+    <div class="col-lg-12">
+        {if 
+        $club->getContactPerson1Name() != NULL || $club->getContactPerson1Email() != NULL || $club->getContactPerson1Phone() != NULL || 
+        $club->getContactPerson2Name() != NULL || $club->getContactPerson2Email() != NULL || $club->getContactPerson2Phone() != NULL || 
+        $club->getContactPerson3Name() != NULL || $club->getContactPerson3Email() != NULL || $club->getContactPerson3Phone() != NULL
+        }
+        <div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+            KONTAKTY
+        </div>
+        <div class="box box-widget widget-user" style="margin-bottom: 0px;">
+            <div class="widget-user-header bg-aqua-active" style="height: auto;">
+                {if $club->getContactPerson1Name() != NULL || $club->getContactPerson1Email() != NULL || $club->getContactPerson1Phone() != NULL}
+                <p style="text-align: center; margin: 0;">
+                    <i class="fa fa-user-circle"></i>
+                    {if $club->getContactPerson1Name() != NULL}
+                        {$club->getContactPerson1Name()} 
+                    {else}
+                        -------
+                    {/if}
+                    <i class="fa fa-envelope"></i>
+                    {if $club->getContactPerson1Email() != NULL}
+                        <a href="mailto:{$club->getContactPerson1Email()}" style="color: white;">{$club->getContactPerson1Email()}</a> 
+                    {else}
+                        -------
+                    {/if}
+                    <i class="fa fa-phone"></i> 
+                    {if $club->getContactPerson1Phone() != NULL}
+                        {$club->getContactPerson1Phone()}
+                    {else}
+                        -------
+                    {/if}
+                </p>
+                {/if}
+                {if $club->getContactPerson2Name() != NULL || $club->getContactPerson2Email() != NULL || $club->getContactPerson2Phone() != NULL}
+                <p style="text-align: center; margin: 0;">
+                    <i class="fa fa-user-circle"></i>
+                    {if $club->getContactPerson2Name() != NULL}
+                        {$club->getContactPerson2Name()} 
+                    {else}
+                        -------
+                    {/if}
+                    <i class="fa fa-envelope"></i>
+                    {if $club->getContactPerson2Email() != NULL}
+                        <a href="mailto:{$club->getContactPerson2Email()}" style="color: white;">{$club->getContactPerson2Email()}</a> 
+                    {else}
+                        -------
+                    {/if}
+                    <i class="fa fa-phone"></i> 
+                    {if $club->getContactPerson2Phone() != NULL}
+                        {$club->getContactPerson2Phone()}
+                    {else}
+                        -------
+                    {/if}
+                </p>
+                {/if}
+                {if $club->getContactPerson3Name() != NULL || $club->getContactPerson3Email() != NULL || $club->getContactPerson3Phone() != NULL}
+                <p style="text-align: center; margin: 0;">
+                    <i class="fa fa-user-circle"></i>
+                    {if $club->getContactPerson2Name() != NULL}
+                        {$club->getContactPerson2Name()} 
+                    {else}
+                        -------
+                    {/if}
+                    <i class="fa fa-envelope"></i>
+                    {if $club->getContactPerson2Email() != NULL}
+                        <a href="mailto:{$club->getContactPerson2Email()}" style="color: white;">{$club->getContactPerson2Email()}</a> 
+                    {else}
+                        -------
+                    {/if}
+                    <i class="fa fa-phone"></i> 
+                    {if $club->getContactPerson2Phone() != NULL}
+                        {$club->getContactPerson2Phone()}
+                    {else}
+                        -------
+                    {/if}
+                </p>
+                {/if}
+
+            </div>
+        </div>
+                {/if}
+        <div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+            PARAMETRY
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <select id="selectedYear" class="form-control selectYear">
+            {foreach $club->getActiveYears() as $activeYear}
+                <option value="{$activeYear}"{if $selectedYear == $activeYear} selected = selected{/if}>{$activeYear == 0 ? 'Celá historie' : $activeYear}</option>       
+            {/foreach}
+        </select>
+        <select id="selectedCompetition" class="form-control selectYear">
+            <option selected="selected" value="{$selectedCompetition}">Všechny soutěže</option>
+            {foreach $competitionsList->getCompetitionsList() as $competition}
+                <option value="{$competition->getId()}">{$competition->getName()}</option>       
+            {/foreach}
+        </select>
+    </div>
+</div>
+<div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+    CELKOVÁ STATISTIKA
+</div>
+<div id='overlayImg'>
+    <img src='{$basePath}/images/web/loader.gif'/>
+</div>
+{snippet ajaxClubStat}
+    <div id="overlayedTable" class="hideIt">    
+        
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Widget: user widget style 1 -->
+                    <div class="box box-widget widget-user" style="margin-bottom: 0px;">
+                        <!-- Add the bg color to the header using any of the bg-* classes -->
+                        <div class="widget-user-header bg-aqua-active">
+                            <h3 class="widget-user-username">{$club->getName()}</h3>
+                            <h5 class="widget-user-desc">{$club->getShortcut()}</h5>
+                            <h5 class="widget-user-desc">{$club->getNick()}</h5>
+                        </div>
+                        <div class="widget-user-image">
+                            <img class="profile-user-img img-responsive img-circle" src="{$basePath}/images/web/clubUnknown.jpg" alt="User Avatar">
+                        </div>
+                        {if ($clubStats->getPlays()) == NULL}
+            <div class="alert alert-warning alert-dismissible fade in">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-ban"></i> Chyba</h4>
+                Klub ve zvoleném roce nepůsobil v zadané soutěži
+            </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        {else}
+                        <div class="box-footer">
+                            <div class="row">
+                                <!--
+                                
+                                                 <div class="col-sm-12 text-center">
+                                    <input type="text" value="75" class="dial" data-width="100" data-height="100">
+                                <!-- /.description-block 
+                              </div>
+                                --> 
+
+                                <div class="col-xs-6 col-sm-6 col-lg-2 border-right">
+                                    <div class="description-block">
+                                        <h5 class="description-header" style="font-size: 20px">{$clubStats->getPlays()}</h5>
+                                        <h5 class="description-header">({$clubStats->getWins()}:{$clubStats->getDefeats()})</h5>
+                                        <div class="description-text">UTKÁNÍ</div>
+                                        <input type="text" value="{$clubStats->getPlays() ? round($clubStats->getWins()/$clubStats->getPlays()*100) : 0}" class="dial" data-width="100" data-height="100">
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                <!-- /.col -->
+                                {var $allMatches = substr($clubStats->getMatches(),0,strpos($clubStats->getMatches(),':',0))+substr($clubStats->getMatches(),strpos($clubStats->getMatches(),':')+1)}
+                                <div class="col-xs-6 col-sm-6 col-lg-2 border-right">
+                                    <div class="description-block">
+                                        <h5 class="description-header" style="font-size: 20px">{$allMatches}</h5>
+                                        <h5 class="description-header">({$clubStats->getMatches()})</h5>
+                                        <div class="description-text">ZÁPASY</div>
+                                        <input type="text" value="{$allMatches ? round(substr($clubStats->getMatches(),0,strpos($clubStats->getMatches(),':',0))/$allMatches*100) : 0}" class="dial" data-width="100" data-height="100">
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                <!-- /.col -->
+                                {var $allSets = substr($clubStats->getSets(),0,strpos($clubStats->getSets(),':',0))+substr($clubStats->getSets(),strpos($clubStats->getSets(),':')+1)}
+                                <div class="col-xs-6 col-sm-6 col-lg-2 border-right">
+                                    <div class="description-block">
+                                        <h5 class="description-header" style="font-size: 20px">{$allSets}</h5>
+                                        <h5 class="description-header">({$clubStats->getSets()})</h5>
+                                        <div class="description-text">SETY</div>
+                                        <input type="text" value="{$allSets ? round(substr($clubStats->getSets(),0,strpos($clubStats->getSets(),':',0))/$allSets*100) : 0}" class="dial" data-width="100" data-height="100">
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                <!-- /.col -->
+                                {var $allGames = substr($clubStats->getGames(),0,strpos($clubStats->getGames(),':',0))+substr($clubStats->getGames(),strpos($clubStats->getGames(),':')+1)}
+                                <div class="col-xs-6 col-sm-6 col-lg-2 border-right">
+                                    <div class="description-block">
+                                        <h5 class="description-header" style="font-size: 20px">{$allGames}</h5>
+                                        <h5 class="description-header">({$clubStats->getGames()})</h5>
+                                        <div class="description-text">GAMY</div>
+                                        <input type="text" value="{$allGames ? round(substr($clubStats->getGames(),0,strpos($clubStats->getGames(),':',0))/$allGames*100) : 0}" class="dial" data-width="100" data-height="100">
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                <!-- /.col -->
+
+                                <div class="col-xs-6 col-sm-6 col-lg-2 border-right">
+                                    <div class="description-block">
+                                        <h5 class="description-header" style="font-size: 105px">{$clubStats->getPoints()}</h5>
+                                        <div class="description-text">BODY</div>
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+
+                                <div class="col-xs-6 col-sm-6 col-lg-2">
+                                    <div class="description-block">
+                                        <h5 class="description-header" style="font-size: 105px; color:#00A7D0;">{$clubStats->getRankingPosition()}</h5>
+                                        <div class="description-text">POZICE</div>
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+
+                                <!-- /.col -->
+
+                            </div>
+
+                            <!-- /.row -->
+                        </div>
+                    </div>
+                    <!-- /.row -->
+
+                </div>
+
+
+                {include utkani}
+            </div>
+
+            {include statistiky}
+    </div>
+
+        {/if}
+
+{/snippet}
+
+<!-- /.content -->
+
+
+
+{/block}

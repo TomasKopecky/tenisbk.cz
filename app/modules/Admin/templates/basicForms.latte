@@ -1,0 +1,123 @@
+{block title}
+{/block}
+{block css_admin}
+{include parent}
+{include css_datatables_bootstrap}
+{*
+<style>
+    .mine_men .mine_men_match{
+        color: #00c0ef;
+    }
+    .mine_women .mine_women_match{
+        color: #dd4b39;
+    }
+
+</style>
+*}
+{/block}
+{block deletedEntity}
+{/block}
+{block deleteModalName}
+{/block}
+{block deleteButtonName}
+{/block}
+{block container}
+<div class="content-wrapper">
+    <section class="content">
+        <div class="callout callout-info">
+            <h4>{include formTitle}</h4>
+
+            <p>{include formInfo}</p>
+        </div>
+        {include table}
+    </section>
+</div>
+                              <div class="modal modal-danger fade" id="modalDelete">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Mazání {include deleteModalName}</h4>
+              </div>
+              <div class="modal-body">
+                <p>Opravdu chcete vymazat {include deletedEntity} Daný krok již nepůjde vzít zpět!</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Zavřít</button>
+                <button type="button" class="btn btn-outline modalDeleteButton">Vymazat {include deleteButtonName}</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+{/block}
+{block js_admin}
+{include parent}
+{include js_datatables_basic}
+<script>
+    $(function () {
+    var clicked = false;
+    var button;
+    $('#dataTable').DataTable({
+                            'autoWidth'      : true,
+    {if $presenter->isLinkCurrent(':Admin:Sport:hraci')}
+    "order": [[ 1, "asc" ]]
+    {elseif $presenter->isLinkCurrent(':Admin:Sport:registrace')}
+    "order": [[ 2, "asc" ], [ 0, "asc" ], [ 4, "desc" ], [ 5, "desc" ], [ 3, "asc" ], [ 1, "asc" ]]
+    {elseif $presenter->isLinkCurrent(':Admin:Sport:souteze') || $presenter->isLinkCurrent(':Admin:Sport:kluby')}
+    "order": [[ 0, "asc" ]]
+    {elseif $presenter->isLinkCurrent(':Admin:Uzivatele:logy')}
+    "order": [[ 3, "desc" ]]
+    {elseif $presenter->isLinkCurrent(':Admin:Sport:utkani')}
+    "order": [[ 1, "desc" ], [ 2, "asc" ], [0, "asc"]]
+    {elseif $presenter->isLinkCurrent(':Admin:Sport:zapasy')}
+    "order": [[ 1, "desc" ], [ 2, "asc" ], [ 4, "asc" ],[ 3, "asc" ]]
+    {elseif $presenter->isLinkCurrent(':Admin:Sport:utkaniZapasy')}
+            'paging'      : false,
+            'lengthChange': false,
+            'searching'   : false,
+            'ordering'    : true,
+            'info'        : false,
+            'autoWidth'   : false,
+            'pageLength'  : 50
+    {elseif $presenter->isLinkCurrent(':Admin:Cms:clanky')}
+    "order": [[ 5, "desc" ],[ 0, "desc" ],[ 1, "asc" ]]
+    {/if}
+    });
+    function startLoadingPicture()
+    {
+    $('#overlayImg').removeClass('hideIt');
+    $('#overlayedTable').addClass('hideIt');
+    }
+
+    function endLoadingPicture()
+    {
+    $('#overlayImg').addClass('hideIt');
+    $('#overlayedTable').removeClass('hideIt');
+    }
+    endLoadingPicture();
+    
+    $('#dataTable,#dataTable2').on('click', '.formDeleteButton', function(event){
+    button = $(this)[0];
+    $('#modalDelete').modal('toggle');
+    if (clicked)
+    {
+    return;
+    }
+    else
+    {
+    //alert("nemažu");
+    event.preventDefault();
+    }
+    });
+    $('.modalDeleteButton').click(function(){
+    clicked = true;
+    //alert("mažu");
+    button.click();
+    });
+    
+    });
+</script>
+{/block}

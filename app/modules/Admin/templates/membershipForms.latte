@@ -1,0 +1,149 @@
+{block css_admin}
+{include parent}
+{include css_datepicker_basic}
+{/block}
+{block container}
+<div class="content-wrapper">
+    <section class="content">
+        <div class="callout callout-info">
+            <h4>{include formTitle}</h4>
+
+            <p>{include formInfo}</p>
+        </div>
+        <!-- Default box -->
+
+
+        <!-- /.box-header -->
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">{include formTitleDetail}</h3>
+            </div>
+            <form n:name=$formName class="validate-on-load">                     
+                <div class="box-body">
+                    {if ($form->hasErrors())}
+                        {foreach $form->errors as $error}
+                            {if $error != NULL}
+                                {if substr($error,0,5)=='Chyba'}
+                                    <div class="callout callout-danger">
+                                        <h4>Chyba</h4>
+                                        <p>{$error }</p>
+                                    </div>
+                                {else}
+                                    <div class="callout callout-warning">
+                                        <h4>Upozornění</h4>
+                                        <p>{$error}</p>
+                                    </div>    
+                                {/if}
+                            {/if}
+                        {/foreach}
+                    {/if}
+
+
+                    <div class="form-group">
+
+                        <label>{$form['id_klub']->getLabel()}</label>
+                        <div class="input-group">
+
+                            <div class="input-group-addon">
+
+                                <i class="fa fa-address-card"></i>
+                            </div>
+                            <select n:name=id_klub class="form-control"></select>            
+                            <!-- /.input group -->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>{$form['id_soutez']->getLabel()}</label>
+
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-flag"></i>
+                            </div>
+                            <select n:name=id_soutez class="form-control"></select>
+                        </div>
+                        <!-- /.input group -->
+                    </div>  
+
+                    <div class="form-group">
+                        <label>Automatická registrace na celou sezonu - zvolte sezonu</label>
+
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-flag"></i>
+                            </div>
+                            <input n:name=automaticka_registrace id="automaticRegistration" type="number" min="2000" max="2100" class="form-control">
+
+                        </div>
+                        <!-- /.input group -->
+                    </div>  
+
+                    <!-- Date and time range -->
+                    <div class="form-group">
+                        <label>{$form['datum_od']->getLabel()}</label>
+
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-user-plus"></i>
+                            </div>
+                            <input n:name=datum_od class="form-control pull-right date">
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+
+                    <div class="form-group">
+                        <label>{$form['datum_od']->getLabel()}</label>
+
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-user-times"></i>
+                            </div>
+                            <input n:name=datum_do class="form-control pull-right date">
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                    <!-- /.form group -->
+                    <div class="form-group">
+
+                        <label>{$form['pusobeni_info']->getLabel()}</label>
+                        <textarea n:name=pusobeni_info class="form-control"></textarea>
+                    </div>
+
+                </div>
+                <input n:name=membershipButton class="btn btn-block btn-primary">
+            </form>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box-body -->
+
+    </section>
+
+</div>
+{/block}
+{block js_admin}
+{include parent}
+{include js_datepicker_basic}
+<script>
+    $(function () {
+        //Date picker nastavení - JS bootstrap-datepicker  
+        $('input[name=datum_od], input[name=datum_do]').datepicker({
+            clearBtn: true,
+            autoclose: false,
+            language: 'cs',
+            format: 'dd.mm.yyyy'
+        });
+
+        $('#automaticRegistration').focusout(function () {
+            $('input[name="datum_od"]').val('1.1.' + $(this).val());
+            $('input[name="datum_do"]').val('31.12.' + $(this).val());
+        });
+        
+        $("#automaticRegistration").keydown(function (e) {
+            if (e.which == 9) {
+                e.preventDefault();
+                $('input[name="membershipButton"]').focus();
+            }
+        });
+    });
+</script>
+{/block}

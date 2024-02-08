@@ -1,0 +1,806 @@
+body 
+{
+    padding-right: 0 !important 
+}         
+.navbar-inverse .navbar-nav
+{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    color: #fff;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #ffffff;
+}
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+    color: white;
+    background: #38a9ff;
+}
+/*
+.navbar-inverse .navbar-nav > .active  {
+    color: #8a0e0b;
+    background: #d65c14;
+}
+.navbar-inverse .navbar-nav > .open > a, 
+.navbar-inverse .navbar-nav > .open > a:hover, 
+.navbar-inverse .navbar-nav > .open > a:focus {
+    color: #8a0e0b;
+    background-color: #d65c14;
+}
+*/
+/* Remove the navbar's default rounded borders and increase the bottom margin */ 
+
+.jumbotron_mine {
+    /*height: 37vh;
+    min-height: 100px;
+    */
+    margin-top: 40px;
+    background-image: url("../images/web/othePagesHeaderImage.jpg");
+    background-size: cover;
+    background-position: top center;
+}
+
+.jumbotron_homepage {
+    /*height: 37vh;
+    min-height: 100px;
+    */
+    padding-bottom: 10px;
+    text-align: center;
+    margin-top: 10px;
+    background-image: url("../images/web/homepageHeaderImage.jpg");
+    background-size: cover;
+    background-position: top center;
+}
+
+.footer{
+    background-color: #222;
+    color: #9d9d9d;
+    min-height: 8vh;
+}
+body{
+    background-color: #edeff4;    
+}
+table{
+    background-color: white;
+}
+
+/*
+.img-responsive{
+    width: 100%;
+    min-height: 30vh;
+}
+*/
+
+.active_new{ /*aktivní prvek - tlačítka menu*/
+    color: white;
+    background: #38a9ff;
+}
+
+/*
+.login{
+    margin-right: 15px;
+    cursor: pointer;
+}
+*/
+
+.login_button{
+    margin-right: 15px;
+    font-family: 'Source Sans Pro','Helvetica Neue','Helvetica','Arial','sans-serif';
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.login_icon_logged_in {
+    background: #00a65a;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.login_icon_logged_out {
+    background: #dd4b39;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.logged_user_div_header{
+    background-color: #3c8dbc; 
+}
+
+.logged_user_div_dropdown{
+    border-color: transparent;
+    padding: 0px !important;
+    
+    width: auto !important;
+    min-width: 280px !important;
+}
+
+.logout{
+    text-align: center;
+    border-radius: 0 !important;
+    width: 100px; 
+    height: 50px;
+    margin-right: 15px;
+    margin-left: 185px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    background-color: #28A745;
+}
+
+.navbar-inverse .navbar-right > li > a.logout:hover,
+.navbar-inverse .navbar-right > li > a.logout:focus
+{
+    background-color: #ac2925;
+}
+
+/* jiná barva pro tlačítko loginu */
+/*
+.navbar-inverse .navbar-right > li > a:hover, 
+.navbar-inverse .navbar-right > li > a:focus{
+color: white;
+background-color: #337ab7;
+}
+*/
+
+.zebricek
+{
+    margin: 0 auto;
+    margin-top: 5px;
+    /*width: 95%;*/
+}
+
+.thead_tabulky
+{
+    background-color: #337ab7;
+    color: white;
+}
+
+.logged_user{
+    float: left;
+    margin-top: 15px;
+}
+
+.alert-dismissable, .alert-dismissible{
+    margin-bottom: 0px;
+}  
+
+.mujWrapper
+{
+    margin: 0;
+}
+
+.mujObr
+{
+    min-height: 0;
+}
+
+.selectYear
+{
+    /*margin-bottom: 10px;*/
+    text-align: center;
+}
+
+.boxVysledkyAll
+{
+    margin: auto;
+    max-width: 90px;
+    min-width: 55px;
+}
+
+.boxVysledkyYear
+{
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 5px;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    font-size: 24px;
+    font-weight: bold;
+    max-width: 66px;
+    height: 37px;
+}
+
+.boxVysledkyYearWinLoss
+{
+    width: 15px;
+    left: 2px;
+}
+
+.progress-barPerc
+{
+    background-color: #009ABF;
+}
+
+.progress-barWin
+{
+    background-color: #008548;
+}
+
+.progress-barLoss
+{
+    background-color: #B13C2E;
+}
+
+.sorting_disabled
+{
+    background-image:none !important;
+}
+
+.columnPlayer
+{
+    min-width: 100px;
+}
+
+.columnSets
+{
+    min-width: 85px;
+}
+
+.rowWin{
+    background-color: #00a65a;
+}
+
+.rowLoss
+{
+    background-color: #dd4b39;
+}
+
+.rowNotPlayedYet{
+    background-color: #80dfff;
+}
+
+.tablePlayerResults
+{
+    background-color: #fafafa;
+}
+
+.tucne
+{
+    font-weight: bold;
+}
+
+/* formulářové stylování v editační části */
+.sexChoice{
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.mine_men{
+    color: #00c0ef;
+    margin-left: 5px;
+}
+
+.mine_men_match{
+    color: #00c0ef;
+}
+
+.mine_women{
+    color: #dd4b39;
+    margin-left: 5px;
+}
+
+.mine_women_match{
+    color: #dd4b39;
+}
+
+.mine_check_sex{
+    padding-left: 20px;
+}
+
+.mine_check_hand{
+    padding-left: 14px;
+}
+
+textarea{
+    resize: none;
+}
+
+.radio {
+    /* secret sauce to styling radio buttons */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    /* Aligning your label text and your radio */
+    vertical-align: text-bottom;
+}
+
+/* Setting the checked styles */
+.radio:checked {
+    border-color: #1ABC9C;
+    background: white;
+}
+
+.circle {
+    border: 11px solid #1ABC9C;
+    border-radius: 100%;
+}
+
+/* radio outer circle */
+.circle:checked {
+    border-width: 5px;
+}
+
+/* radio inner negative circle */
+.circle:checked:before {
+    content: "";
+    height: 12px;
+    width: 12px;
+    display: block;
+}
+
+.addButton {
+    text-align: center;
+}
+
+.centerButton {
+    margin: auto;
+    float: none;
+}
+
+.noLink {
+    color: white;
+}
+
+#overlayImg{
+    margin: 5em 0em;
+    text-align: center;
+}
+
+#overlayImg img{
+    object-fit: contain;
+    max-width: 100%;
+}
+
+.hideIt {
+    display: none;
+}
+
+.heading_panel{
+    /*margin-bottom: 10px;*/
+    background-color: #fff; 
+    padding: 23px 23px; 
+    position: relative;
+    max-height: 80px;
+}
+
+.heading_panel:before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 6px;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #38a9ff;
+    border-radius: 3px 0 0 0;
+}
+
+.my_header {
+    text-align: center;
+}
+
+@media (min-width: 1500px) {
+    .container {
+        min-width: 1470px;
+        padding:0;
+    }
+    .section_tag {
+        padding-top: 60px;
+    }
+    .my_header {
+        height: 350px;
+    }
+    .img_jumbotron_header {
+        max-width: 25%;
+    }
+    .imageClip{
+        max-height: 45em;
+        min-height: 26em;
+    }
+    .article_card{
+        min-height: 7em;
+    }
+    .img-responsive-article{
+        width: 100%;
+        /*max-height: 33em;
+        transform: scale(2);
+        */
+    }
+    .button_detail{
+        font-size: 22px;
+    }
+
+    .fa_button_detail{
+        padding: 10px;
+    }
+}
+
+@media (min-width: 991px) and (max-width: 1499px) {
+    .my_header {
+        height: 250px;
+    }
+    .section_tag {
+        padding-top: 30px;
+    }
+    .img_jumbotron_header {
+        max-width: 25%;
+    }
+    .imageClip{
+        min-height: 20em;
+    }
+    .img-responsive-article{
+        transform: scale(1);
+    }
+
+    .button_detail{
+        font-size: 22px;
+    }
+
+    .fa_button_detail{
+        padding: 10px;
+    }
+
+}
+
+@media (min-width: 768px) and (max-width: 990px){
+
+    .img_jumbotron_header {
+        max-width: 30%;
+    }
+    .imageClip{
+        min-height: 21em;
+    }
+
+    .button_detail{
+        font-size: 22px;
+    }
+
+    .fa_button_detail{
+        padding: 10px;
+    }
+}
+
+@media (min-width: 476px) and (max-width: 767px){
+
+    .img_jumbotron_header {
+        max-width: 38%;
+    }
+    .jumbotron_homepage {
+        margin-top: 30px;
+    }
+
+    .footerLinks{
+        margin-top: 35px;
+    }
+
+
+    .button_detail{
+        font-size: 22px;
+    }
+
+    .fa_button_detail{
+        padding: 10px;
+    }
+}
+
+@media (max-width: 475px) {
+
+    .img_jumbotron_header {
+        max-width: 45%;
+    }
+    .jumbotron_homepage {
+        margin-top: 30px;
+    }
+    .header_title{
+        margin-right: 15px;
+        margin-left: 15px;
+
+    }
+
+    .footerLinks{
+        margin-top: 35px;
+    }
+    
+    .button_detail{
+        font-size: 19px;
+    }
+
+}
+
+.infoBox_margin {
+    margin: 10px 0px;
+}
+
+.section_tag {
+    letter-spacing: -.02em;
+    font-style: normal;
+}
+
+.button_datatables {
+    background-color: #38A9FF;
+    color: white;
+}
+
+.button_datatables:hover {
+    background-color: #38A9FF;
+}
+
+.imageClip{
+
+    width: 100%;
+    overflow:hidden;
+    /*height: 100%;*/
+}
+
+.image_overflow{
+    position: relative;
+    overflow: hidden;
+}
+
+.img-responsive-mine:hover {
+    -ms-transform: scale(1.2); /* IE 9 */
+    -webkit-transform: scale(1.2); /* Safari 3-8 */
+    transform: scale(1.2);
+}
+
+.article_title{
+    color: #31404b;
+    margin: 0;
+    margin: 10px 0px;
+    font-weight: 700;
+}
+
+.article_div{
+    margin-top: 20px; 
+    overflow: hidden; 
+    margin-bottom: 20px;
+}
+
+.article_card{
+    min-height: 11em;
+    color: #6f7173;
+    text-align: justify;
+    background-color: white;
+    padding: 15px;
+    padding-bottom: 5px;
+}
+
+.header_title{
+    font-weight: 700;
+    text-shadow: 1px 1px 2px black, 0 0 25px gray, 0 0 5px white;
+}
+
+.article_date{
+    float: right;
+}
+
+.article_author{
+    float: left;
+}
+
+.article_footer{
+    color: #9a9da2;
+    width: 100%;
+    float: right;
+    background-color: white;
+    padding: 10px 15px;
+    border-top: 1px solid #e4e7ed;
+}
+
+.button_detail{
+    right: 33px;
+    transform: translateY(-50%);
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    background-color: #38A9FF;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.fa_button_detail:hover{
+    transform: scale(1.4);
+}
+
+.button_detail:focus{
+    outline:none;
+    border: 0;
+}
+
+.no_result_heading{
+    text-align: center;
+    background-color: white;
+}
+
+.row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.playsClubIcon{
+    width: 150px;
+}
+
+.clubDetailLinks{
+    color: white;
+}
+
+.clubDetailLinks:hover{
+    color: white;
+    font-weight: 500;
+}
+
+.playerDetailClub:hover{
+    color: black;
+    font-weight: 700;
+}
+
+.resultDetailLinks{
+    /*color: black;*/
+}
+
+.resultsBox{
+    min-width: 50%; 
+    font-size: 11px; 
+    padding: 7px 20px;
+}
+
+.resultsBox2{
+    font-size: 11px;
+    padding: 7px 20px;
+    width: 100%;
+}
+
+.resultLeft{
+    font-size: 17px;
+    font-weight: 800;
+    float: left;
+}
+
+.resultRight{
+    font-size: 17px;
+    font-weight: 800;
+    float: right;
+}
+
+.loginModal{
+    padding-right: 0px;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+}
+
+.loginModalBox{
+    margin: auto;
+    margin-top: 4em;
+    max-width: 362px;
+}
+
+.articleContentDiv{
+    background-color: white;
+    margin-top: 1px;
+}
+
+.boldHeading{
+    color: black;
+    font-weight: 700;
+}
+
+.bigButton{
+    background-color: #38A9FF;
+    font-weight: 700;
+    color: white;
+}
+
+.pagination {
+    font-weight: 500;
+    display: inline-block;
+}
+
+.pagination a {
+    background-color: white;
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+}
+
+.pagination a.active {
+    background-color: #38A9FF;
+    color: white;
+    border: 1px solid #38A9FF;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.paginationDisabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+.footerFormInput{
+    background-color: #2B2E33;
+    border-color: #2b2e33;    
+    color: #fff;
+}
+
+.footerDiv{
+    margin-top: 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.imgFooter{
+    padding: 10px 0px;
+    margin: auto;
+    max-width: 50%;
+}
+
+.footerLinks a{
+    color: #9d9d9d;
+}
+
+.footerLinks a:hover{
+    color: white;
+}
+
+
+.imgLoginModal{
+    margin: auto;
+    margin-bottom: 10px;
+    max-width: 50%;
+}
+
+.checkbox {
+    /* secret sauce to styling radio buttons */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    /* Aligning your label text and your radio */
+    vertical-align: text-bottom;
+}
+
+/* Setting the checked styles */
+.checkbox:checked {
+    border-color: #1ABC9C;
+    background: white;
+}
+
+.square {
+    border: 11px solid #1ABC9C;
+}
+
+/* radio outer circle */
+.square:checked {
+    border-width: 5px;
+}
+
+/* radio inner negative circle */
+.square:checked:before {
+    content: "";
+    height: 12px;
+    width: 12px;
+    display: block;
+}
+
+.editButton{
+    padding: 2px 5px;
+}
+
+.min-table-main>tbody>tr>td, .min-table-main>tbody>tr>th, .min-table-main>tfoot>tr>td, .min-table-main>tfoot>tr>th, .min-table-main>thead>tr>td, .min-table-main>thead>tr>th {
+    padding: 5px !important;
+}

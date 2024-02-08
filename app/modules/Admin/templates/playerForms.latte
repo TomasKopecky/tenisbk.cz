@@ -1,0 +1,135 @@
+{block css_admin}
+{include parent}
+{include css_bootstrap_slider_basic}
+{/block}
+{block container}     
+<div class="content-wrapper">
+<section class="content">
+      <div class="callout callout-info">
+        <h4>{include formTitle}</h4>
+
+        <p>{include formInfo}</p>
+      </div>
+      <!-- Default box -->
+       <!-- /.box-header -->
+                <div class="box box-primary">
+            <div class="box-header">
+              <h3 class="box-title">{include formTitleDetail}</h3>
+            </div>
+            <form n:name=$formName class="validate-on-load">
+                <div class="box-body">
+                {if ($form->hasErrors())}
+                {foreach $form->errors as $error}
+                    {if $error != NULL}
+                    {if substr($error,0,5)=='Chyba'}
+                <div class="callout callout-danger">
+                    <h4>Chyba</h4>
+                    <p>{$error }</p>
+                </div>
+                    {else}
+                <div class="callout callout-warning">
+                    <h4>Upozornění</h4>
+                    <p>{$error}</p>
+                </div>    
+                    {/if}
+                    {/if}
+                {/foreach}
+                {/if}
+              <!-- Date -->
+              <div class="form-group">
+                <label>{$form['jmeno']->getLabel()}</label>
+
+                <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-address-card"></i>
+                  </div>
+                  <input n:name=jmeno class="form-control pull-right">
+                </div>
+                <!-- /.input group -->
+              </div>
+              
+               <div class="form-group">
+                <label>{$form[/*rodne_cislo*/'rok_narozeni']->getLabel()}</label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-birthday-cake"></i>
+                  </div>
+                  <input n:name=rok_narozeni class="form-control pull-right">
+                </div>
+                <!-- /.input group -->
+              </div>
+              <div class="form-group">
+                   <label>{$form['pohlavi']->getLabel()}</label>
+                   <div class="input-group">
+                       {foreach $form['pohlavi']->items as $key => $value}
+                           {if $key != 'X'}
+                           <div class="sexChoice">
+                               <i n:class="$key=='M' ? 'fa fa-male fa-female fa-lg mine_men' : ' fa fa-female fa-lg mine_women'"></i>
+                               <input n:name="pohlavi:$key" class="radio circle">
+                           </div>
+                           {/if}
+                       {/foreach}
+                   </div> 
+              </div>
+                   
+              <div class="form-group">
+                   <label>{$form['ruka']->getLabel()}</label>
+                   <div class="input-group">
+                           {foreach $form['ruka']->items as $key => $value}
+                           <div class="sexChoice">
+                               <i n:class="$key=='P' ? 'fa fa-hand-o-right fa-lg' : 'fa fa-hand-o-left fa-lg'"></i>
+                               <input n:name="ruka:$key" class="radio circle">
+                           </div>
+                       {/foreach}
+                   </div>
+              </div>     
+              <div class="form-group">
+                   <label>{$form['vyska']->getLabel()}</label>
+                   
+              <input n:name=vyska class="slider form-control" data-slider-min="0" data-slider-max="230"
+                         data-slider-step="1" data-slider-orientation="horizontal"
+                         data-slider-selection="before" data-slider-tooltip="show" data-slider-id="aqua">
+             
+              </div>
+
+              <div class="form-group">
+                   <label>{$form['vaha']->getLabel()}</label>
+                   
+              <input n:name=vaha class="slider form-control" data-slider-min="0" data-slider-max="150"
+                         data-slider-step="1" data-slider-orientation="horizontal"
+                         data-slider-selection="before" data-slider-tooltip="show" data-slider-id="aqua">
+             
+              </div>              
+              <!-- Date and time range -->
+              <div class="form-group">
+
+                
+                  <label>{$form['hrac_info']->getLabel()}</label>
+                  <!-- Z nezjištěného důvodu nefunguje vkládání hodnoty z pole entries do textarea při spojení s nette forms, kdy přidám n:hrac_info -->
+                  <textarea n:name=hrac_info class="form-control"></textarea>
+              </div>
+              <!-- /.form group -->
+            </div>
+                <input n:name=playerButton class="btn btn-block btn-primary">
+            </form>
+            <!-- /.box-body -->
+          </div>
+            <!-- /.box-body -->
+
+          </section>
+         
+        </div>
+{/block}
+{block js_admin}
+{include parent}
+{include js_bootstrap_slider_basic}
+<script>
+    $(function () {
+        /* BOOTSTRAP SLIDER */
+        $('.slider').slider({
+        tooltip: 'always'
+        });
+    });
+</script>
+{/block}

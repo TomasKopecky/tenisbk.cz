@@ -1,0 +1,96 @@
+{import 'soupisky.latte'}
+{block title}
+ATS Blansko - amatérské tenisové soutěže okresu Blansko - Soupisky hráčů a hráček v klubech
+{/block}
+{block meta}
+Amatérské tenisové soutěže okresu Blansko - přehled soupisek hráček a hráčů v jednotlivých klubech a sezonách.
+{/block}
+{block heading}
+SOUPISKY
+{/block}
+{block heading2}
+HRÁČŮ
+{/block}
+{block css_web}
+{include parent}
+{include css_datatables_basic}
+{/block}
+{block content}
+{include soupisky}
+{/block}
+{block js_web}
+{include parent}
+{include js_datatables_all}
+{include js_nette_ajax}
+<script>
+  $(function () {
+               $('#overlayImg').addClass('hideIt');
+               $('#overlayedTable').removeClass('hideIt');
+      tabulky(); // zavoláme funkci tabulky při načtení stránky
+     $('.selectYear').change(function() {
+         $('#overlayImg').removeClass('hideIt');
+         $('#overlayedTable').addClass('hideIt');
+         
+    // manuální zavolání ajax pro nette z knihovny nette.ajax.js
+    $.nette.ajax({ 
+    url: {link Registrations!}, // handle v presenteru SoupiskaPresenter
+            data: {
+                    'seasonYear' : $('#seasonYear').val(), // hodnota zvoleného roku
+                    'clubId'  : $('#club').val() // id zvoleného klubu
+                  }
+        });
+    });
+    
+    
+    $(document).ajaxComplete(function() {
+    tabulky(); // zavoláme funkci tabulky při refreshi ajaxu
+                 $('#overlayImg').addClass('hideIt');
+         $('#overlayedTable').removeClass('hideIt');
+    });
+    
+    
+    function tabulky()  //zprovoznění datatables na zobrazovaných tabulkách zápasů hráčů
+    {
+    if ( $.fn.dataTable.isDataTable( '#tabulka' ) ) { // jestliže už byl plugin datatables načten, pouze udělej refresh - jinak vyskakuje chyba datatables
+    var table = $('#tabulka').DataTable();
+    }
+    else
+    {
+        
+    var table = $('#tabulka').DataTable({
+    "language": {
+      "emptyTable": "Soupiska pro zadaný ročník a klub neobsahuje žádné hráče",
+      "search": "Hledat",
+      "paginate": 
+      {
+        "previous": "Předchozí",
+        "next": "Další"
+      }
+    },
+     columnDefs: [
+       { searchable: true, targets: [0,1] }
+     ],
+     "order":[[ 2, 'asc' ], [ 0, 'asc' ], [ 3, 'asc' ], [ 1, 'asc' ], [ 4, 'desc' ], [ 5, 'desc' ]],//řazení sloupců
+  dom: 'Blfrtip',
+        buttons: [
+            { extend: 'copy', className: 'button_datatables', exportOptions: { columns: ':visible' } },
+            { extend: 'print', className: 'button_datatables', exportOptions:  { columns: ':visible' } },
+            { extend: 'csv', className: 'button_datatables' ,exportOptions: { columns: ':visible' } },
+            { extend: 'excel', className: 'button_datatables', exportOptions: { columns: ':visible' } },
+            { extend: 'pdf', className: 'button_datatables', exportOptions: { columns: ':visible' } }
+        ],
+  // jinak znovu zavolej datatables s veškerým nastavením
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false,
+      'pageLength'  : 10
+    });
+  
+    }
+        }
+  });
+</script>
+{/block}

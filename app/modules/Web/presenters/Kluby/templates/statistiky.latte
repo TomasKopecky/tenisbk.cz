@@ -1,0 +1,42 @@
+{block statistiky}
+<div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+                             DÍLČÍ STATISTIKY
+                         </div>
+<div class="row">
+<div class="col-xs-12">  
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li n:class="$selectedTab=='Dvouhra M' ? active"><a href="#dvouhraMuziTab" data-toggle="tab">Dvouhra M</a></li>
+              <li n:class="$selectedTab=='Dvouhra Ž' ? active"><a href="#dvouhraZenyTab" data-toggle="tab">Dvouhra Ž</a></li>
+              <li n:class="$selectedTab=='Čtyřhra M' ? active"><a href="#ctyrhraMuziTab" data-toggle="tab">Čtyřhra M</a></li>
+              <li n:class="$selectedTab=='Mix' ? active"><a href="#ctyrhraMixTab" data-toggle="tab">Mix</a></li>
+            </ul>
+            <div class="tab-content">
+              <div n:class="$selectedTab=='Dvouhra M' ? 'active tab-pane' : 'tab-pane'" id="dvouhraMuziTab">
+                  
+            {include dvouhra_muzi}   
+              </div>
+              <!-- /.tab-pane -->
+              <div n:class="$selectedTab=='Dvouhra Ž' ? 'active tab-pane' : 'tab-pane'" id="dvouhraZenyTab">
+            {include dvouhra_zeny}
+              </div>
+              
+               <div n:class="$selectedTab=='Čtyřhra M' ? 'active tab-pane' : 'tab-pane'" id="ctyrhraMuziTab">
+            {include ctyrhra_muzi}
+              </div>
+              <!-- /.tab-pane -->
+
+              <div n:class="$selectedTab=='Mix' ? 'active tab-pane' : 'tab-pane'" id="ctyrhraMixTab">
+            {include ctyrhra_mix}                  
+              </div>
+              
+                       
+              <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- /.nav-tabs-custom -->
+          
+        </div>
+</div>
+              {/block}

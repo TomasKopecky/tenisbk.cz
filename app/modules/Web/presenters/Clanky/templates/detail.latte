@@ -1,0 +1,38 @@
+{block title}
+ATS Blansko - amatérské tenisové soutěže okresu Blansko - články
+{/block}
+{block meta}
+Amatérské tenisové soutěže okresu Blansko - články s aktuálními informacemi o dění v rámci neoficiálních tenisových soutěží neregistrovaných hráčů okresu Blansko.
+{/block}
+{block heading}
+DETAIL
+{/block}
+{block heading2}
+ČLÁNKU
+{/block}
+{block content}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="article_div" style="margin-top: 0px;">
+            <!-- Box Comment -->
+            <div class="image_overflow">
+                <img class="img-responsive img-responsive-article" src="{$basePath . '/images/uploaded/' . $articlesTable->getImage()->getUploadYear() . '/' . $articlesTable->getImage()->getFilename()}" />
+            </div>
+            <div class="article_card">
+
+                <h3 class="article_title">{$articlesTable->getTitle()}</h3>
+
+                {$articlesTable->getFullText()|noescape}
+
+            </div>
+            <div class="article_footer">
+                <span class="article_author"><i class="fa fa-user"></i> {$articlesTable->getEditorRole()->getTitle()} - {$articlesTable->getEditor()->getName()}</span>
+                <span class="article_date"><i class="fa fa-clock-o"></i> {date_format($articlesTable->getEditDate(),'d.m.Y, H:i')}</span>
+            </div>
+
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+{/block}

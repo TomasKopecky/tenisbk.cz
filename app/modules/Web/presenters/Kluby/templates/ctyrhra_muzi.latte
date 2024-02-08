@@ -1,0 +1,66 @@
+{block ctyrhra_muzi}
+<div class="row">
+
+          <!-- Widget: user widget style 1 -->
+          <div class="box box-widget widget-user" style="margin-bottom: 0px;">
+                  <!--
+                  
+                                   <div class="col-sm-12 text-center">
+                      <input type="text" value="75" class="dial" data-width="100" data-height="100">
+                  <!-- /.description-block 
+                </div>
+                 --> 
+                
+                  <div class="col-xs-6 col-sm-6 col-lg-2 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header" style="font-size: 105px; color:#00A7D0;">{$menDoublesStats->getRankingPosition()}</h5>
+                    <div class="description-text">POZICE</div>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                  <!-- /.col -->
+                  {var $menDoublesMatches = substr($menDoublesStats->getMatches(),0,strpos($menDoublesStats->getMatches(),':',0))+substr($menDoublesStats->getMatches(),strpos($menDoublesStats->getMatches(),':')+1)}
+                <div class="col-xs-6 col-sm-6 col-lg-2 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header" style="font-size: 20px">{$menDoublesMatches}</h5>
+                    <h5 class="description-header">({$menDoublesStats->getMatches()})</h5>
+                    <div class="description-text">ZÁPASY</div>
+                    <input type="text" value="{$menDoublesMatches ? round(substr($menDoublesStats->getMatches(),0,strpos($menDoublesStats->getMatches(),':',0))/$menDoublesMatches*100) : 0}" class="dial" data-width="100" data-height="100">
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                
+                  {var $menDoublesSets = substr($menDoublesStats->getSets(),0,strpos($menDoublesStats->getSets(),':',0))+substr($menDoublesStats->getSets(),strpos($menDoublesStats->getSets(),':')+1)}
+                <div class="col-xs-6 col-sm-6 col-lg-2 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header" style="font-size: 20px">{$menDoublesSets}</h5>
+                    <h5 class="description-header">({$menDoublesStats->getSets()})</h5>
+                    <div class="description-text">SETY</div>
+                    <input type="text" value="{$menDoublesSets ? round(substr($menDoublesStats->getSets(),0,strpos($menDoublesStats->getSets(),':',0))/$menDoublesSets*100) : 0}" class="dial" data-width="100" data-height="100">
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                
+                <!-- /.col -->
+               {var $menDoublesGames = substr($menDoublesStats->getGames(),0,strpos($menDoublesStats->getGames(),':',0))+substr($menDoublesStats->getGames(),strpos($menDoublesStats->getGames(),':')+1)}
+                <div class="col-xs-6 col-sm-6 col-lg-2 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header" style="font-size: 20px">{$menDoublesGames}</h5>
+                    <h5 class="description-header">({$menDoublesStats->getGames()})</h5>
+                    <div class="description-text">GAMY</div>
+                    <input type="text" value="{$menDoublesGames ? round(substr($menDoublesStats->getGames(),0,strpos($menDoublesStats->getGames(),':',0))/$menDoublesGames*100) : 0}" class="dial" data-width="100" data-height="100">
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                
+                <div class="col-xs-6 col-sm-6 col-lg-2 border-right">
+
+                </div>                 
+                <!-- /.col -->
+  
+              </div>
+    </div>
+
+{/block}

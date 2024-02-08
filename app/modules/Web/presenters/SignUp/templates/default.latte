@@ -1,0 +1,46 @@
+{block title}
+ATS Blansko - amatérské tenisové soutěže okresu Blansko - registrace uživatele
+{/block}
+{block meta}
+Amatérské tenisové soutěže okresu Blansko - registrační formulář pro nového uživatele webu
+{/block}
+{block container}
+<div class="register-box">
+  <div class="register-logo">
+    <b>Registrace uživatele</b>
+  </div>
+<div class="register-box-body">
+      <img class="img img-responsive imgLoginModal" src="{$basePath}/images/web/mainLogo.png" />
+
+    <form n:name="signUpForm">
+      <div class="form-group has-feedback">
+        <input n:name="jmeno" class="form-control">
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input n:name="uzivatelske_jmeno" class="form-control">
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+        <div class="form-group has-feedback">
+        <input n:name="email" class="form-control">
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input n:name="heslo" class="form-control">
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input n:name="reHeslo" class="form-control">
+        <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <input n:name="signUpButton" class="btn btn-primary btn-block btn-flat">
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+  </div>
+  <!-- /.form-box -->
+</div>
+{/block}

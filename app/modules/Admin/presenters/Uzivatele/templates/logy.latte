@@ -1,0 +1,44 @@
+{import '../../../templates/basicForms.latte'}
+{block title}
+ATS Blansko - Logy přístupů
+{/block}
+{block formTitle}
+Přehled uživatelských logů
+{/block}
+{block formInfo}
+Vítejte v seznamu uživatelských logů - zobrazuje se pouze posledních 500 událostí
+{/block}
+{block table}
+
+
+<div class="box">         
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="table-responsive"> 
+              <table id="dataTable" class="table table-bordered table-striped">
+                <thead class="thead_tabulky">
+                <tr>
+                    <th>Jméno uživatele</th>
+                    <th>Uživatelské jméno</th>
+                    {*<th>Heslo</th>*}
+                    <th>Událost</th>
+                    <th>Datum</th>
+                </tr>
+                </thead>
+                <tbody> 
+            {foreach $logsList as $logs}
+                <tr>
+                    <td>{$logs->getUser()->getName()}</td>
+                    <td>{$logs->getUsername()}</td>
+                    {*<td>{$logs->getPassword()}</td>*}
+                    <td>{$logs->getEvent()->getName()}</td>
+                    <td>{$logs->getTimestamp()}</td>
+                </tr>
+            {/foreach}
+        </tbody>                
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+    </div>
+{/block}

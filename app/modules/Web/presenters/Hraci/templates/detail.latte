@@ -1,0 +1,86 @@
+{import 'hrac.latte'}
+{import 'dvouhra.latte'}
+{import 'ctyrhra.latte'}
+{import 'mix.latte'}
+{block title}
+ATS Blansko - amatérské tenisové soutěže okresu Blansko - detail hráčky či hráče
+{/block}
+{block meta}
+Amatérské tenisové soutěže okresu Blansko - detailní informace o jednotlivých registrovaných hráčkách a hráčích.
+{/block}
+{block css_web}
+{include parent}
+{include css_datatables_bootstrap}
+{/block}
+{block js_web}
+{include parent}
+{include js_datatables_basic}
+{include js_nette_ajax}
+<script>
+  $(function () {
+                     $('#overlayImg').addClass('hideIt');
+               $('#overlayedTable').removeClass('hideIt');
+      tabulky(); // zavoláme funkci tabulky při načtení stránky
+     $('.selectYear').change(function() {
+          $('#overlayImg').removeClass('hideIt');
+         $('#overlayedTable').addClass('hideIt');
+    $.nette.ajax({ // manuální zavolání ajax pro nette z knihovny nette.ajax.js
+    url: {link PlayerStatYear!}, // handle v presenteru HraciPresenter
+            data: {
+                    'year' : $('.selectYear').val(), // hodnota zvoleného roku
+                    'tab'  : $('.nav-tabs .active a').text() // předání aktivního tabu (dvouhra, čtyřhra, mix) při prohlížení
+                  }
+        });
+    });
+    $(document).ajaxComplete(function() {
+    tabulky(); // zavoláme funkci tabulky při refreshi ajaxu
+                     $('#overlayImg').addClass('hideIt');
+         $('#overlayedTable').removeClass('hideIt');
+    });
+    
+    function tabulky()  //zprovoznění datatables na zobrazovaných tabulkách zápasů hráčů
+    {
+    $('.dataTable tr').each(function() {
+    if(($(this).children('td:nth(1)').text().indexOf({$player->getName()}) >= 0 && $(this).children('td:nth(5)').text().indexOf('1') >= 0) || ($(this).children('td:nth(3)').text().indexOf({$player->getName()}) >= 0 && $(this).children('td:nth(6)').text().indexOf('1') >= 0))
+    {
+        $(this).children('td:nth(0)').addClass('rowWin'); // přidej zelenou výplň u vyhraného zápasu
+    }
+    else
+    {
+        $(this).children('td:nth(0)').addClass('rowLoss'); // přidej červenou výplň u prohraného zápasu
+    }
+    });
+    $('.invisible').remove(); // skryje v tabulce na začátku zobrazené údaje o vítězství/prohře v zápasu
+    $('td:contains('+ {$player->getName()} +')', document.body).each(function(){ // pomocí css tučně označí text obsahující jméno aktuálního hráče
+      $(this).html($(this).html().replace(
+            new RegExp({$player->getName()}, 'g'), '<span class=tucne>' + {$player->getName()} + '</span>'
+          ));
+    });
+    if ( $.fn.dataTable.isDataTable( '#dvouhra, #ctyrhra, #mix' ) ) { // jestliže už byl plugin datatables načten, pouze udělej refresh - jinak vyskakuje chyba datatables
+    $('#dvouhra, #ctyrhra, #mix').DataTable();
+    }
+    else
+    {
+    $('#dvouhra, #ctyrhra, #mix').DataTable({ // jinak znovu zavolej datatables s veškerým nastavením
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : false,
+      'info'        : true,
+      'autoWidth'   : false,
+      'pageLength'  : 5
+    }); 
+    }
+    }
+  });
+</script>
+{/block}
+{block heading}
+DETAIL
+{/block}
+{block heading2}
+HRÁČE
+{/block}
+{block content}
+{include player}
+{/block}

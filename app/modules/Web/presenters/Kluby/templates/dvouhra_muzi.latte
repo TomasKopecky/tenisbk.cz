@@ -1,0 +1,66 @@
+{block dvouhra_muzi}
+<div class="row">
+
+          <!-- Widget: user widget style 1 -->
+          <div class="box box-widget widget-user" style="margin-bottom: 0px;">
+                  <!--
+                  
+                                   <div class="col-sm-12 text-center">
+                      <input type="text" value="75" class="dial" data-width="100" data-height="100">
+                  <!-- /.description-block 
+                </div>
+                 --> 
+                
+                  <div class="col-xs-6 col-sm-6 col-lg-2 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header" style="font-size: 105px; color:#00A7D0;">{$menSinglesStats->getRankingPosition()}</h5>
+                    <div class="description-text">POZICE</div>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                  <!-- /.col -->
+                  {var $menSinglesMatches = substr($menSinglesStats->getMatches(),0,strpos($menSinglesStats->getMatches(),':',0))+substr($menSinglesStats->getMatches(),strpos($menSinglesStats->getMatches(),':')+1)}
+                <div class="col-xs-6 col-sm-6 col-lg-2 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header" style="font-size: 20px">{$menSinglesMatches}</h5>
+                    <h5 class="description-header">({$menSinglesStats->getMatches()})</h5>
+                    <div class="description-text">ZÁPASY</div>
+                    <input type="text" value="{$menSinglesMatches ? round(substr($menSinglesStats->getMatches(),0,strpos($menSinglesStats->getMatches(),':',0))/$menSinglesMatches*100) : 0}" class="dial" data-width="100" data-height="100">
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                
+                  {var $menSinglesSets = substr($menSinglesStats->getSets(),0,strpos($menSinglesStats->getSets(),':',0))+substr($menSinglesStats->getSets(),strpos($menSinglesStats->getSets(),':')+1)}
+                <div class="col-xs-6 col-sm-6 col-lg-2 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header" style="font-size: 20px">{$menSinglesSets}</h5>
+                    <h5 class="description-header">({$menSinglesStats->getSets()})</h5>
+                    <div class="description-text">SETY</div>
+                    <input type="text" value="{$menSinglesSets ? round(substr($menSinglesStats->getSets(),0,strpos($menSinglesStats->getSets(),':',0))/$menSinglesSets*100) : 0}" class="dial" data-width="100" data-height="100">
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                
+                <!-- /.col -->
+               {var $menSinglesGames = substr($menSinglesStats->getGames(),0,strpos($menSinglesStats->getGames(),':',0))+substr($menSinglesStats->getGames(),strpos($menSinglesStats->getGames(),':')+1)}
+                <div class="col-xs-6 col-sm-6 col-lg-2 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header" style="font-size: 20px">{$menSinglesGames}</h5>
+                    <h5 class="description-header">({$menSinglesStats->getGames()})</h5>
+                    <div class="description-text">GAMY</div>
+                    <input type="text" value="{$menSinglesGames ? round(substr($menSinglesStats->getGames(),0,strpos($menSinglesStats->getGames(),':',0))/$menSinglesGames*100) : 0}" class="dial" data-width="100" data-height="100">
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                
+                <div class="col-xs-6 col-sm-6 col-lg-2 border-right">
+
+                </div>                 
+                <!-- /.col -->
+  
+              </div>
+    </div>
+
+{/block}

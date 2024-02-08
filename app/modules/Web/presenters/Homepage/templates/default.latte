@@ -1,0 +1,161 @@
+{import 'clanky.latte'}
+{block title}
+ATS Blansko - amatérské tenisové soutěže okresu Blansko - aktuality
+{/block}
+{block meta}
+Amatérské tenisové soutěže okresu Blansko - aktuální dění v rámci neoficiálních tenisových soutěží neregistrovaných hráčů okresu Blansko.
+{/block}
+{block js_web}
+{include parent}
+{include js_nette_ajax}
+<script>
+    $(function () {
+
+        bindYearSelection();
+        operatePaginator();
+        endLoadingPicture();
+
+        function bindAndShowPaginator() {
+            $('.selectPage, #plusPage, #minusPage').on("click", function () {
+                //console.log("paginatorOperation");
+                changeArticlesPage($(this));
+            });
+            $("#minusPage").show();
+            $("#plusPage").show();
+            $(".selectPage").show();
+        }
+        function bindYearSelection() {
+            $('#articleYearSelection').on("change", function () {
+                //console.log("articleYearSeletion");
+                changeArticlesYear($(this));
+            });
+        }
+
+        function unbindAndHidePaginator() {
+            $('.selectPage, #plusPage, #minusPage').unbind('click');
+            $("#minusPage").hide();
+            $("#plusPage").hide();
+        }
+
+        function changeArticlesPage(clickedElement) {
+            var activePage = $('.active');
+            var pageNumber = parseInt(activePage.text());
+            var year = parseInt($('#articleYearSelection').val());
+            startLoadingPicture();
+            //console.log(clickedElement);
+            if (clickedElement.attr("class") === 'selectPage active')
+            {
+                //console.log('selectPage active class');
+                endLoadingPicture();
+            }
+
+            if (clickedElement.attr("class") === 'selectPage')
+            {
+                //console.log('just selectPage class');
+                if (parseInt(clickedElement.text()) !== pageNumber)
+                {
+                    pageNumber = clickedElement.text();
+                    netteAjax(year, pageNumber);
+                    //console.log(pageNumber);
+                } else
+                {
+                    endLoadingPicture();
+                }
+            }
+            if (clickedElement.attr("id") === 'plusPage')
+            {
+                //console.log('plus sign');
+                if ($('.selectPage').length !== pageNumber)
+                {
+                    pageNumber += 1;
+                    activePage.removeClass('active');
+                    activePage.next().addClass('active');
+                    netteAjax(year, pageNumber);
+                } else
+                {
+                    endLoadingPicture();
+                }
+            }
+            if (clickedElement.attr("id") === 'minusPage')
+            {
+                //console.log('minus sign');
+                if (pageNumber !== 1)
+                {
+                    pageNumber -= 1;
+                    activePage.removeClass('active');
+                    activePage.prev().addClass('active');
+                    netteAjax(year, pageNumber);
+                } else
+                {
+                    endLoadingPicture();
+                }
+            }
+
+        }
+
+        function startLoadingPicture()
+        {
+            $('#overlayImg').removeClass('hideIt');
+            $('#noNews').addClass('hideIt');
+            $('#overlayedTable').addClass('hideIt');
+        }
+
+        function endLoadingPicture()
+        {
+            $('#overlayImg').addClass('hideIt');
+            $('#noNews').removeClass('hideIt');
+            $('#overlayedTable').removeClass('hideIt');
+        }
+
+        function netteAjax(year, pageNumber)
+        {
+            $.nette.ajax({
+                url: {link ArticlesPageNumber!},
+                data: {
+                    'articlesYear': year,
+                    'articlesPageNumber': pageNumber
+                }
+            });
+        }
+
+        function operatePaginator() {
+            if ($('.article_div').length !== 4 && $('.selectPage').length <= 1) {
+                unbindAndHidePaginator();
+            } else {
+                bindAndShowPaginator();
+            }
+        }
+
+        function changeArticlesYear(selectElement) {
+            var year = parseInt(selectElement.val());
+            startLoadingPicture();
+            netteAjax(year, 1);
+        }
+
+        $(document).ajaxComplete(function () {
+            //console.log("ajaxComplete");
+            operatePaginator();
+            endLoadingPicture();
+        });
+
+    });
+</script>
+{/block}
+{block heading}
+AKTUALITY
+{/block}
+{block newsYearSelection}
+
+
+<select id="articleYearSelection" class="form-control selectYear">
+    {foreach $activeYears as $activeYear}
+        <option value="{$activeYear}"{if $selectedYear == $activeYear} selected = selected{/if}>{$activeYear == 0 ? 'Celá historie' : $activeYear}</option>       
+    {/foreach}
+    {if isset($currentEmptyYear)}<option value="{$currentEmptyYear}" selected = selected>{$currentEmptyYear}</option>{/if}
+</select>
+{/block}
+{block heading2}
+{/block}
+{block content}
+{include clanky}
+{/block}

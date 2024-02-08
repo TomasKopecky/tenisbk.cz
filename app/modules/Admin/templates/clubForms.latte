@@ -1,0 +1,160 @@
+{block container}
+<div class="content-wrapper">
+    <section class="content">
+        <div class="callout callout-info">
+            <h4>{include formTitle}</h4>
+
+            <p>{include formInfo}</p>
+        </div>
+        <!-- Default box -->
+        <!-- /.box-header -->
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">{include formTitleDetail}</h3>
+            </div>
+            <form n:name=$formName class="validate-on-load">
+                <div class="box-body">
+                    {if ($form->hasErrors())}
+                        {foreach $form->errors as $error}
+                            {if $error != NULL}
+                                {if substr($error,0,5)=='Chyba'}
+                                    <div class="callout callout-danger">
+                                        <h4>Chyba</h4>
+                                        <p>{$error }</p>
+                                    </div>
+                                {else}
+                                    <div class="callout callout-warning">
+                                        <h4>Upozornění</h4>
+                                        <p>{$error}</p>
+                                    </div>    
+                                {/if}
+                            {/if}
+                        {/foreach}
+                    {/if}
+                    <!-- Date -->
+                    <div class="form-group">
+                        <label>{$form['nazev']->getLabel()}</label>
+
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-address-card"></i>
+                            </div>
+                            <input n:name=nazev class="form-control pull-right">
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+
+                    <div class="form-group">
+                        <label>{$form['zkratka']->getLabel()}</label>
+
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-puzzle-piece"></i>
+                            </div>
+                            <input n:name=zkratka class="form-control pull-right">
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+
+                    <div class="form-group">
+                        <label>{$form['nick']->getLabel()}</label>
+
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-gears"></i>
+                            </div>
+                            <input n:name=nick class="form-control pull-right">
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+
+                    <div class="form-group">
+                        <label>{$form['adresa']->getLabel()}</label>
+
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-home"></i>
+                            </div>
+                            <input n:name=adresa class="form-control pull-right">
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+
+                    <div class="form-group">
+                        <label>Kontaktní osoba č. 1</label>
+
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <input n:name=osoba_kontakt_1_jmeno class="form-control pull-right">
+                            <div class="input-group-addon">
+                                <i class="fa fa-envelope"></i>
+                            </div>
+                            <input n:name=osoba_kontakt_1_email class="form-control pull-right">
+                            <div class="input-group-addon">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <input n:name=osoba_kontakt_1_telefon class="form-control pull-right">
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+
+                    <div class="form-group">
+                        <label>Kontaktní osoba č. 2</label>
+
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <input n:name=osoba_kontakt_2_jmeno class="form-control pull-right">
+                            <div class="input-group-addon">
+                                <i class="fa fa-envelope"></i>
+                            </div>
+                            <input n:name=osoba_kontakt_2_email class="form-control pull-right">
+                            <div class="input-group-addon">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <input n:name=osoba_kontakt_2_telefon class="form-control pull-right">
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+
+                    <div class="form-group">
+                        <label>Kontaktní osoba č. 3</label>
+
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <input n:name=osoba_kontakt_3_jmeno class="form-control pull-right">
+                            <div class="input-group-addon">
+                                <i class="fa fa-envelope"></i>
+                            </div>
+                            <input n:name=osoba_kontakt_3_email class="form-control pull-right">
+                            <div class="input-group-addon">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <input n:name=osoba_kontakt_3_telefon class="form-control pull-right">
+                        </div>
+                        <!-- /.input group -->
+                    </div>                
+                    <!-- Date and time range -->
+                    <div class="form-group">
+
+
+                        <label>{$form['klub_info']->getLabel()}</label>
+                        <textarea n:name=klub_info class="form-control"></textarea>
+                    </div>
+                    <!-- /.form group -->
+                </div>
+                <input n:name=clubButton class="btn btn-block btn-primary">
+            </form>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box-body -->
+
+    </section>
+
+</div>
+{/block}

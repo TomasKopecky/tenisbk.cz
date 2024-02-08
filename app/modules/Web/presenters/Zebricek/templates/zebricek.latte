@@ -1,0 +1,84 @@
+{block zebricek}
+<div class="row">
+    <div class="col-xs-12">
+        <div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+            PARAMETRY
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <select id="seasonYear" class="form-control selectYear">
+            {foreach $competitions->getActiveYears() as $activeYear}
+                <option value="{$activeYear}"{if $selectedYear == $activeYear} selected = selected{/if}>{$activeYear == 0 ? 'Celá historie' : $activeYear}</option>       
+            {/foreach}
+            {if isset($currentEmptyYear)}<option value="{$currentEmptyYear}" selected = selected>{$currentEmptyYear}</option>{/if}
+        </select>
+        <select id="playerSex" class="form-control selectYear">
+            {foreach $playerSexList as $key => $value}
+                <option value="{$key}">{$key}</option>       
+            {/foreach}
+        </select>
+        <select id="matchType" class="form-control selectYear">
+            {foreach $matchTypeList as $key => $value}
+                <option value="{$key}">{$key}</option>       
+            {/foreach}
+        </select>
+    </div>
+    <div class="col-xs-12">
+        <div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+            ŽEBŘÍČEK
+        </div>
+    </div>
+</div>
+<div id='overlayImg'>
+    <img src='{$basePath}/images/web/loader.gif'/>
+</div>
+<div id='overlayedTable' class='hideIt'>
+    <div class="table-responsive zebricek" style="margin-bottom: 20px;">   
+        <button id="sortResetBtn" class="btn btn-info btn-block">Reset řazení - původní</button>
+        {snippet ajaxPlayerStats}
+            <table id="tabulka" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead class="thead_tabulky">
+                    <tr>
+                        <th>#</th>
+                        <th>HRÁČ</th>
+                        <th>ZAP</th>
+                        <th>VYH</th>
+                        <th>PRO</th>
+                        {*<th>SET V</th>
+                        <th>SET P</th>
+                        <th>GAM V</th>
+                        <th>GAM P</th>*}
+                        <th>SET</th>
+                        <th>GAM</th>
+                        <th>USP</th>
+                        <th>BOD</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {foreach $ranking as $rank}
+                        <tr>
+                            <td></td>
+                            <td><a href="{link Hraci:detail /*$rank->player->id,*/ $rank->player->slug}">{$rank->player->name}</a></td>
+                            <td>{$rank->matches}</td>
+                            <td>{$rank->wins}</td>
+                            <td>{$rank->defeats}</td>
+                            {*<td>{$rank->wonSets}</td>
+                            <td>{$rank->lostSets}</td>
+                            <td>{$rank->wonGames}</td>
+                            <td>{$rank->lostGames}</td>*}
+                            <td>{$rank->wonSets}:{$rank->lostSets}</td>
+                            <td>{$rank->wonGames}:{$rank->lostGames}</td>
+                            <td>{$rank->successRate}</td>
+                            <td>{$rank->truePoints}</td>
+                            <td>{$rank->lostSets}</td>
+                            <td>{$rank->lostGames}</td>
+                        </tr>
+                    {/foreach}
+                </tbody>
+            </table>
+        {/snippet}
+    </div>
+</div>
+{/block}

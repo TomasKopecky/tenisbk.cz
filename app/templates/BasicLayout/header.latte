@@ -1,0 +1,19 @@
+{block header}
+{if !($presenter->isLinkCurrent(':Web:Homepage:*'))}
+<div class="jumbotron jumbotron_mine jumbotron-fluid my_header">
+
+
+          <h1 class="display section_tag" style="color: #fff;">{include heading} <span style="color: #c2ff1f;">{include heading2}</span></h1>
+
+  </div>
+          {else}
+              <div class="jumbotron jumbotron_homepage jumbotron-fluid">
+
+
+                  <img class="img_jumbotron_header" src="{$basePath}/images/web/mainLogo.png" />
+                  <h3 class="display header_title" style="color: #fff;">Web amatérských tenisových soutěží okresu Blansko</h3>
+
+  </div>
+          {/if}
+
+{/block}

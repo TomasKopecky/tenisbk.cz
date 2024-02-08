@@ -1,0 +1,42 @@
+{import 'zapas.latte'}
+{block title}
+ATS Blansko - amatérské tenisové soutěže okresu Blansko - zápasy hráčů
+{/block}
+{block meta}
+Amatérské tenisové soutěže okresu Blansko - detailní informace o zápasech mezi hráči
+{/block}
+{block css_web}
+{include parent}
+{include css_datatables_bootstrap}
+{/block}
+{block js_web}
+{include parent}
+{include js_datatables_basic}
+{include js_nette_ajax}
+<script>
+  $(function () {
+                     $('#overlayImg').addClass('hideIt');
+               $('#overlayedTable').removeClass('hideIt');
+     $('#utkani').DataTable({ // jinak znovu zavolej datatables s veškerým nastavením
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : false,
+      'info'        : true,
+      'autoWidth'   : false,
+      'pageLength'  : 5
+    }); 
+    }
+    
+  );
+</script>
+{/block}
+{block heading}
+DETAIL
+{/block}
+{block heading2}
+ZÁPASU
+{/block}
+{block content}
+{include zapas}
+{/block}

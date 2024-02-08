@@ -1,0 +1,22 @@
+.modal-dialog
+{
+    border-radius: 6px;
+    width: 300px;
+    margin: auto;
+}
+.modal-footer {
+    height: 70px;
+    margin: 0;
+}
+.modal-footer .btn {
+    font-weight: bold;
+}
+.modal-title
+{
+    text-align: center;
+}
+
+.modal label
+{
+    background-color: #3c8dbc;    
+}

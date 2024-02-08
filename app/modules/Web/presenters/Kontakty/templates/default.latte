@@ -1,0 +1,38 @@
+{import 'kontakty.latte'}
+{block title}
+ATS Blansko - amatérské tenisové soutěže okresu Blansko - kontakty na správce
+{/block}
+{block meta}
+Amatérské tenisové soutěže okresu Blansko - kontaktní formulář a kontaktní informace na správce soutěží a webu
+{/block}
+{block heading}
+KONTAKTY
+{/block}
+{block heading2}
+ATS BLANSKO
+{/block}
+{block css_web}
+{include parent}
+{/block}
+{block js_web}
+{include parent}
+<script src="https://www.google.com/recaptcha/api.js"></script>
+{*
+<script>
+    $('#contact-form').submit(function(event) {
+        console.log('validation completed.');
+
+        event.preventDefault(); //prevent form submit before captcha is completed
+        grecaptcha.execute();
+    });
+
+    onCompleted = function(yes) {
+        console.log('captcha completed.');
+        console.log(yes);
+    };
+</script>
+*}
+{/block}
+{block content}
+{include kontakty}
+{/block}

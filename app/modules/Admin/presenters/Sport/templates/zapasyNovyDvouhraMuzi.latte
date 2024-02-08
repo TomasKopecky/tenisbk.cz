@@ -1,0 +1,22 @@
+{import '../../../templates/matchForms.latte'}
+{block title}
+ATS Blansko - Vkládání zápasu
+{/block}
+{block formTitle}
+Vkládání zápasu - dvouhra muži
+{/block}
+{block formInfo}
+Zde vkládejte nový zápas dvouhry mužů k určenému utkání. Vyberte soupeře, datum zápasů a vyplňte výsledky. Berte na vědomí, že při chybném zadání údajů utkání se tyto změny projeví ve všech dalších sekcích, zejména v tabulce pořadí a žebříčku hráčů
+{/block}
+{block formTitleDetail}
+Vložit zápas - dvouhra muži
+{/block}
+{block container}
+{include parent}
+{/block}
+{block js_admin}
+{include parent}
+{include js_nette_ajax}
+{include js_datepicker_basic}
+{include js_form_operator}
+{/block}

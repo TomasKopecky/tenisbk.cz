@@ -1,0 +1,80 @@
+parameters:
+
+database:
+    postgresqlTennis:
+        dsn: # SECRET
+        user: # SECRET
+        password: # SECRET
+
+        options:
+            lazy: true  # navázání připojení až když je poprvé potřeba
+
+services:
+    router: App\RouterFactory::createRouter # instance routeru, který přesměrovává na dané přesentery
+    authenticator: MyAuthenticator # registrace autentifikační třídy pro přihlašování
+    playersList: App\Model\Entity\SportEntity\PlayersList
+    clubsList: App\Model\Entity\SportEntity\ClubsList
+    playsList: App\Model\Entity\SportEntity\PlaysList
+    registrationsList: App\Model\Entity\SportEntity\RegistrationsList
+    MembershipsList: App\Model\Entity\SportEntity\MembershipsList
+    tables: App\Model\Entity\SportEntity\Tables
+    usersList: App\Model\Entity\UserEntity\UsersList
+    events: App\Model\Entity\UserEntity\Events
+    logs: App\Model\Entity\UserEntity\Logs
+    logsList: App\Model\Entity\UserEntity\LogsList
+    hashes: App\Model\Entity\UserEntity\Hashes
+    rolesList: App\Model\Entity\UserEntity\RolesList
+    roleLogsList: App\Model\Entity\UserEntity\RoleLogsList
+    competitionsList: App\Model\Entity\SportEntity\CompetitionsList
+    compSystemsList: App\Model\Entity\SportEntity\CompSystemsList
+    playerStats: App\Model\Entity\SportEntity\PlayerStats
+    playerStatsList: App\Model\Entity\SportEntity\PlayerStatsList
+    clubStats: App\Model\Entity\SportEntity\ClubStats
+    clubStatList: App\Model\Entity\SportEntity\ClubStatsList
+    matchesTableList: App\Model\Entity\SportEntity\MatchesTableList
+    playsTableList: App\Model\Entity\SportEntity\PlaysTableList
+    results: App\Model\Entity\SportEntity\Results
+    roundsList: App\Model\Entity\SportEntity\RoundsList
+    articlesTableList: App\Model\Entity\CmsEntity\ArticlesTableList
+    imagesList: App\Model\Entity\CmsEntity\ImagesList
+    checkTools: App\Model\BasicTools\CheckTools
+    adminMailer: App\Module\AdminMailer
+    errorMailer: App\Module\ErrorMailer
+    noReplyMailer: App\Module\NoReplyMailer
+    - ContactForm
+    - GalleryForm
+    - ArticleForm
+    - PlayerForm # registrace třídy PlayerForm jako služba - kvůli opakování formulářu v editační sekci hráčů
+    - RegForm # registrace třídy RegForm jako služba - kvůli opakování formulářu v editační sekci registrací
+    - LoginForm # registrace třídy LoginForm jako služba - kvůli potenciálnímu opakování přilašovacího formuláře
+    - ClubForm # registrace třídy ClubForm jako služba - kvůli opakování formuláře v editační sekci klubů
+    - MembershipForm # registrace třídy MembershipForm jako služba - kvůli opakování formuláře v editační sekci působení
+    - CompetitionForm # registrace třídy CompetitionForm jako služba - kvůli opakování formuláře v editační sekci soutěží
+    - UserForm
+    - RoleLogForm
+    - SignUpForm # registrace třídy SignUpForm jako služba - registrace nových uživatelů aplikace
+    - CompSystemForm
+    - PlayForm
+    - SinglesMatchForm
+    - DoublesMatchForm
+
+application:
+    debugger: true
+    errorPresenter: Error:Error
+    mapping:
+        Admin: App\AdminModule\Presenters\*Presenter
+        Web: App\WebModule\Presenters\*Presenter
+        Error: App\ErrorModule\Presenters\*Presenter
+
+routing:
+    cache: true
+
+session:
+    expiration: 1 day
+
+extensions:
+	recaptcha: Contributte\ReCaptcha\DI\ReCaptchaExtension
+
+recaptcha:
+	secretKey: # SECRET
+	siteKey: # SECRET

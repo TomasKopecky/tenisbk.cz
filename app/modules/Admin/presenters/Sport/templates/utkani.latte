@@ -1,0 +1,86 @@
+{import '../../../templates/basicForms.latte'}
+{block title}
+ATS Blansko - Editace utkání
+{/block}
+{block formHeader}
+{block formTitle}
+Editace utkání
+{/block}
+{block formInfo}
+Vítejte v editačním menu pro utkání. Můžete provádět vkládání a úpravu jednotlivých utkání. Berte na vědomí, že mazání utkání je zakázáno, proto v případě chybného záznamu utkání opravte. V případě nutné potřeby výmazu utkání kontaktujte hlavního správce. Rovněž berte na vědomí, že každé utkání se počítá do celkové tabulky a jakýkoliv chybný záznam znamená narušení korektnosti dat.
+Výsledek utkání se vypočítá automaticky poté, co vložíte výsledky všech 6 požadovaných zápasů k danému utkání. 
+{/block}
+{/block}
+{block deletedEntity}
+zvolené utkání?
+{/block}
+{block deleteModalName}
+utkání
+{/block}
+{block deleteButtonName}
+utkání
+{/block}
+{block table}
+<!-- Default box -->
+<div class="info-box bg-green addButton">
+
+    <div style="width: 90px; margin: auto;">
+        <a href="{link Sport:utkaniNove}" class="noLink">
+            <span class="info-box-icon centerButton"><i class="fa fa-plus"></i></span>
+        </a>
+    </div>
+</div>
+<div class="box">         
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="table-responsive zebricek" style="margin-top: 0px;">
+            <table id="dataTable" class="table table-bordered table-striped" style="text-align: center;">
+                <thead class="thead_tabulky">
+                    <tr>
+                        <th style="text-align: center;">Datum</th>
+                        <th style="text-align: center;">Ročník</th>
+                        <th style="text-align: center;">Kolo</th>
+                        <th style="text-align: center;">Soutěž</th>
+                        <th style="text-align: center;">Klub domácí</th>
+                        <th style="text-align: center;">Výsledek</th>
+                        <th style="text-align: center;">Klub hosté</th>
+                        <th style="text-align: center;">Detail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {foreach $playsTableList as $plays}
+                        <tr>
+                            <td>{$plays->getDate() ? date_format($plays->getDate(),'Y-m-d') : NULL}</td>
+                            <td>{$plays->getSeason()}</td>
+                            <td>{$plays->getRound()->getNumber()}</td>
+                            <td>{$plays->getCompetition()->getName()}</td>
+                            <td>{$plays->getClubHome()->getName()}</td>
+                            <td>{$plays->getMatchesHome()}:{$plays->getMatchesVisitors()}{if $plays->getLossDefaultHome() || $plays->getLossDefaultVisitors()} (K){/if}</td>
+                            <td>{$plays->getClubVisitors()->getName()}</td>
+                            <td>
+                                <div style="text-align: center;">
+                                    <a class="btn btn-success editButton hidden-xs hidden-sm hidden-md" n:href=":Web:Utkani:detail $plays->getId()"><i class="fa fa-bar-chart"></i> Náhled</a>
+                                    <a class="btn btn-success editButton hidden-lg" n:href=":Web:Utkani:detail $plays->getId()"><i class="fa fa-bar-chart"></i></a>
+
+
+                                    <a class="btn btn-info editButton hidden-xs hidden-sm hidden-md" n:href="Sport:utkaniUprava $plays->getId()"><i class="fa fa-edit"></i> Editace</a>
+                                    <a class="btn btn-info editButton hidden-lg" n:href="Sport:utkaniUprava $plays->getId()"><i class="fa fa-edit"></i></a>
+
+                                    <a class="btn btn-primary editButton hidden-xs hidden-sm hidden-md" n:href="Sport:utkaniZapasy $plays->getId()"><i class="fa fa-plus-square"></i> Zápasy</a>
+                                    <a class="btn btn-primary editButton hidden-lg" n:href="Sport:utkaniZapasy $plays->getId()"><i class="fa fa-plus-square"></i></a>
+                                        {if $user->isInRole('Admin')}    
+                                        <a class="btn btn-danger editButton hidden-xs hidden-sm hidden-md formDeleteButton" n:href="deletePlay! $plays->getId()"><i class="fa fa-trash-o"></i> Vymazat</a>
+                                        <a class="btn btn-danger editButton hidden-lg formDeleteButton" n:href="deletePlay! $plays->getId()"><i class="fa fa-trash-o"></i></a>
+                                        {/if}     
+                                </div> 
+                            </td>
+                        </tr>
+                    {/foreach}
+                </tbody>                
+            </table>
+        </div>
+        <!-- /.box-body -->
+    </div>
+</div>
+
+{/block}

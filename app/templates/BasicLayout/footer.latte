@@ -1,0 +1,44 @@
+{* Latte template *}
+
+{block footer}
+<div class="footer">
+<footer class="container text-center footerDiv">
+    <div class="row">
+        <div class="col-md-4 col-sm-4">
+            <img class="img img-responsive imgFooter" src="{$basePath}/images/web/nette-logo-white.png" />
+                    <h5 style="color: white;">Copyright © 2018-{date('Y')}, Tomáš Kopecký</h5>
+                    <p style="margin-bottom: 0px;"><i class="fa fa-envelope" style="color: #C2FF1F;"></i><a href="mailto: admin@tenisbk.cz"> admin@tenisbk.cz</a></p>
+{*
+      <h4 style="color: white;">RYCHLÝ KONTAKT</h4>
+      <div style="padding:0px 10px ;">
+          <form action="#" class="contact-form">
+              <div class="form-group">
+                  <input type="email" class="form-control footerFormInput" id="contact-form-email" placeholder="Vaše e-mailová adresa" required>
+              </div>
+              <div class="form-group">
+                  <input type="email" class="form-control footerFormInput" id="contact-form-email" placeholder="Vaše e-mailová adresa" required>
+              </div>
+              <div class="form-group form-group--xs">
+                  <textarea class="form-control footerFormInput" name="contact-form-message" rows="4" placeholder="Vaše zpráva"></textarea>
+              </div><button type="submit" class="btn btn-primary btn-sm btn-block bigButton" disabled>Odeslat zprávu</button>
+          </form>
+      </div>
+*}
+        </div>
+                <div class="col-md-4 col-sm-4" style="padding-top: 38px;">
+                    <img class="img img-responsive imgFooter" src="{$basePath}/images/web/mainLogo.png" />
+                    <h5 style="color: white;">ATS BLANSKO {date('Y')}</h5>
+                </div>
+                        <div class="col-md-4 col-sm-4 footerLinks">
+                    <h4 style="color: white;">TEMATICKÉ ODKAZY</h4>
+                    <h5><a href="https://www.cztenis.cz" target="_blank">ČESKÝ TENISOVÝ SVAZ</a></h5>
+                    <h5><a href="https://www.cztenis.cz/docs/pravidla_tenisu.pdf" target="_blank">PRAVIDLA TENISU</a></h5>
+                    <h5><a href="https://www.tenis-rudice.estranky.cz" target="_blank">TENIS RUDICE</a></h5>
+                    <h5><a href="https://www.tenisportal.cz" target="_blank">ČESKÝ TENISPORTÁL</a></h5>
+                    <h5><a href="https://www.atptour.com" target="_blank">ATP</a></h5>
+                    <h5><a href="https://www.wtatennis.com" target="_blank">WTA</a></h5>
+                </div>
+    </div>
+</footer>
+                    </div>
+{/block}

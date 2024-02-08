@@ -1,0 +1,54 @@
+{block errorTemplate}
+<!DOCTYPE html>
+<html>
+    <head>
+        {import '../../../../templates/BasicLayout/css.latte'}
+        <meta charset="utf-8">
+        <meta name="robots" content="noindex">
+        {include css_admin}
+        <style>
+            .content{
+                width: 100%;
+                margin: 0;
+                position: absolute;
+                top: 50%;
+                -ms-transform: translateY(-50%);
+                transform: translateY(-50%);
+                text-align: justify;
+            }
+            .imgLoginModal{
+                max-width: 20%;
+            }
+            </style>
+            <title>Chyba - {include errorCode}</title>
+        </head>
+        <body>
+            <div class="content">
+
+            <!-- Main content -->
+            <section class="content">
+                <img class="img img-responsive imgLoginModal" src="{$basePath}/images/web/mainLogo.png" />
+                <div class="error-page">
+                    <h2 class="headline text-yellow">{include errorCode}</h2>
+
+                    <div class="error-content">
+                        <h3><i class="fa fa-warning text-yellow"></i> Oops! {include errorTitle}</h3>
+
+                        <p>
+                            {include errorText}
+                        </p>
+                        <p>
+                            V případě, že se domnívate, že jde o chybu webu, kontaktujte správce stránek - viz sekce <a n:href=":Web:Kontakty:default">kontakty</a>
+                            Případně se můžete vrátit na <a href="{$baseUri}">hlavní stránku</a>.
+                        </p>
+
+                       
+                    </div>
+                    <!-- /.error-content -->
+                </div>
+                <!-- /.error-page -->
+            </section>
+            <!-- /.content -->
+        </div>
+    </body>
+</html>

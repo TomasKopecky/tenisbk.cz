@@ -1,0 +1,66 @@
+{import '../../../templates/basicForms.latte'}
+{block title}
+ATS Blansko - Články
+{/block}
+{block formTitle}
+Přehled článků
+{/block}
+{block formInfo}
+Vítejte v seznamu článků
+{/block}
+{block table}
+<div class="info-box bg-green addButton">
+
+    <div style="width: 90px; margin: auto;">
+        <a href="{link Cms:clankyNovy}" class="noLink">
+            <span class="info-box-icon centerButton"><i class="fa fa-plus"></i></span>
+        </a>
+    </div>
+</div> 
+
+<div class="box">         
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="table-responsive"> 
+            <table id="dataTable" class="table table-bordered table-striped">
+                <thead class="thead_tabulky">
+                    <tr>
+                        <th>Rok</th>
+                        <th>Titulek</th>
+                        <th>Úryvek</th>
+                        <th>Autor</th>
+                        <th>Poslední editor</th>
+                        <th>Poslední editace</th>
+                        <th>Aktivní</th>
+                        <th>Detail</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                    {foreach $articlesList as $article}
+                        <tr>
+                            <td>{$article->getYear()}</td>
+                            <td>{$article->getTitle()}</td>
+                            <td>{$article->getPreview()}</td>
+                            <td>{$article->getAuthor()->getName()}</td>
+                            <td>{$article->getEditor()->getName()}</td>
+                            <td>{$article->getEditDate()}</td>
+                            <td>{if $article->getActive()}<span style="color:green;"><i class="fa fa-check" aria-hidden="true"></i></span>{else}<span style="color:red;"><i class="fa fa-times" aria-hidden="true"></i></span>{/if}</td>
+                            <td>
+                                <div style="text-align: center;">
+                                    <a class="btn btn-success editButton hidden-xs hidden-sm hidden-md" n:href=":Web:Clanky:detail $article->getSlug()"><i class="fa fa-bar-chart"></i> Náhled</a>
+                                    <a class="btn btn-info editButton hidden-xs hidden-sm hidden-md" n:href="Cms:clankyUprava $article->getId()"><i class="fa fa-edit"></i> Editace</a>
+                                    <a class="btn btn-info editButton hidden-lg" n:href="Cms:clankyUprava $article->getId()"><i class="fa fa-edit"></i></a>
+                                    <a class="btn btn-danger editButton hidden-xs hidden-sm hidden-md formDeleteButton" n:href="deleteArticle! $article->getId()"><i class="fa fa-trash-o"></i> Vymazat</a>
+                                    <a class="btn btn-danger editButton hidden-lg formDeleteButton" n:href="deleteArticle! $article->getId()"><i class="fa fa-trash-o"></i></a>
+
+                                </div>
+                            </td>
+                        </tr>
+                    {/foreach}
+                </tbody>                
+            </table>
+        </div>
+        <!-- /.box-body -->
+    </div>
+</div>
+{/block}

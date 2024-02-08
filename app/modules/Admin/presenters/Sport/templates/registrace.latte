@@ -1,0 +1,77 @@
+{import '../../../templates/basicForms.latte'}
+{block title}
+ATS Blansko - Registrace hráčů
+{/block}
+{block formHeader}
+{block formTitle}
+Registrace hráčů
+{/block}
+{block formInfo}
+Vítejte v editačním menu pro registrace. Můžete provádět registraci hráče do klubu. Berte na vědomí, že mazání registrací je zakázáno, proto v případě chybné registrace tuto opravte. V případě nutné potřeby výmazu registrace kontaktujte hlavního správce
+{/block}
+{/block}
+{block deletedEntity}
+zvolenou registraci hráče v klubu?
+{/block}
+{block deleteModalName}
+registrace
+{/block}
+{block deleteButtonName}
+registraci
+{/block}
+{block table}
+      <!-- Default box -->
+    <div class="info-box bg-green addButton">
+
+    <div style="width: 90px; margin: auto;">
+        <a href="{link Sport:registraceNova}" class="noLink">
+            <span class="info-box-icon centerButton"><i class="fa fa-plus"></i></span>
+        </a>
+    </div>
+</div>
+            <div class="box">         
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="table-responsive"> 
+              <table id="dataTable" class="table table-bordered table-striped">
+                <thead class="thead_tabulky">
+                <tr>
+                    <th>Pohlaví</th>
+                    <th>Hráč</th>
+                    <th>Klub</th>
+                    <th>Pořadí</th>
+                    <th>Datum od</th>
+                    <th>Datum do</th>
+                    <th>Detail</th>
+                </tr>
+                </thead>
+                <tbody> 
+            {foreach $registrations as $registration}
+                <tr>
+                    <td>{if ($registration->getPlayer()->getSex() == 'M')}<i class="fa fa-male mine_men"></i><span style="display:none">1</span>{else}<i class="fa fa-female mine_women"></i><span style="display:none">2</span>{/if}</td>
+                    <td>{$registration->getPlayer()->getName()}</td>
+                    <td>{$registration->getClub()->getName()}</td>
+                    <td>{$registration->getOrder()}</td>
+                    <td>{date_format($registration->getDateSince(),"Y-m-d")}</td>
+                    <td>{if ($registration->getDateUntil() != null)}{date_format($registration->getDateUntil(),"Y-m-d")}{/if}</td>
+                    <td>
+                    <div style="text-align: center;">
+                                <a class="btn btn-info editButton hidden-xs hidden-sm hidden-md" n:href="Sport:registraceUprava $registration->getId()"><i class="fa fa-edit"></i> Editace</a>
+                                 <a class="btn btn-info editButton hidden-lg" n:href="Sport:registraceUprava $registration->getId()"><i class="fa fa-edit"></i></a>
+                             
+                        {if $user->isInRole('Admin')}   
+                                <a class="btn btn-danger editButton hidden-xs hidden-sm hidden-md formDeleteButton" n:href="deleteRegistration! $registration->getId()"><i class="fa fa-trash-o"></i> Vymazat</a>
+                                <a class="btn btn-danger editButton hidden-lg formDeleteButton" n:href="deleteRegistration! $registration->getId()"><i class="fa fa-trash-o"></i></a>
+                    {/if}
+                        </div>
+                    </td>
+                </tr>
+            {/foreach}
+        </tbody>                
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+    </div>
+
+{/block}

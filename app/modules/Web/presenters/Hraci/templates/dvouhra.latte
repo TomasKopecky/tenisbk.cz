@@ -1,0 +1,69 @@
+{block dvouhra}
+<div class="table-responsive">
+<table id="dvouhra" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                <thead class="tablePlayerResults">
+                <tr role="row">
+                    <th class="sorting_disabled" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending"></th>
+                    <th class="sorting_disabled columnPlayer" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Hráč domácí</th>
+                    <th class="sorting_disabled" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Výsledek</th>
+                    <th class="sorting_disabled columnPlayer" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Hráč hosté</th>
+                    <th class="sorting_disabled columnSets" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Sety</th> 
+                    <th class="invisible"></th>
+                    <th class="invisible"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {foreach $matches as $singles}
+                    {if $singles->getMatchTypeName() == 'Dvouhra muži' || $singles->getMatchTypeName() == 'Dvouhra ženy'}
+                <tr role="row">
+                  <td></td>
+                  <td>{if $singles->getPlayerHome1()->getId() != $player->getId()}<a class="resultDetailLinks" n:href="Hraci:detail /*$singles->getPlayerHome1()->getId(),*/ $singles->getPlayerHome1()->getSlug()">{$singles->getPlayerHome1()->getName()}</a>{else}{$singles->getPlayerHome1()->getName()}{/if}{if $singles->getRetireHome()} - SKREČ{/if}</td>
+                  <td><a n:href="Zapasy:detail $singles->getId()">{$singles->getResults()->getSetsHome()} : {$singles->getResults()->getSetsVisitors()}{if $singles->getRetireHome() || $singles->getRetireVisitors()} (S){/if}</a></td>
+                  <td>{if $singles->getPlayerVisitors1()->getId() != $player->getId()}<a class="resultDetailLinks" n:href="Hraci:detail /*$singles->getPlayerVisitors1()->getId(),*/ $singles->getPlayerVisitors1()->getSlug()">{$singles->getPlayerVisitors1()->getName()}</a>{else}{$singles->getPlayerVisitors1()->getName()}{/if}{if $singles->getRetireVisitors()} - SKREČ{/if}</td>
+                  <td>{$singles->getResults()->getFullSetsResult()}</td>
+                  <td class="invisible">{$singles->getWinHome()}</td>
+                  <td class="invisible">{$singles->getWinVisitors()}</td>
+                </tr>
+                {/if}
+                {/foreach}
+                                
+                </tbody>
+                <tfoot>
+               </tfoot>
+              </table>
+</div>
+{/block}
+
+{block dvouhraStat}
+<div class="row">
+            
+        <div class="col-xs-4 col-sm-4">
+          <div class="info-box bg-aqua boxVysledkyAll">
+              <div class="boxVysledkyYear">{$singlesStats ? round($singlesStats->getSuccessRate()) : 0} %</div>
+              <div class="progress-barPerc" style="width: {$singlesStats->getSuccessRate() ? round($singlesStats->getSuccessRate()) : 0}%; height: 90px"></div>
+              
+              </div>
+</div>
+            <!-- /.info-box-content -->
+      
+              <div class="col-xs-4 col-sm-4">
+          <div class="info-box bg-green boxVysledkyAll">
+          <div class="boxVysledkyYear boxVysledkyYearWinLoss">{$singlesStats ? $singlesStats->getWins() : 0}</div>
+              <div class="progress-barWin" style="width: {$singlesStats->getSuccessRate() ? round($singlesStats->getWins()/$singlesStats->getMatches()*100) : 0}%; height: 90px"></div> 
+
+           
+            <!-- /.info-box-content -->
+          </div>
+        </div>
+                   <div class="col-xs-4 col-sm-4">
+          <div class="info-box bg-red boxVysledkyAll">
+            <div class="boxVysledkyYear boxVysledkyYearWinLoss">{$singlesStats ? $singlesStats->getDefeats() : 0}</div>
+              <div class="progress-barLoss" style="width: {$singlesStats->getSuccessRate() ? round($singlesStats->getDefeats()/$singlesStats->getMatches()*100) : 0}%; height: 90px"></div>               
+
+           
+            <!-- /.info-box-content -->
+          </div>
+        </div>
+         
+</div>
+{/block}

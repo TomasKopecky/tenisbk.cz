@@ -1,0 +1,119 @@
+{block title}
+ATS Blansko - amatérské tenisové soutěže okresu Blansko - kalendář utkání
+{/block}
+{block meta}
+Amatérské tenisové soutěže okresu Blansko - kalendář tenisových utkání v rámci ATS Blansko
+{/block}
+{block css_web}
+{include parent}
+{include css_fullcalendar_basic}
+{/block}
+{block heading2}
+UTKÁNÍ
+{/block}
+{block heading}
+KALENDÁŘ
+{/block}
+{block content}
+ <div class="row">
+      <div class="col-lg-12">
+                         <div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+                             KALENDÁŘ
+                         </div>
+        </div>
+     <div class="col-lg-12" style="margin-bottom: 20px;">
+    <div class="box-body no-padding" style="background-color: white;">
+{snippet calendarDiv}  
+<div id="calendar"></div>
+{/snippet}
+    </div>
+     </div>
+ </div>
+{/block}
+{block js_web}
+{include parent}
+{include js_fullcalendar_basic}
+{include js_nette_ajax}
+<script>
+    $(function(){
+        calendar();
+        $(document).ajaxComplete(function() {
+            // zavoláme funkci kalendáře při refreshi ajaxu
+            calendar();
+        });
+    });
+    </script>
+    {snippet calendarScript}
+    <script>
+         function calendar()
+        {
+             var months = ['leden', 'únor', 'březen', 'duben', 'květen', 'červen', 'červenec', 'srpen', 'září', 'říjen', 'listopad', 'prosinec'];
+       
+    $('#calendar').fullCalendar({
+      header    : {
+        left  : 'prev,next today',
+        center: 'title',
+        right: 'prevYear,nextYear'
+      },
+      buttonText: {
+        today: 'dnes'
+      },
+      eventLimit: true, // for all non-agenda views
+  
+  
+      //Random default events
+      events    : [
+      {foreach $playsTable as $matches}
+        {
+          title          : {$matches->getRound()->getNumber() . 'k' . ': ' . $matches->getClubHome()->getName() . (is_null($matches->getMatchesHome()) && is_null($matches->getMatchesVisitors()) ? ' - ' : '  ' . $matches->getMatchesHome() . ' : ' . $matches->getMatchesVisitors()) . '  ' . $matches->getClubVisitors()->getName()},
+          {*{if $matches->getDateAlternative() == null} *}
+          start          : new Date({$matches->getDate()}),
+          end            : new Date({$matches->getDate()}),{*->modify('+1 day')}),*}
+  {*
+          {else}
+          start          : new Date({$matches->getDateAlternative()}),
+          end            : new Date({$matches->getDatePlanned()->modify('+1 day')}),
+          {/if}
+              *}
+          allDay         : true,
+          url            : {link Utkani:detail $matches->getId()},
+          backgroundColor: {if $matches->getWinHome() == null && $matches->getWinVisitors() == null}'#0073b7'{else}'#00a65a'{/if} //Success (green)
+        },
+      {/foreach}
+      ],
+      editable  : false,
+      droppable : false // this allows things to be dropped onto the calendar !!!
+    });
+    /*
+     $('#calendar').on('DOMNodeInserted', 'h2', function() {
+     if ($('h2').text().substr(-4,4) == {$year})
+     {
+    alert('rok souhlasí');
+     }
+});   
+*/
+    $('#calendar').on('DOMNodeInserted', 'h2', function() {
+    if ($('h2').text().substr(-4,4) != {$year})
+     {    
+    var currentMonth = $('h2').text().substr(0,$('h2').text().indexOf(' '));
+    var monthNumber = months.indexOf(currentMonth)+1;
+    $.nette.ajax({ // manuální zavolání ajax pro nette z knihovny nette.ajax.js
+    url: {link calendarData!}, // handle v presenteru HraciPresenter
+    data: {
+           'year' : $('h2').text().substr(-4,4), // hodnota zvoleného roku
+           'month': monthNumber
+           //'month': months.indexOf(month) // hodnota zvoleného měsíce
+          },
+    success: function(){
+    //alert('done');
+    //alert($('h2').text().substr(0,$('h2').text().indexOf(' ')));
+    
+    }         
+        });
+        }
+    });
+  $('#calendar').fullCalendar('gotoDate', {$year . '-' . $month});   
+    }
+    </script>
+    {/snippet}
+{/block}

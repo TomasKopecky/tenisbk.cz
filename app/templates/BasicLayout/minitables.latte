@@ -1,0 +1,136 @@
+{block minitables}
+<div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
+    {if !empty($minitableCompetitions)}
+        {var $i = 0}
+        {foreach $minitableCompetitions as $competitionName=>$competitionStats}
+
+            <div class="heading_panel">
+
+                <h4 style="font-weight: 700;">{$competitionName . ' - ' . date('Y')}</h4>
+
+            </div>
+            <div class="table-responsive">  
+                <table class="table table-bordered min-table-main">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">T</th>
+                            <th scope="col">U</th>
+                            <th scope="col">V</th>
+                            <th scope="col">P</th>
+                            <th scope="col">Z</th>
+                            <th scope="col">S</th>
+                            <th scope="col">B</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {var $j=1}
+                        {foreach $competitionStats as $competitionStat}
+                            <tr>
+                                <th scope="row">{$j++}</th>
+                                <td><a n:href=":Web:Kluby:detail $competitionStat->getClub()->getSlug()">{$competitionStat->getClub()->getName()}</a></td>
+                                <td>{$competitionStat->getPlays()}</td>
+                                <td>{$competitionStat->getWins()}</td>
+                                <td>{$competitionStat->getDefeats()}</td>
+                                <td>{$competitionStat->getMatches()}</td>
+                                <td>{$competitionStat->getSets()}</td>
+                                <td>{$competitionStat->getPoints()}</td>
+                                {var $i+=1}
+                            {/foreach}
+                    </tbody>
+                </table>
+            </div>
+        {/foreach}
+        {if !empty($minitablePlays)}
+            <div class="heading_panel">
+
+                <h4 style="font-weight: 700;">ODEHRANÁ UTKÁNÍ</h4>
+
+            </div>
+            {foreach $minitablePlays as $competitionName => $competitionPlays}
+                <div class="table-responsive">  
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">K</th>
+                                <th scope="col">D</th>
+                                <th scope="col">DOMÁCÍ</th>
+                                <th scope="col">VÝS</th>
+                                <th scope="col">HOSTÉ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {var $k = 1}
+                            {foreach array_reverse($competitionPlays) as $competitionPlay}
+                                {if $competitionPlay->getMatchesHome() != NULL || $competitionPlay->getMatchesVisitors() != NULL && date('Y-m-d',strtotime($competitionPlay->getDate())) <= date('Y-m-d',strtotime('now'))}
+                                    <tr>
+                                        <td>{$competitionPlay->getRound()->getNumber()}</td>
+                                        <td>{date_format($competitionPlay->getDate(),'d.m')}</td>
+                                        <td>{$competitionPlay->getClubHome()->getShortcut()}</td>
+                                        {if is_null($competitionPlay->getMatchesHome()) && is_null($competitionPlay->getMatchesVisitors())}
+                                            <td>-:-</td>
+                                        {else}
+                                            <td><a n:href=":Web:Utkani:detail $competitionPlay->getId()">{$competitionPlay->getMatchesHome() . ':' . $competitionPlay->getMatchesVisitors()}</td>
+                                        {/if}
+                                        <td>{$competitionPlay->getClubVisitors()->getShortcut()}</td>
+                                    </tr>
+                                    {var $k+=1}
+                                    {breakIf $k > $i/2}
+                                {/if}
+                            {/foreach}
+
+                        </tbody>
+                    </table>
+                </div>
+            {/foreach}
+            <div class="heading_panel">
+
+                <h4 style="font-weight: 700;">NADCHÁZEJÍCÍ UTKÁNÍ</h4>
+
+            </div>
+            {foreach $minitablePlays as $competitionName => $competitionPlays}
+                <div class="table-responsive">  
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">K</th>
+                                <th scope="col">D</th>
+                                <th scope="col">DOMÁCÍ</th>
+                                <th scope="col">VÝS</th>
+                                <th scope="col">HOSTÉ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {var $l = 1}
+                            {foreach $competitionPlays as $competitionPlay}
+                                {if $competitionPlay->getMatchesHome() == NULL && $competitionPlay->getMatchesVisitors() == NULL && date('Y-m-d',strtotime($competitionPlay->getDate())) >= date('Y-m-d',strtotime('now')) }
+                                    <tr>
+                                        <td>{$competitionPlay->getRound()->getNumber()}</td>
+                                        <td>{date_format($competitionPlay->getDate(),'d.m')}</td>
+                                        <td>{$competitionPlay->getClubHome()->getShortcut()}</td>
+                                        {if is_null($competitionPlay->getMatchesHome()) && is_null($competitionPlay->getMatchesVisitors())}
+                                            <td>-:-</td>
+                                        {else}
+                                            <td><a n:href=":Web:Utkani:detail $competitionPlay->getId()">{$competitionPlay->getMatchesHome() . ':' . $competitionPlay->getMatchesVisitors()}</td>
+                                        {/if}
+                                        <td>{$competitionPlay->getClubVisitors()->getShortcut()}</td>
+                                    </tr>
+                                    {var $l+=1}
+                                    {breakIf $l > $i/2}
+                                {/if}
+                            {/foreach}
+
+                        </tbody>
+                    </table>
+                </div>
+            {/foreach}
+        {/if}
+    {else}
+        <div class="heading_panel">
+
+            <h4 style="font-weight: 700;">ŽÁDNÉ SOUTĚŽE - ({date('Y')})</h4>
+
+        </div>
+    {/if}
+</div>
+{/block}

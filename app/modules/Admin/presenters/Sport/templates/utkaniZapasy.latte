@@ -1,0 +1,210 @@
+{import '../../../templates/basicForms.latte'}
+{block title}
+ATS Blansko - Editace zápasů
+{/block}
+{block formHeader}
+{block formTitle}
+Editace zápasů
+{/block}
+{block formInfo}
+Vítejte v editačním menu pro zápasy. Můžete provádět vkládání a úpravu jednotlivých zápasů v daných utkáních. Berte na vědomí, že mazání zápasů je zakázáno, proto v případě chybného záznamu zapas opravte. V případě nutné potřeby výmazu utkání kontaktujte hlavního správce. Rovněž berte na vědomí, že každé utkání se počítá do celkové tabulky a jakýkoliv chybný záznam znamená narušení konzistentnosti dat.
+Výsledek zápasů se vypočítá automaticky poté, co vložíte kompletní výsledek zápasů. Stejně tak se automaticky vytvoří výsledek utkání, do kterého zápas patří poté, co vložíte všech 6 zápasů v každém utkání. 
+{/block}
+{/block}
+{block deletedEntity}
+zvolené utkání/zápas?
+{/block}
+{block deleteModalName}
+utkání/zápasu
+{/block}
+{block deleteButtonName}
+utkání/zápas
+{/block}
+{block table}
+<!-- Default box -->
+<div class="box">       
+
+    <!-- /.box-header -->
+    <div class="box-body">
+
+        <div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+            UTKÁNÍ
+        </div>
+        <div class="table-responsive zebricek" style="margin-top: 0px; text-align: center;"> 
+            <table class="table table-bordered table-striped">
+                <thead class="thead_tabulky">
+                    <tr>
+                        <th style="text-align: center;">Datum</th>
+                        <th style="text-align: center;">Ročník</th>
+                        <th style="text-align: center;">Kolo</th>
+                        <th style="text-align: center;">Soutěž</th>
+                        <th style="text-align: center;">Klub domácí</th>
+                        <th style="text-align: center;">Výsledek</th>
+                        <th style="text-align: center;">Klub hosté</th>
+                        <th style="text-align: center;">Detail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{$playsTable->getDate() ? date_format($playsTable->getDate(),'Y-m-d') : NULL}</td>
+                        <td>{$playsTable->getSeason()}</td>
+                        <td>{$playsTable->getRound()->getNumber()}</td>
+                        <td>{$playsTable->getCompetition()->getName()}</td>
+                        <td>{$playsTable->getClubHome()->getName()}</td>
+                        <td>{$playsTable->getMatchesHome()}:{$playsTable->getMatchesVisitors()}{if $playsTable->getLossDefaultHome() || $playsTable->getLossDefaultVisitors()} (K){/if}</td>
+                        <td>{$playsTable->getClubVisitors()->getName()}</td>
+                        <td>
+                            <div style="text-align: center;">
+                                <a class="btn btn-success editButton hidden-xs hidden-sm hidden-md" n:href=":Web:Utkani:detail $playsTable->getId()"><i class="fa fa-bar-chart"></i> Náhled</a>
+                                <a class="btn btn-success editButton hidden-lg" n:href=":Web:Utkani:detail $playsTable->getId()"><i class="fa fa-bar-chart"></i></a>
+
+
+                                <a class="btn btn-info editButton hidden-xs hidden-sm hidden-md" n:href="Sport:utkaniUprava $playsTable->getId()"><i class="fa fa-edit"></i> Editace</a>
+                                <a class="btn btn-info editButton hidden-lg" n:href="Sport:utkaniUprava $playsTable->getId()"><i class="fa fa-edit"></i></a>
+                                    {if $user->isInRole('Admin')}        
+                                    <a class="btn btn-danger editButton hidden-xs hidden-sm hidden-md formDeleteButton" n:href="deletePlay! $playsTable->getId()"><i class="fa fa-trash-o"></i> Vymazat</a>
+                                    <a class="btn btn-danger editButton hidden-lg formDeleteButton" n:href="deletePlay! $playsTable->getId()"><i class="fa fa-trash-o"></i></a>
+                                    {/if}             
+                            </div> 
+                        </td>
+                    </tr>
+                </tbody>                
+            </table>
+        </div>
+        <div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+            ZÁPASY
+        </div>
+
+        <div class="table-responsive zebricek" style="margin-top: 0px; text-align: center;">
+            <table id="dataTable2" class="table table-bordered table-striped">
+                <thead class="thead_tabulky">
+                    <tr>
+                        <th style="text-align: center;">Datum</th>
+                        <th style="text-align: center; min-width: 47px;">Typ zápasu</th>
+                        <th style="text-align: center;">Hráči domácí</th>
+                        <th style="text-align: center;">Výsledek</th>
+                        <th style="text-align: center;">Hráči hosté</th>
+                        <th style="text-align: center;">Detail</th>
+                    </tr>
+                </thead>
+                <tbody>                        
+                    {var $menSingles, $menDoubles, $womenSingles, $mixDoubles = 0}
+                    {foreach $matchesTableList as $matches}
+                        {if $matches->getMatchTypeName() == 'Dvouhra muži'}
+                            {php $menSingles++}
+                        {elseif $matches->getMatchTypeName() == 'Dvouhra ženy'}
+                            {php $womenSingles++}
+                        {elseif $matches->getMatchTypeName() == 'Čtyřhra muži'}
+                            {php $menDoubles++}
+                        {elseif $matches->getMatchTypeName() == 'Čtyřhra mix'}
+                            {php $mixDoubles++}
+                        {/if}
+                        <tr>
+                            <td>{$matches->getDate() ? date_format($matches->getDate(),'Y-m-d') : NULL}</td>
+                            <td>
+                                {if $matches->getMatchTypeId() == 1}
+                                <i class="fa fa-male mine_men_match"></i><span style="font-weight: bold;"> {$matches->getMatchMenOrder() !== NULL ? $matches->getMatchMenOrder().' ' : '- '}</span><i class="fa fa-male mine_men_match"></i>
+                                {elseif $matches->getMatchTypeId() == 2}
+                                <i class="fa fa-male mine_men_match"></i><i class="fa fa-male mine_men_match"></i> - <i class="fa fa-male mine_men_match"></i><i class="fa fa-male mine_men_match"></i>
+                                {elseif $matches->getMatchTypeId() == 3}
+                                <i class="fa fa-female mine_women_match"></i> - <i class="fa fa-female mine_women_match"></i>
+                                {elseif $matches->getMatchTypeId() == 4}
+                                <i class="fa fa-male mine_men_match"></i><i class="fa fa-female mine_women_match"></i> - <i class="fa fa-male mine_men_match"></i><i class="fa fa-female mine_women_match"></i>
+                                {/if}
+                            </td>
+                            {if $matches->getLossDefaultHome() || $matches->getLossDefaultVisitors()}
+                                <td>KONTUMACE</td>
+                            {else}
+                                <td>{$matches->getPlayerHome1()->getName()}{if is_null($matches->getPlayerHome2()->getId()) == false}, {$matches->getPlayerHome2()->getName()}{/if}{if $matches->getRetireHome()} - SKREČ{/if}</td>
+                            {/if}
+                            <td>{$matches->getResults()->getSetsHome()}:{$matches->getResults()->getSetsVisitors()}{if $matches->getRetireHome() || $matches->getRetireVisitors()} (S){/if}{if $matches->getLossDefaultHome() || $matches->getLossDefaultVisitors()} (K){/if}</td>
+                            {if $matches->getLossDefaultHome() || $matches->getLossDefaultVisitors()}
+                                <td>KONTUMACE</td>
+                            {else}
+                                <td>{$matches->getPlayerVisitors1()->getName()}{if is_null($matches->getPlayerVisitors2()->getId()) == false}, {$matches->getPlayerVisitors2()->getName()}{/if}{if $matches->getRetireVisitors()} - SKREČ{/if}</td>
+                            {/if}
+                            <td>
+                                <div style="text-align: center;">
+                                    <a class="btn btn-success editButton hidden-xs hidden-sm hidden-md" n:href=":Web:Zapasy:detail $matches->getId()"><i class="fa fa-bar-chart"></i> Náhled</a>
+                                    <a class="btn btn-success editButton hidden-lg" n:href=":Web:Zapasy:detail $matches->getId()"><i class="fa fa-bar-chart"></i></a>
+
+
+                                    <a class="btn btn-info editButton hidden-xs hidden-sm hidden-md" n:href="Sport:zapasyUprava $matches->getId()"><i class="fa fa-edit"></i> Editace</a>
+                                    <a class="btn btn-info editButton hidden-lg" n:href="Sport:zapasyUprava $matches->getId()"><i class="fa fa-edit"></i></a>
+                                        {if $user->isInRole('Admin')}       
+                                        <a class="btn btn-danger editButton hidden-xs hidden-sm hidden-md formDeleteButton" n:href="deleteMatch! $matches->getId()"><i class="fa fa-trash-o"></i> Vymazat</a>
+                                        <a class="btn btn-danger editButton hidden-lg formDeleteButton" n:href="deleteMatch! $matches->getId()"><i class="fa fa-trash-o"></i></a>
+                                        {/if}     
+                                </div> 
+                            </td>
+                        </tr>
+                    {/foreach}
+                </tbody>                
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3>{$menSingles ?? 0}/3</h3>
+
+                        <p>Dvouhra muži</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-male"></i>
+                    </div>
+                    <a n:href="Sport:zapasyNovyDvouhraMuzi idPlay=>$playsTable->getId()" n:class="$menSingles >= 3 ? 'btn disabled small-box-footer' : 'small-box-footer'">Vložit zápas <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h3>{$womenSingles ?? 0}/1</h3>
+
+                        <p>Dvouhra ženy</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-female"></i>
+                    </div>
+                    <a n:href="Sport:zapasyNovyDvouhraZeny idPlay=>$playsTable->getId()" n:class="$womenSingles >= 1 ? 'btn disabled small-box-footer' : 'small-box-footer'">Vložit zápas <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3>{$menDoubles ?? 0}/1</h3>
+
+                        <p>Čtyřhra muži</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-male"></i>
+                        <i class="fa fa-male"></i>
+                    </div>
+                    <a n:href="Sport:zapasyNovyCtyrhraMuzi idPlay=>$playsTable->getId()" n:class="$menDoubles >= 1 ? 'btn disabled small-box-footer' : 'small-box-footer'">Vložit zápas <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-blue">
+                    <div class="inner">
+                        <h3>{$mixDoubles ?? 0}/1</h3>
+
+                        <p>Čtyřhra mix</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-male"></i>
+                        <i class="fa fa-female"></i>
+                    </div>
+                    <a n:href="Sport:zapasyNovyCtyrhraMix idPlay=>$playsTable->getId()" n:class="$mixDoubles >= 1 ? 'btn disabled small-box-footer' : 'small-box-footer'">Vložit zápas <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- /.box-body -->
+    </div>
+</div>
+
+{/block}

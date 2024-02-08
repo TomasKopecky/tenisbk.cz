@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {import '../../../templates/BasicLayout/js.latte'}
+        {import '../../../templates/BasicLayout/css.latte'}
+        {import '../../../templates/BasicLayout/navbar.latte'}
+        {import 'sidebar.latte'}
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {include css_admin}
+        <title>{include title}</title>
+    </head>
+    <body class="hold-transition skin-blue fixed">
+        <!-- Site wrapper -->
+        <div class="wrapper">
+            {include navbar}
+            {include sidebar}
+        </div>
+        {include container}
+        {include js_admin}
+    </body>
+</html>

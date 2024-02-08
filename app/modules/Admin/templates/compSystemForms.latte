@@ -1,0 +1,95 @@
+{block css_admin}
+{include parent}
+{include css_datepicker_basic}
+{/block}
+{block container}
+<div class="content-wrapper">
+<section class="content">
+      <div class="callout callout-info">
+        <h4>{include formTitle}</h4>
+
+        <p>{include formInfo}</p>
+      </div>
+      <!-- Default box -->
+    
+       
+            <!-- /.box-header -->
+                <div class="box box-primary">
+            <div class="box-header">
+              <h3 class="box-title">{include formTitleDetail}</h3>
+            </div>
+                    <form n:name=$formName class="validate-on-load">                     
+            <div class="box-body">
+                {if ($form->hasErrors())}
+                {foreach $form->errors as $error}
+                    {if $error != NULL}
+                    {if substr($error,0,5)=='Chyba'}
+                <div class="callout callout-danger">
+                    <h4>Chyba</h4>
+                    <p>{$error }</p>
+                </div>
+                    {else}
+                <div class="callout callout-warning">
+                    <h4>Upozornění</h4>
+                    <p>{$error}</p>
+                </div>    
+                    {/if}
+                    {/if}
+                {/foreach}
+                {/if}
+              
+                
+                               <div class="form-group">
+                <label>{$form['id_soutez']->getLabel()}</label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-flag"></i>
+                  </div>
+                    <select n:name=id_soutez class="form-control"></select>
+                  </div>
+                <!-- /.input group -->
+              </div>  
+
+                               <div class="form-group">
+                <label>{$form['rocnik']->getLabel()}</label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-puzzle-piece"></i>
+                  </div>
+                  <input n:name=rocnik class="form-control pull-right">
+                </div>
+                <!-- /.input group -->
+              </div>
+                
+                               <div class="form-group">
+                <label>{$form['system_kol']->getLabel()}</label>
+
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-puzzle-piece"></i>
+                  </div>
+                  <input n:name=system_kol class="form-control pull-right">
+                </div>
+                <!-- /.input group -->
+              </div>
+                
+              <!-- /.form group -->
+               <div class="form-group">
+                   
+                  <label>{$form['soutez_system_info']->getLabel()}</label>
+                  <textarea n:name=soutez_system_info class="form-control"></textarea>
+              </div>
+              
+            </div>
+                <input n:name=compSystemButton class="btn btn-block btn-primary">
+                              </form>
+            <!-- /.box-body -->
+          </div>
+            <!-- /.box-body -->
+
+          </section>
+         
+        </div>
+       {/block}

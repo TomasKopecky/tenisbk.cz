@@ -1,0 +1,73 @@
+{import 'utkani.latte'}
+{import 'zapasy.latte'}
+{block title}
+ATS Blansko - amatérské tenisové soutěže okresu Blansko - výsledky utkání a zápasů
+{/block}
+{block meta}
+Amatérské tenisové soutěže okresu Blansko - detailní informace o výsledcích utkání a zápasů
+{/block}
+{block css_web}
+{include parent}
+{include css_datatables_bootstrap}
+{/block}
+{block js_web}
+{include parent}
+{include js_datatables_basic}
+{include js_nette_ajax}
+<script>
+  $(function () {
+                     $('#overlayImg').addClass('hideIt');
+               $('#overlayedTable').removeClass('hideIt');
+               
+                tabulky(); // zavoláme funkci tabulky při načtení stránky
+     $('.selectYear').change(function() {
+          $('#overlayImg').removeClass('hideIt');
+         $('#overlayedTable').addClass('hideIt');
+    $.nette.ajax({ // manuální zavolání ajax pro nette z knihovny nette.ajax.js
+    url: {link Results!}, // handle v presenteru HraciPresenter
+            data: {
+                    'seasonYear' : $('#seasonYear').val(), // hodnota zvoleného roku
+                    'competition'  : $('#competition').val(), // předání aktivního tabu (dvouhra, čtyřhra, mix) při prohlížení
+                    'round'  : $('#round').val(), // předání aktivního tabu (dvouhra, čtyřhra, mix) při prohlížení
+                    'matchType'  : $('#matchType').val() // předání aktivního tabu (dvouhra, čtyřhra, mix) při prohlížení
+                  }
+        });
+    });
+    
+    $(document).ajaxComplete(function() {
+    tabulky(); // zavoláme funkci tabulky při refreshi ajaxu
+                     $('#overlayImg').addClass('hideIt');
+         $('#overlayedTable').removeClass('hideIt');
+    });
+      
+function tabulky()  //zprovoznění datatables na zobrazovaných tabulkách zápasů hráčů
+    {
+    if ( $.fn.dataTable.isDataTable( '#utkani, #zapasy' ) ) { // jestliže už byl plugin datatables načten, pouze udělej refresh - jinak vyskakuje chyba datatables
+    $('#utkani, #zapasy').DataTable();
+    }
+    else
+    {
+    $('#utkani, #zapasy').DataTable({ // jinak znovu zavolej datatables s veškerým nastavením
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : false,
+      'info'        : true,
+      'autoWidth'   : false,
+      'pageLength'  : 6
+    }); 
+    }
+    }
+    
+});
+</script>
+{/block}
+{block heading}
+PŘEHLED
+{/block}
+{block heading2}
+VÝSLEDKŮ
+{/block}
+{block content}
+{include utkani}
+{/block}

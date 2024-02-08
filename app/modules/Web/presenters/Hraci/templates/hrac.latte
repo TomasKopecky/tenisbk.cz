@@ -1,0 +1,231 @@
+ž{block player}
+
+
+<!-- Left side column. contains the logo and sidebar -->
+
+<!-- Content Wrapper. Contains page content -->
+
+
+<!-- Content Header (Page header) -->
+
+<!-- Main content -->
+<div class="row">
+
+    {*
+    {print_r($signlesStats)}
+    {print_r($doublesStats)}
+    {print_r($doublesMixStats)}
+    {print_r($playerStatsAll)}
+    *}
+    <div class="col-lg-12">
+        <div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+            PARAMETRY
+        </div>
+    </div>
+    <div class="col-md-12">
+        <select class="form-control selectYear">
+            {foreach $player->getActiveYears() as $activeYear}
+                <option value="{$activeYear}"{if $selectedYear == $activeYear} selected = selected{/if}>{$activeYear == 0 ? 'Celá historie' : $activeYear}</option>       
+            {/foreach}
+        </select>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+            CELKOVÁ STATISTIKA ZA DANÉ OBDOBÍ
+        </div>
+    </div>
+</div> 
+<div id='overlayImg'>
+    <img src='{$basePath}/images/web/loader.gif'/>
+</div>
+{snippet ajaxPlayerStats}
+    <div id="overlayedTable" class="hideIt">      
+        <div class="container-fluid" style="background-color: white; padding-right: 0px; padding-left: 0px;">
+            {if $playerStatsAll->getMatches()}
+                <div class="row">
+
+                    <div class="col-sm-12 col-md-4">
+
+                        <div class="info-box bg-aqua infoBox_margin">
+                            <span class="info-box-icon"><i class="fa fa-pie-chart"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Úspěšnost</span>
+                                <span class="info-box-number">{round($playerStatsAll->getWins()/$playerStatsAll->getMatches()*100)}%</span>
+
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: {round($playerStatsAll->getWins()/$playerStatsAll->getMatches()*100)}%"></div>
+                                </div>
+                                <span class="progress-description">
+                                    Zápasy: {$playerStatsAll->getMatches()}
+                                </span>
+                            </div>
+
+                            <!-- /.info-box-content -->
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6">
+                                <div class="info-box bg-green infoBox_margin">
+                                    <span class="info-box-icon"><i class="fa fa-thumbs-o-up"></i></span>
+
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Výhry</span>
+                                        <span class="info-box-number">{$playerStatsAll->getWins()}</span>
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: {round($playerStatsAll->getWins()/$playerStatsAll->getMatches()*100)}%"></div>
+                                        </div>
+                                        <span class="progress-description">
+                                            S: {$playerStatsAll->getWonSets()} G: {$playerStatsAll->getWonGames()}
+                                        </span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="info-box bg-red infoBox_margin">
+                                    <span class="info-box-icon"><i class="fa fa-thumbs-o-down"></i></span>
+
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Prohry</span>
+                                        <span class="info-box-number">{$playerStatsAll->getDefeats()}</span>
+
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: {round($playerStatsAll->getDefeats()/$playerStatsAll->getMatches()*100)}%"></div>
+                                        </div>
+                                        <span class="progress-description">
+                                            S: {$playerStatsAll->getLostSets()} G: {$playerStatsAll->getLostGames()}
+                                        </span>    
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+
+                </div>
+            {else}
+                <div class="callout callout-warning" style="text-align:center;">
+
+                    <h4>HRÁČ V ZADANÉM OBDOBÍ DOSUD NEODEHRÁL ŽÁDNÝ ZÁPAS</h4>
+                </div>    
+            {/if}
+        </div>  
+        <div class="row">
+            <div class="col-md-4" style="padding: 0px;">
+                <div class="col-md-12">
+                    <div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+                        DETAILY HRÁČE
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+
+                    <!-- Profile Image -->
+                    <div class="box box-primary">
+                        <div class="box-body box-profile">
+                            <img class="profile-user-img img-responsive img-circle mujObr" src="{$player->getSex() == 'M' ? $basePath.'/images/web/personUnknown.jpg' : $basePath.'/images/web/personUnknownWoman.jpg'}" alt="Profilová fotografie">
+
+                            <h3 class="profile-username text-center">{$player->getName()}</h3>
+                            {if empty($clubs)}
+                                <p class="text-muted text-center playerDetailClub">{date('Y')} - Bez klubové příslušnosti</p>
+                            {else}
+                                {foreach $clubs as $club}
+                                    <a class="playerDetailClub" href="{link Kluby:detail $club->getSlug()}"><p class="text-muted text-center playerDetailClub">{$club->getName()}</p></a>
+                                    {/foreach}
+                            {/if}
+                            <ul class="list-group list-group-unbordered">
+                                <li class="list-group-item">
+                                    <b>Žebříček ({$player->getSex() == 'M' ? 'muži - ' : 'ženy - '}{$selectedYear == 0 ? 'historický' : $selectedYear})</b> <a class="pull-right">{$playerStatsAll->getRankingPosition()}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Pohlaví</b> <a class="pull-right">{if ($player->getSex() == 'M')}<i class="fa fa-male mine_men"></i>{else}<i class="fa fa-female mine_women"></i>{/if}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Ročník</b> <a class="pull-right">{$player->getBirthYear() == 0 ? 'Neuvedeno' : $player->getBirthYear()}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Silná ruka</b> <a class="pull-right">{$player->getHand()}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Výška</b> <a class="pull-right">{$player->getHeight() == 0 ? 'Neuvedeno' : $player->getHeight()}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Váha</b> <a class="pull-right">{$player->getWeight() == 0 ? 'Neuvedeno' : $player->getHeight()}</a>
+                                </li>
+                            </ul>
+
+                            <a href="#" class="btn btn-primary btn-block disabled"><b>Více</b></a>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+
+                    <!-- About Me Box -->
+
+                    <!-- /.box -->
+                </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-md-8" style="padding: 0px;">
+                <div class="col-md-12">
+                    <div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+                        ZÁPASY
+                    </div>
+                </div>
+                {if $playerStatsAll->getMatches()}
+                    <div class="col-md-12">  
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                <li n:class="$selectedTab=='Dvouhra' ? active"><a href="#dvouhraTab" data-toggle="tab">Dvouhra</a></li>
+                                    {if $player->getSex() == 'M'}
+                                    <li n:class="$selectedTab=='Čtyřhra' ? active"><a href="#ctyrhraTab" data-toggle="tab">Čtyřhra</a></li>
+                                    {/if}
+                                <li n:class="$selectedTab=='Mix' ? active"><a href="#mixTab" data-toggle="tab">Mix</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div n:class="$selectedTab=='Dvouhra' ? 'active tab-pane' : 'tab-pane'" id="dvouhraTab">
+                                    {include dvouhra}
+                                    {include dvouhraStat}     
+                                </div>
+                                <!-- /.tab-pane -->
+                                {if $player->getSex() == 'M'}
+                                    <div n:class="$selectedTab=='Čtyřhra' ? 'active tab-pane' : 'tab-pane'" id="ctyrhraTab">
+                                        {include ctyrhra}
+                                        {include ctyrhraStat}   
+                                    </div>
+                                {/if}
+                                <!-- /.tab-pane -->
+
+                                <div n:class="$selectedTab=='Mix' ? 'active tab-pane' : 'tab-pane'" id="mixTab">
+                                    {include mix}
+                                    {include mixStat}   
+                                </div>
+
+
+                                <!-- /.tab-pane -->
+                            </div>
+                            <!-- /.tab-content -->
+                        </div>
+                        <!-- /.nav-tabs-custom -->
+
+                    </div>
+                {/if}
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+{/snippet}
+
+<!-- /.content -->
+
+
+
+{/block}

@@ -1,0 +1,98 @@
+{block table}
+<div class="row">
+    <div class="col-xs-12">
+        <div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+            PARAMETRY
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <select id="seasonYear" class="form-control selectYear">
+            {foreach $competitionsList->getActiveYears() as $activeYear}
+                <option value="{$activeYear}"{if $selectedYear == $activeYear} selected = selected{/if}>{$activeYear == 0 ? 'Celá historie' : $activeYear}</option>       
+            {/foreach}
+            {if isset($currentEmptyYear)}<option value="{$currentEmptyYear}" selected = selected>{$currentEmptyYear}</option>{/if}
+        </select>
+        <select id="competition" class="form-control selectYear">
+            <option selected="selected" value="{$selectedCompetition}">Všechny soutěže</option>
+            {foreach $competitionsList->getCompetitionsList() as $competition}
+                <option value="{$competition->getId()}">{$competition->getName()}</option>       
+            {/foreach}
+        </select>
+        <select id="matchType" class="form-control selectYear">
+            {foreach $matchTypeList as $key => $value}
+                <option value="{$key}">{$key}</option>       
+            {/foreach}
+        </select>
+    </div>
+    <div class="col-xs-12">
+        <div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+            TABULKA
+        </div>
+    </div>
+</div>
+
+<div id='overlayImg'>
+    <img src='{$basePath}/images/web/loader.gif'/>
+</div>
+<div id='overlayedTable' class='hideIt'>
+    {snippet ajaxClubStats}
+        <div class="table-responsive zebricek" style="margin-bottom: 20px;">   
+            <table id="tabulka" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead class="thead_tabulky">
+                    <tr>
+                        <th>#</th>
+                        <th>TÝM</th>
+                        <th>U</th>
+                        <th>V</th>
+                        <th>P</th>
+                        <th>ZAP</th>
+                        <th>SET</th>
+                        <th>GAM</th>
+                        {*
+                        <th>Z_V</th>
+                        <th>Z_P</th>
+                        <th>S_V</th>
+                        <th>S_P</th>
+                        <th>G_V</th>
+                        <th>G_P</th>
+                        *}
+                        <th>B</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {foreach $fullTable as $fTable}
+                        <tr>
+                            <td>{*$iterator->counter*}</td>
+                            <td><a href="{link Kluby:detail $fTable->getClub()->getSlug()/*$fTable->getClub()->getId()*/ }">{$fTable->getClub()->getName()}</a></td>
+                            <td>{$matchType == 'Všechny typy zápasů' ? $fTable->getPlays() : ''}</td>
+                            <td>{$matchType == 'Všechny typy zápasů' ? $fTable->getWins() : ''}</td>
+                            <td>{$matchType == 'Všechny typy zápasů' ? $fTable->getDefeats() : ''}</td>
+                            <td>{$fTable->getMatches()}</td>
+                            <td>{$fTable->getSets()}</td>
+                            <td>{$fTable->getGames()}</td>
+                            {*
+                            <td>{$fTable->getMatchesWon()}</td>
+                            <td>{$fTable->getMatchesLost()}</td>
+                            <td>{$fTable->getSetsWon()}</td>
+                            <td>{$fTable->getSetsLost()}</td>
+                            <td>{$fTable->getGamesWon()}</td>
+                            <td>{$fTable->getGamesLost()}</td>
+                            *}
+                            <td>{$matchType == 'Všechny typy zápasů' ? $fTable->getPoints() : ''}</td>
+                            <td>{$fTable->getMatchesLost()}</td>
+                            <td>{$fTable->getSetsLost()}</td>
+                            <td>{$fTable->getGamesLost()}</td>
+                        </tr>
+                    {/foreach}
+                </tbody>
+            </table>
+        {/snippet}
+    </div>
+
+</div>
+
+{/block}

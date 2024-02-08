@@ -1,0 +1,189 @@
+{block zapas}
+<div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+    PŘEHLED ZÁPASU
+</div>
+<div id='overlayImg'>
+    <img src='{$basePath}/images/web/loader.gif'/>
+</div>
+
+<div id="overlayedTable" class="hideIt" style="margin-bottom: 40px;">    
+    <div class="row">
+        <div class="col-xs-12">
+
+            <div class="col-xs-12 col-md-4 col-lg-4" style="padding: 0px;">
+
+
+                <!-- Widget: user widget style 1 -->
+                <div class="box box-widget widget-user" style="margin-bottom: 0px;">
+                    {if is_null($match->getWinHome()) == false}
+                        <i n:class="$match->getWinHome() == 1 ? 'fa fa-thumbs-o-up' : 'fa fa-thumbs-o-down'" style="padding: 25px 0px; position: absolute; font-size: 66px;"></i>
+                    {/if}
+
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header bg-aqua-active" style="text-align: center; height: 8em;{if $match->getPlayerHome2()->getName() != NULL} padding: 7px;{/if}">
+                        {if $match->getLossDefaultHome() || $match->getLossDefaultVisitors()}
+                            <h3 class="widget-user-username"><a class="clubDetailLinks">KONTUMACE</a></h3>
+                        {else}
+                            <h3 class="widget-user-username"><a class="clubDetailLinks" n:href="Hraci:detail /*$match->getPlayerHome1()->getId(),*/ $match->getPlayerHome1()->getSlug()">{$match->getPlayerHome1()->getName()}</a></h3>
+                            {if $match->getPlayerHome2()->getName() != NULL}<h3 class="widget-user-username"><a class="clubDetailLinks" n:href="Hraci:detail /*$match->getPlayerHome2()->getId(),*/ $match->getPlayerHome2()->getSlug()">{$match->getPlayerHome2()->getName()}</a></h3>{/if}
+                            {/if}
+                    </div>
+                    {if !$match->getLossDefaultHome() && !$match->getLossDefaultVisitors()}
+                        <a n:href="Hraci:detail /*$match->getPlayerHome1()->getId(),*/ $match->getPlayerHome1()->getSlug()">
+                        {/if}
+                        <div class="widget-user-image" {if $match->getMatchTypeId() == 2 || $match->getMatchTypeId() == 4} style="max-width: 35%; left: 32%;"{/if}>
+                            <img class="profile-user-img img-responsive img-circle mujObr" src="{$match->getPlayerHome1()->getSex() == null ? $basePath.'/images/web/unknown.jpg' : ($match->getPlayerHome1()->getSex() == 'M' ? $basePath.'/images/web/personUnknown.jpg' : $basePath.'/images/web/personUnknownWoman.jpg')}" alt="Profilová fotografie">
+                        </div>
+                    </a>
+                    {if $match->getMatchTypeId() == 2 || $match->getMatchTypeId() == 4} 
+                        {if $match->getPlayerHome2()->getSlug() != null} 
+                            <a n:href="Hraci:detail /*$match->getPlayerHome2()->getId(),*/ $match->getPlayerHome2()->getSlug()">
+                            {/if}
+                            <div class="widget-user-image" style="max-width: 35%; left: 70%;">
+                                <img class="profile-user-img img-responsive img-circle mujObr" src="{$match->getPlayerHome1()->getSex() == null && ($match->getMatchTypeId() == 2 || $match->getMatchTypeId() == 4) ? $basePath.'/images/web/unknown.jpg' : ($match->getPlayerHome1()->getSex() == 'M' ? $basePath.'/images/web/personUnknown.jpg' : $basePath.'/images/web/personUnknownWoman.jpg')}" alt="Profilová fotografie">
+                            </div> 
+                            {if $match->getPlayerHome2()->getSlug() != null} 
+                            </a>
+                        {/if}
+                    {/if}
+                    <div class="box-footer" style="padding-top: 35px;">
+
+
+                        <!-- /.row -->
+                    </div>
+                </div>
+                <!-- /.row -->
+
+            </div>
+
+            <div class="col-xs-12 col-md-4 col-lg-4" style="padding: 0px;">  
+
+                <!-- Widget: user widget style 1 -->
+                <div class="box box-widget widget-user-2" style="margin-bottom: 0px;">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header" style="height: 8em; background-color: #93D04D;">
+                        <!-- /.widget-user-image -->
+                        {if $match->getRetireHome()} 
+                            <div style="text-align: center;"><span class="label label-danger" style="font-size: 160%;">Skreč domácích</span></div>
+                        {/if}
+                        {if $match->getRetireVisitors()}
+                            <div style="text-align: center;"><span class="label label-danger" style="font-size: 160%;">Skreč hostů</span></div>
+                        {/if}
+                        {if $match->getLossDefaultHome() || $match->getLossDefaultVisitors()}
+                            <div style="text-align: center;"><span class="label label-danger" style="font-size: 160%;">Kontumace</span></div>
+                        {/if}
+                        <h2 class="widget-user-username" style="text-align: center; margin: 0px; padding: 10px; color: white; font-weight: 500; font-size: 50px">{$match->getResults()->getSetsHome()}:{$match->getResults()->getSetsVisitors()}</h2>
+                    </div>
+                    <div class="box-footer no-padding">
+                        <ul class="nav nav-stacked" style="font-size: 15px; font-weight: 500;">
+                            <li><a style="text-align: center;"><span class="resultLeft">{$match->getResults()->getSet1Home()}</span><span class="badge bg-blue resultsBox">1. set</span><span class="resultRight">{$match->getResults()->getSet1Visitors()}</span></a></li>
+                            <li><a style="text-align: center;"><span class="resultLeft">{$match->getResults()->getSet2Home()}</span><span class="badge bg-blue resultsBox">2. set</span><span class="resultRight">{$match->getResults()->getSet2Visitors()}</span></a></li>
+                                        {if $match->getResults()->getSet3Home() !=0 || $match->getResults()->getSet3Visitors() !=0}
+                                <li><a style="text-align: center;"><span class="resultLeft">{$match->getResults()->getSet3Home()}</span><span class="badge bg-blue resultsBox">3. set</span><span class="resultRight">{$match->getResults()->getSet3Visitors()}</span></a></li>
+                                        {/if}
+                                        {if $match->getDate()}
+                                <li><a style="text-align: center;"><span class="badge bg-blue resultsBox2">{date_format($match->getDate(),'d.m.Y')}</span></a></li>
+                                    {/if}
+
+                            <li><a style="text-align: center;"><span class="badge bg-blue resultsBox2">Ročník: {$match->getSeasonYear()}, kolo: {$match->getRound()->getNumber()}</span></a></li>
+                            <li><a n:href="Utkani:detail $play->getId()" style="text-align: center;"><span class="resultLeft">{$play->getMatchesHome()}</span><span class="badge bg-blue resultsBox">{$play->getClubHome()->getShortcut()} - {$play->getClubVisitors()->getShortcut()}</span><span class="resultRight">{$play->getMatchesVisitors()}</span></a></li>
+                            <li>
+                                <a style="text-align: center;">
+                                    <span class="badge resultsBox2">
+                                        {if $match->getMatchTypeId() == 1}
+                                            <i class="fa fa-male mine_men_match"></i><span style="font-weight: bold;"> {$match->getMatchMenOrder() !== NULL ? $match->getMatchMenOrder().' ' : '- '}</span><i class="fa fa-male mine_men_match"></i>
+                                            {elseif $match->getMatchTypeId() == 2}
+                                            <i class="fa fa-male mine_men_match"></i><i class="fa fa-male mine_men_match"></i> - <i class="fa fa-male mine_men_match"></i><i class="fa fa-male mine_men_match"></i>
+                                            {elseif $match->getMatchTypeId() == 3}
+                                            <i class="fa fa-female mine_women_match"></i> - <i class="fa fa-female mine_women_match"></i>
+                                        {elseif $match->getMatchTypeId() == 4}
+                                            <i class="fa fa-male mine_men_match"></i><i class="fa fa-female mine_women_match"></i> - <i class="fa fa-male mine_men_match"></i><i class="fa fa-female mine_women_match"></i>
+                                            {/if}
+                                    </span>
+                                </a>
+                            </li>
+                            {*<li><a style="text-align: center;"><span class="badge bg-blue resultsBox2"><span style="float:left;">{$match->getClubHome()->getName()}</span><span style="text-align: center;">{$play->getResult()}</span><span style="float: right;">{$match->getClubVisitors()->getName()}</span></span></a></li>*}
+                        </ul>
+                    </div>
+                </div>
+                <!-- /.widget-user -->
+
+            </div>
+
+            <div class="col-xs-12 col-md-4 col-lg-4" style="padding: 0px;">
+
+                <!-- Widget: user widget style 1 -->
+                <div class="box box-widget widget-user" style="margin-bottom: 0px;">
+                    {if is_null($match->getWinVisitors()) == false}
+                        <i n:class="$match->getWinVisitors() == 1 ? 'fa fa-thumbs-o-down fa-rotate-180' : 'fa fa-thumbs-o-up fa-rotate-180'" style="padding: 25px 0px; position: absolute; right: 0; font-size: 66px;"></i>
+                    {/if}
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header bg-aqua-active" style="text-align: center; height: 8em;{if $match->getPlayerVisitors2()->getName() != NULL} padding: 7px;{/if}">
+                        {if $match->getLossDefaultHome() || $match->getLossDefaultVisitors()}
+                            <h3 class="widget-user-username"><a class="clubDetailLinks">KONTUMACE</a></h3>
+                        {else}
+                            <h3 class="widget-user-username"><a class="clubDetailLinks" n:href="Hraci:detail /*$match->getPlayerVisitors1()->getId(),*/ $match->getPlayerVisitors1()->getSlug()">{$match->getPlayerVisitors1()->getName()}</a></h3>
+                            {if $match->getPlayerVisitors2()->getName() != NULL}<h3 class="widget-user-username"><a class="clubDetailLinks" n:href="Hraci:detail /*$match->getPlayerVisitors2()->getId(),*/ $match->getPlayerVisitors2()->getSlug()">{$match->getPlayerVisitors2()->getName()}</a></h3>{/if}
+                            {/if}
+                    </div>
+                    {if !$match->getLossDefaultHome() && !$match->getLossDefaultVisitors()}
+                        <a n:href="Hraci:detail /*$match->getPlayerVisitors1()->getId(),*/ $match->getPlayerVisitors1()->getSlug()">
+                        {/if}
+                        <div class="widget-user-image" {if $match->getMatchTypeId() == 2 || $match->getMatchTypeId() == 4} style="max-width: 35%; left: 32%;"{/if}>
+                            <img class="profile-user-img img-responsive img-circle mujObr" src="{$match->getPlayerVisitors1()->getSex() == null ? $basePath.'/images/web/unknown.jpg' : ($match->getPlayerVisitors1()->getSex() == 'M' ? $basePath.'/images/web/personUnknown.jpg' : $basePath.'/images/web/personUnknownWoman.jpg')}" alt="Profilová fotografie">
+                        </div>
+                    </a>
+                    {if $match->getMatchTypeId() == 2 || $match->getMatchTypeId() == 4} 
+                        {if $match->getPlayerVisitors2()->getSlug() != null} 
+                            <a n:href="Hraci:detail /*$match->getPlayerVisitors2()->getId(),*/ $match->getPlayerVisitors2()->getSlug()">
+                            {/if}
+                            <div class="widget-user-image" style="max-width: 35%; left: 70%;">
+                                <img class="profile-user-img img-responsive img-circle mujObr" src="{$match->getPlayerVisitors2()->getSex() == null && ($match->getMatchTypeId() == 2 || $match->getMatchTypeId() == 4) ? $basePath.'/images/web/unknown.jpg' : ($match->getPlayerHome1()->getSex() == 'M' ? $basePath.'/images/web/personUnknown.jpg' : $basePath.'/images/web/personUnknownWoman.jpg')}" alt="Profilová fotografie">
+                            </div> 
+                            {if $match->getPlayerVisitors2()->getSlug() != null} 
+                            </a>
+                        {/if}
+                    {/if}
+
+                </div>
+                <!-- /.row -->
+
+
+            </div>
+
+
+
+
+
+        </div>
+
+    </div>
+    {if $match->getDescriptions() != NULL}
+        <div class="row">
+            <div class="col-xs-12" style="padding: 0px; margin-top: 20px">
+                <div class="col-xs-12">
+                    <div style="background-color: #f5f7f9; text-align: center; font-weight: 700; font-size: 17px; padding: 10px 0px;">
+                        DETAILY ZÁPASU
+                    </div>
+                </div>
+
+                <div class="col-xs-12">
+
+                    <!-- Profile Image -->
+                    <div class="box box-primary">
+                        <div class="box-body box-profile" style="text-align: center;">
+                            <b>{$match->getDescriptions()}</b>                      
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+
+                    <!-- About Me Box -->
+
+                    <!-- /.box -->
+                </div>
+            </div>
+        </div>
+    {/if}
+</div>
+{/block}

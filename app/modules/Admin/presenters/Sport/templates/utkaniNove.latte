@@ -1,0 +1,78 @@
+{import '../../../templates/playForms.latte'}
+{block title}
+ATS Blansko - Vkládání utkání
+{/block}
+{block formTitle}
+Vkládání utkání
+{/block}
+{block formInfo}
+Zde můžete vkládat nová utkání. Berte na vědomí, že při chybném zadání údajů utkání se tyto změny projeví ve všech dalších sekcích, zejména v tabulce pořadí.
+{/block}
+{block formTitleDetail}
+Vložit utkání
+{/block}
+{block container}
+{include parent}
+{/block}
+{block js_admin}
+{include parent}
+{include js_nette_ajax}
+{include js_datepicker_basic}
+<script>
+    $(function () {
+        endLoadingPicture();
+        calendar();
+        $("input[name*='kontumace']").change(function () {
+            if ($(this).attr("name") == "utkani_kontumace_domaci")
+            {
+                $("input[name=utkani_kontumace_hoste]").prop('checked', false);
+            }
+            if ($(this).attr("name") == "utkani_kontumace_hoste")
+            {
+                $("input[name=utkani_kontumace_domaci]").prop('checked', false);
+            }
+        });
+        $('[name=id_soutez], [name=rocnik]').change(function () {
+            if ($('[name=id_soutez]').val() && $('[name=rocnik]').val())
+            {
+                startLoadingPicture();
+                $.nette.ajax({ // manuální zavolání ajax pro nette z knihovny nette.ajax.js
+                    url: {link PlayInput!}, // handle v presenteru TabulkaPresenter
+                    data: {
+                        'seasonYear': $('[name=rocnik]').val(),
+                        'competition': $('[name=id_soutez]').val()
+                    }
+                });
+            }
+        });
+
+        $(document).ajaxComplete(function () {
+            calendar();
+            endLoadingPicture();
+        });
+
+        function calendar()
+        {
+            //Date picker nastavení - JS bootstrap-datepicker  
+            $('input[name=utkani_datum]' /*, input[name=datum_nahradni]*/).datepicker({
+                clearBtn: true,
+                autoclose: false,
+                language: 'cs',
+                format: 'dd.mm.yyyy'
+            });
+        }
+
+        function startLoadingPicture()
+        {
+            $('#overlayImg').removeClass('hideIt');
+            $('#overlayedTable').addClass('hideIt');
+        }
+
+        function endLoadingPicture()
+        {
+            $('#overlayImg').addClass('hideIt');
+            $('#overlayedTable').removeClass('hideIt');
+        }
+    });
+</script>
+{/block}

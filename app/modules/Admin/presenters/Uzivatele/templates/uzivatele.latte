@@ -1,0 +1,73 @@
+{import '../../../templates/basicForms.latte'}
+{block title}
+ATS Blansko - Uživatelé
+{/block}
+{block formTitle}
+Přehled zavedených uživatelů
+{/block}
+{block formInfo}
+Vítejte v seznamu uživatelů, zde můžete spravovat uživatelské účty
+{/block}
+{block deletedEntity}
+zvoleného uživatele?
+{/block}
+{block deleteModalName}
+uživatele
+{/block}
+{block deleteButtonName}
+uživatele
+{/block}
+{block table}
+<div class="info-box bg-green addButton">
+
+    <div style="width: 90px; margin: auto;">
+        <a href="{link Uzivatele:uzivateleNovy}" class="noLink">
+            <span class="info-box-icon centerButton"><i class="fa fa-plus"></i></span>
+        </a>
+    </div>
+</div> 
+
+
+<div class="box">         
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="table-responsive"> 
+            <table id="dataTable" class="table table-bordered table-striped">
+                <thead class="thead_tabulky">
+                    <tr>
+                        <th>Jméno</th>
+                        <th>Uživatelské jméno</th>
+                        <th>Email</th>
+                        <th>Aktivní</th>
+                        <th>Registrace</th>
+                        <th>Detail</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                    {foreach $usersList as $users}
+                        <tr>
+                            <td>{$users->getName()}</td>
+                            <td>{$users->getUsername()}</td>
+                            <td>{$users->getEmail()}</td>
+                            <td>{$users->getActiveStatus() ? "ANO" : "NE"}</td>
+                            <td>{$users->getRegHash() ? 'Čekající' : 'Dokončena' }</td>
+                            <td>
+                                <div style="text-align: center;">
+                                    <a class="btn btn-info editButton hidden-xs hidden-sm hidden-md" n:href="Uzivatele:uzivateleUprava $users->getId()"><i class="fa fa-edit"></i> Editace</a>
+                                    <a class="btn btn-info editButton hidden-lg" n:href="Uzivatele:uzivateleUprava $users->getId()"><i class="fa fa-edit"></i></a>
+
+
+                                    <a class="btn btn-danger editButton hidden-xs hidden-sm hidden-md formDeleteButton" n:href="deleteUser! $users->getId(), $users->getName()"><i class="fa fa-trash-o"></i> Vymazat</a>
+                                    <a class="btn btn-danger editButton hidden-lg formDeleteButton" n:href="deleteUser! $users->getId(), $users->getName()"><i class="fa fa-trash-o"></i></a>
+
+                                </div>
+                            </td>
+                        </tr>
+                    {/foreach}
+                </tbody>                
+            </table>
+        </div>
+        <!-- /.box-body -->
+    </div>
+</div>
+{/block}

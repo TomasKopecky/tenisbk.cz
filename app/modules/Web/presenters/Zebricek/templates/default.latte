@@ -1,0 +1,123 @@
+{import 'zebricek.latte'}
+{block title}
+ATS Blansko - amatérské tenisové soutěže okresu Blansko - žebříček hráčů a hráček
+{/block}
+{block meta}
+Amatérské tenisové soutěže okresu Blansko - bodovaný žebříček hráček a hráčů v jednotlivých typech zápasů a sezonách.
+{/block}
+{block heading}
+ŽEBŘÍČEK
+{/block}
+{block heading2}
+HRÁČŮ
+{/block}
+{block css_web}
+{include parent}
+{include css_datatables_basic}
+{/block}
+{block content}
+{include zebricek}
+{/block}
+{block js_web}
+{include parent}
+{include js_datatables_all}
+{include js_nette_ajax}
+<script>
+  $(function () {
+               $('#overlayImg').addClass('hideIt');
+               $('#overlayedTable').removeClass('hideIt');
+      tabulky(); // zavoláme funkci tabulky při načtení stránky
+     $('.selectYear').change(function() {
+         $('#overlayImg').removeClass('hideIt');
+         $('#overlayedTable').addClass('hideIt');
+         
+                 //$('#overlay').addClass('black');
+    $.nette.ajax({ // manuální zavolání ajax pro nette z knihovny nette.ajax.js
+    url: {link PlayerStats!}, // handle v presenteru ZbericekPresenter
+            data: {
+                    'seasonYear' : $('#seasonYear').val(), // hodnota zvoleného roku
+                    'playerSex'  : $('#playerSex').val(), // id zvolené soutěže
+                    'matchType'  : $('#matchType').val() // typ zvoleného zápasu
+                  }
+        });
+    });
+    
+    
+    $(document).ajaxComplete(function() {
+    tabulky(); // zavoláme funkci tabulky při refreshi ajaxu
+                 $('#overlayImg').addClass('hideIt');
+         $('#overlayedTable').removeClass('hideIt');
+    });
+    
+    
+    function tabulky()  //zprovoznění datatables na zobrazovaných tabulkách zápasů hráčů
+    {
+    $('#sortResetBtn').hide();
+    if ( $.fn.dataTable.isDataTable( '#tabulka' ) ) { // jestliže už byl plugin datatables načten, pouze udělej refresh - jinak vyskakuje chyba datatables
+    var table = $('#tabulka').DataTable();
+    }
+    else
+    {
+        
+    var table = $('#tabulka').DataTable({
+    "language": {
+      "emptyTable": "Žebříček pro zadaný ročník a kombinaci pohlaví a typu zápasu neexistuje",
+      "search": "Hledat",
+      "paginate": 
+      {
+        "previous": "Předchozí",
+        "next": "Další"
+      }
+    },
+     columnDefs: [
+       { type: 'numeric-comma', targets: [5,6] }, // nahradí dle výše uvedeného kódu znak ':' mezerou ve sloupci 5 a 6, aby řadil jen podle vyhraných zápasů, setů a gamů
+       { orderable: false, targets: [0] }, //vypnutí řazení na prvním sloupci, kde je vygenerováno pořadové číslo
+       { searchable: false, targets: [0,2,3,4,5,6,7,8,9] },
+       { visible: false, targets: [9,10] }
+     ],
+     "order":[[ 8, 'desc' ], [ 7, 'desc' ], [ 3, 'desc' ], [ 4, 'asc' ], [ 2, 'desc' ], [ 5, 'desc' ], [ 9, 'asc'], [ 6, 'desc'], [ 10, 'asc'] ],//řazení podle sloupců 6 (úspěšnost), 2 (výhry), 4 (jen vyhrané sety) a 5 (jen vyhrané gamy)
+  dom: 'Blfrtip',
+        buttons: [
+            { extend: 'copy', className: 'button_datatables', exportOptions: { columns: ':visible' } },
+            { extend: 'print', className: 'button_datatables', exportOptions:  { columns: ':visible' } },
+            { extend: 'csv', className: 'button_datatables' ,exportOptions: { columns: ':visible' } },
+            { extend: 'excel', className: 'button_datatables', exportOptions: { columns: ':visible' } },
+            { extend: 'pdf', className: 'button_datatables', exportOptions: { columns: ':visible' } }
+        ],
+  // jinak znovu zavolej datatables s veškerým nastavením
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false,
+      'pageLength'  : 10
+    });
+    
+  table.on( 'order.dt', function () {
+        table.column(0, { order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+            table.cell(cell).invalidate('dom'); 
+  } );
+  } ).draw();
+  
+    }
+    $('#tabulka').on( 'order.dt', function () {
+    $('#sortResetBtn').show();
+} );
+
+   $('#sortResetBtn').click(function(){
+   table.order( [ 8, 'desc' ], [ 7, 'desc' ], [ 3, 'desc' ], [ 4, 'asc' ], [ 2, 'desc' ], [ 5, 'desc' ], [ 9, 'asc'], [ 6, 'desc'], [ 10, 'asc']).draw(); 
+   $('#sortResetBtn').hide();
+    });
+    /*
+    $('th').click(function(){
+        if ($(this).html() === 'SET') {
+        //alert('SET')
+        table.order([5, 'desc'], [8, 'asc']).draw(); }
+    });
+    */
+        }
+  });
+</script>
+{/block}

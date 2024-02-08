@@ -1,0 +1,15 @@
+.dt-buttons, .btn-group
+          {
+              display: inline;
+              
+          }
+          .dataTables_length
+          {
+              display: inline;
+              margin-left: 130px;
+          }
+          .dataTables_filter
+          {
+              display: inline;
+              float: right;
+          } 

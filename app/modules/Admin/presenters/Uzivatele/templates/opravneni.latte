@@ -1,0 +1,71 @@
+{import '../../../templates/basicForms.latte'}
+{block title}
+ATS Blansko - Uživatelé
+{/block}
+{block formTitle}
+Přehled aktivních uživatelů
+{/block}
+{block formInfo}
+Vítejte v seznamu uživatelů, zde můžete spravovat uživatelské účty
+{/block}
+{block deletedEntity}
+zvolené oprávnění daného uživatele?
+{/block}
+{block deleteModalName}
+oprávnění
+{/block}
+{block deleteButtonName}
+oprávnění
+{/block}
+{block table}
+     <div class="info-box bg-green addButton">
+
+    <div style="width: 90px; margin: auto;">
+        <a href="{link Uzivatele:opravneniNove}" class="noLink">
+            <span class="info-box-icon centerButton"><i class="fa fa-plus"></i></span>
+        </a>
+    </div>
+</div> 
+
+
+<div class="box">         
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="table-responsive"> 
+              <table id="dataTable" class="table table-bordered table-striped">
+                <thead class="thead_tabulky">
+                <tr>
+                    <th>Jméno</th>
+                    <th>Uživatelské jméno</th>
+                    <th>Role</th>
+                    <th>Aktivní</th>
+                    <th>Detail</th>
+                </tr>
+                </thead>
+                <tbody> 
+            {foreach $roleLogsList as $roleLog}
+                <tr>
+                    <td>{$roleLog->getUser()->getName()}</td>
+                    <td>{$roleLog->getUser()->getUsername()}</td>
+                    <td>{$roleLog->getRole()->getTitle()}</td>
+                    <td>{$roleLog->getUser()->getActiveStatus() ? "ANO" : "NE"}</td>
+                    <td>
+                                 <div style="text-align: center;">
+                                <a class="btn btn-info editButton hidden-xs hidden-sm hidden-md" n:href="Uzivatele:opravneniUprava $roleLog->getId()"><i class="fa fa-edit"></i> Editace</a>
+                                 <a class="btn btn-info editButton hidden-lg" n:href="Uzivatele:opravneniUprava $roleLog->getId()"><i class="fa fa-edit"></i></a>
+                             
+                           
+                                <a class="btn btn-danger editButton hidden-xs hidden-sm hidden-md formDeleteButton" n:href="deleteRoleLog! $roleLog->getId(), $roleLog->getUser()->getName(), $roleLog->getRole()->getTitle()"><i class="fa fa-trash-o"></i> Vymazat</a>
+                                <a class="btn btn-danger editButton hidden-lg formDeleteButton" n:href="deleteRoleLog! $roleLog->getId(), $roleLog->getUser()->getName(), $roleLog->getRole()->getTitle()"><i class="fa fa-trash-o"></i></a>
+                             
+                              </div>
+                    </td>
+                </tr>
+            {/foreach}
+        </tbody>                
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+    </div>
+{/block}

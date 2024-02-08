@@ -1,0 +1,111 @@
+{import 'klub.latte'}
+{import 'utkani.latte'}
+{import 'statistiky.latte'}
+{import 'dvouhra_muzi.latte'}
+{import 'dvouhra_zeny.latte'}
+{import 'ctyrhra_muzi.latte'}
+{import 'ctyrhra_mix.latte'}
+{block title}
+ATS Blansko - amatérské tenisové soutěže okresu Blansko - detail klubu
+{/block}
+{block meta}
+Amatérské tenisové soutěže okresu Blansko - detailní informace o jednotlivých registrovaných klubech.
+{/block}
+{block css_web}
+{include parent}
+{include css_datatables_bootstrap}
+{/block}
+{block js_web}
+{include parent}
+{include js_jquery_knob}
+{include js_datatables_basic}
+{include js_nette_ajax}
+<script>
+  $(function () {
+                     $('#overlayImg').addClass('hideIt');
+               $('#overlayedTable').removeClass('hideIt');
+               knobs();
+      tabulky(); // zavoláme funkci tabulky při načtení stránky
+     $('.selectYear').change(function() {
+          $('#overlayImg').removeClass('hideIt');
+         $('#overlayedTable').addClass('hideIt');
+    $.nette.ajax({ // manuální zavolání ajax pro nette z knihovny nette.ajax.js
+    url: {link ClubStatYear!}, // handle v presenteru KlubyPresenter
+            data: {
+                    'seasonYear' : $('#selectedYear').val(), // hodnota zvoleného roku
+                    'selectedCompetition' : $('#selectedCompetition').val(),
+                    'activeTab'  : $('.nav-tabs .active a').text() // předání aktivního tabu (dvouhra muži, dvouhra ženy čtyřhra muži, čtyřhra mix) při prohlížení
+                  }
+        });
+    });
+    $(document).ajaxComplete(function() {
+    knobs();
+    tabulky(); // zavoláme funkci tabulky při refreshi ajaxu
+                     $('#overlayImg').addClass('hideIt');
+         $('#overlayedTable').removeClass('hideIt');
+    });
+    function knobs()
+    {
+        $(".dial").knob({
+                   'format' : function (value) {
+     return value + '%';},
+ 'readOnly' : true,
+ 'thickness' : 0.2,
+ 'fgColor' : '#00a65a'
+               });
+    }
+    function tabulky()  //zprovoznění datatables na zobrazovaných tabulkách utkání klubů
+    {
+    $('.dataTable tr').each(function() {
+            
+    if($(this).children('td:nth(6)').text().length === 1)
+    {
+        $(this).children('td:nth(0)').addClass('rowNotPlayedYet'); // přidej zelenou výplň u vyhraného zápasu
+    }
+        
+    else if(($(this).children('td:nth(5)').text().indexOf({$club->getName()}) >= 0 && $(this).children('td:nth(8)').text().indexOf('1') >= 0) || ($(this).children('td:nth(7)').text().indexOf({$club->getName()}) >= 0 && $(this).children('td:nth(9)').text().indexOf('1') >= 0))
+    {
+        $(this).children('td:nth(0)').addClass('rowWin'); // přidej zelenou výplň u vyhraného zápasu
+    }
+    
+    else
+    {
+        $(this).children('td:nth(0)').addClass('rowLoss'); // přidej červenou výplň u prohraného zápasu
+    }
+    });
+    $('.invisible').remove(); // skryje v tabulce na začátku zobrazené údaje o vítězství/prohře v zápasu
+    $('td:contains('+ {$club->getName()} +')', document.body).each(function(){ // pomocí css tučně označí text obsahující jméno aktuálního klubu
+        if ($(this).hasClass("club_highlight")){
+        $(this).html($(this).html().replace(
+            new RegExp({$club->getName()}, 'g'), '<span class=tucne>' + {$club->getName()} + '</span>'
+          ));
+        }
+    });
+    if ( $.fn.dataTable.isDataTable( '#utkani' ) ) { // jestliže už byl plugin datatables načten, pouze udělej refresh - jinak vyskakuje chyba datatables
+    $('#utkani').DataTable();
+    }
+    else
+    {
+    $('#utkani').DataTable({ // jinak znovu zavolej datatables s veškerým nastavením
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : false,
+      'info'        : true,
+      'autoWidth'   : false,
+      'pageLength'  : 5
+    }); 
+    }
+    }
+  });
+</script>
+{/block}
+{block heading}
+DETAIL
+{/block}
+{block heading2}
+KLUBU
+{/block}
+{block content}
+{include klub}
+{/block}

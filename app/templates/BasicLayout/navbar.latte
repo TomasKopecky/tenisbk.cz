@@ -1,0 +1,99 @@
+{block navbar}
+
+<nav class="navbar navbar-inverse navbar-fixed-top">   
+    <div n:class="$presenter->isLinkCurrent(':Admin:Sport:*') || $presenter->isLinkCurrent(':Admin:Uzivatele:*') || $presenter->isLinkCurrent(':Admin:Cms:*') ? 'container-fluid' : 'container'">   
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            {if $presenter->isLinkCurrent(':Admin:Sport:*') || $presenter->isLinkCurrent(':Admin:Uzivatele:*') || $presenter->isLinkCurrent(':Admin:Cms:*')}      
+                <!-- Sidebar toggle button-->
+                <button type="button" class="navbar-toggle" style="float: left;" data-toggle="push-menu">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span>Menu editace</span>
+                </button>
+
+            {/if}
+
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a n:href=":Web:Homepage:default" n:class="$presenter->isLinkCurrent(':Web:Homepage:*') || $presenter->isLinkCurrent(':Web:Clanky:*') ? active_new">Aktuality</a></li>
+                <li><a n:href=":Web:Pravidla:default" n:class="$presenter->isLinkCurrent(':Web:Pravidla:*') ? active_new">Pravidla</a></li>
+                <li><a n:href=":Web:Soupisky:default" n:class="$presenter->isLinkCurrent(':Web:Soupisky:*') ? active_new">Soupisky</a></li>
+                <li><a n:href=":Web:Vysledky:default" n:class="$presenter->isLinkCurrent(':Web:Vysledky:*') || $presenter->isLinkCurrent(':Web:Zapasy:*') || $presenter->isLinkCurrent(':Web:Utkani:*') ? active_new">Výsledky</a></li>
+                <li><a n:href=":Web:Tabulka:default" n:class="$presenter->isLinkCurrent(':Web:Tabulka:*') || $presenter->isLinkCurrent(':Web:Kluby:*') ? active_new">Tabulka</a></li>
+                <li><a n:href=":Web:Kalendar:default" n:class="$presenter->isLinkCurrent(':Web:Kalendar:*') ? active_new">Kalendář</a></li>
+                <li><a n:href=":Web:Zebricek:default" n:class="$presenter->isLinkCurrent(':Web:Zebricek:*') || $presenter->isLinkCurrent(':Web:Hraci:detail') ? active_new">Žebříček</a></li>
+                <li><a n:href=":Web:Kontakty:default" n:class="$presenter->isLinkCurrent(':Web:Kontakty:*') ? active_new">Kontakty</a></li>
+                {*    
+                {if $user->isLoggedIn()}
+                    <li><a n:href=":Admin:Sport:default" n:class="$presenter->isLinkCurrent(':Admin:Sport:*') || $presenter->isLinkCurrent(':Admin:Uzivatele:*') || $presenter->isLinkCurrent(':Admin:Cms:*')? active_new">Editace</a></li>
+                {/if}
+                *}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {if $user->isLoggedIn()}
+                    <li class="dropdown user user-menu login_button">
+                        <a href="#" class="dropdown-toggle login_a" data-toggle="dropdown" style="max-height: 50px;">
+                            <i class="fa fa-user-circle fa-2x login_icon_logged_in"></i>
+                        </a>
+                        <ul class="dropdown-menu logged_user_div_dropdown">
+                            <!-- User image -->
+                            <li class="user-header logged_user_div_header">
+                                <img src="{$basePath}/images/web/personUnknown.jpg" class="img-circle" alt="Foto uživatele">
+
+                                <p>
+                                    {$user->getIdentity()->getData()['jmeno']}
+                                    <small>{$user->getIdentity()->getRoles()[0]}</small>
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a n:href=":Admin:Sport:default" class="btn btn-default btn-flat">Editace</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a n:href="logout!" class="btn btn-default btn-flat">Odhlásit</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    {*<li class="login" data-toggle="modal" data-target="#myModal"><a><span class="glyphicon glyphicon-user"></span>  Přihlásit</a></li>*}
+                {else}
+                    <li class="dropdown user user-menu login_button login">
+                         <a data-toggle="modal" data-target="#login_modal" style="max-height: 50px;">
+                            <i class="fa fa-user-circle fa-2x login_icon_logged_out"></i>
+                        </a>
+                    </li>
+                    {*<li><a n:href="logout!" class="logout"><span class="glyphicon glyphicon-user"></span> Odhlásit</a></li>*}
+                    {/if}
+            </ul>
+        </div>
+    </div>
+
+    {if !empty($flashes)}
+        {foreach $flashes as $flash}
+            {if $flash->type == info}
+                <div class="alert alert-success alert-dismissible fade in">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-check"></i> Provedeno</h4>
+                    {$flash->message}
+                </div>
+            {else}
+                <div class="alert alert-danger alert-dismissible fade in">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Chyba</h4>
+                    {$flash->message}
+                </div>
+            {/if}
+        {/foreach}
+    {/if}
+</nav>
+{/block}

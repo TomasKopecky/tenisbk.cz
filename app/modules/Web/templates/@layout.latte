@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {import '../../../templates/BasicLayout/header.latte'}
+        {import '../../../templates/BasicLayout/navbar.latte'}
+        {import '../../../templates/BasicLayout/container.latte'}
+        {import '../../../templates/BasicLayout/js.latte'}
+        {import '../../../templates/BasicLayout/css.latte'}  
+        {import '../../../templates/BasicLayout/login_modal.latte'}
+        {import '../../../templates/BasicLayout/footer.latte'}
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {include css_web}
+        {include css_login_modal}
+        <title>{include title}</title>
+        <meta name="description" content="{include meta}">
+        {*
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-62RG9WTSM4"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){ dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'G-62RG9WTSM4');
+        </script>
+        *}
+    </head>
+    <body{*onbeforeunload='reset_options();'*}>
+        {include header}        
+        {include navbar}
+        {include container}            
+        {include footer}
+        {include login_modal}
+        {include js_web}
+        <script>
+            $(function () {
+                $(window).on('beforeunload', function () {
+                    reset_options();
+                });
+                // kód pro fokus na přihlašovací jméno ve formuláři pro přihlášení
+                $('.login').on('click', function () {
+                    setTimeout(function () {
+                        $('input[name="uzivatelske_jmeno"]').focus();
+                    }, 500);
+                });
+                function reset_options() {
+                    if ($('#articleYearSelection').length > 0) {
+                        //console.log($('#articleYearSelection option:last').val());
+                        $('#articleYearSelection option:last').prop('selected', true); // on homepage - set the implicit option when going back from some article detail page
+                    }
+                    if ($('#seasonYear').length > 0) {
+                        $('#seasonYear option:last').prop('selected', true); // on ranking, table and results - set the implicit option when going back from some detail page
+                    }
+                    if ($('#competition').length > 0) {
+                        $('#competition option:first').prop('selected', true); // on table and results - set the implicit option when going back from some detail page
+                    }
+                    if ($('#round').length > 0) {
+                        $('#round option:first').prop('selected', true); // on table and results - set the implicit option when going back from some detail page
+                    }
+                    if ($('#matchType').length > 0) {
+                        $('#matchType option:first').prop('selected', true); // on ranking, table and results - set the implicit option when going back from some detail page
+                    }
+                    if ($('#playerSex').length > 0) {
+                        $('#playerSex option:first').prop('selected', true); // on ranking - set the implicit option when going back from some player detail page
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /editace
+Disallow: /kontakty
+Disallow: *.html

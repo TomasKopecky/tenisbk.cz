@@ -1,0 +1,88 @@
+{block kontakty}
+<div class="row">
+   <div class="col-md-12">
+<div class="article_div articleContentDiv">
+    <div class="article_card">
+    <div class="col-lg-4">
+        <p>V případě potřeby nás kontaktujte prostřednictvím zobrazeného formuláře. V případě jeho využití bude daná zpráva zaslána všem správcům i administrátorům. 
+        V případě, že chcete oslovit pouze vybraného správce či administrátora, použijte příslušnou e-mailovou adresu níže.</p>
+        <div class="spacer-sm"></div>
+        <p style="margin-bottom: 0px;"><i class="fa fa-user" style="color: #38A9FF;"></i><span class="boldHeading"> Jan Neveselý - správce soutěží</span></p>
+        <p style="margin-bottom: 0px;"><i class="fa fa-envelope" style="color: #38A9FF;"></i><a href="mailto: tenis.rudice@seznam.cz"> tenis.rudice@seznam.cz</a></p>
+        <p><i class="fa fa-phone" style="color: #38A9FF;"></i> +420728656829</p>
+        <p style="margin-bottom: 0px;"><i class="fa fa-user" style="color: #C2FF1F;"></i><span class="boldHeading"> Tomáš Kopecký - správce webu</span></p>
+        <p style="margin-bottom: 0px;"><i class="fa fa-envelope" style="color: #C2FF1F;"></i><a href="mailto: admin@tenisbk.cz"> admin@tenisbk.cz</a></p>
+        <p><i class="fa fa-phone" style="color: #C2FF1F;"></i> +420723964742</p>
+        <p>Pokud hledáte kontakty na jednotlivé kontaktní osoby klubů, vyberte si požadovaný klub v minitabulce na pravé straně webu, nebo v sekci <a n:href=":Web:Tabulka:default">Tabulka</a> a v detailu klubu tyto informace najdete.</p>
+    </div>
+</form>
+    <div class="col-lg-8"><!-- Contact Form -->
+        <form n:name="contactForm" class="contact-form validate-on-load">
+            {if ($form->hasErrors())}
+                        {foreach $form->errors as $error}
+                            {if $error != NULL}
+                                {if substr($error,0,5)=='Chyba'}
+                                    <div class="callout callout-danger">
+                                        <h4>Chyba</h4>
+                                        <p>{$error }</p>
+                                    </div>
+                                {else}
+                                    <div class="callout callout-warning">
+                                        <h4>Upozornění</h4>
+                                        <p>{$error}</p>
+                                    </div>    
+                                {/if}
+                            {/if}
+                        {/foreach}
+                    {/if}
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="boldHeading">{$form['jmeno']->getLabel()}</label> 
+                        <input n:name="jmeno" class="form-control">
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="boldHeading">{$form['email']->getLabel()}</label> 
+                        <input n:name="email" class="form-control">
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="boldHeading">{$form['predmet']->getLabel()}</label> 
+                        <input n:name="predmet" class="form-control">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="boldHeading">{$form['zprava']->getLabel()}</label>  
+                <textarea n:name="zprava" rows="5" class="form-control"></textarea>
+            </div>
+                
+                <div class="form-group">
+            <div n:name="captcha"></div>
+                </div>
+            {*
+             <div id='recaptcha' class="g-recaptcha"
+         data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+         data-callback="onCompleted"
+         data-size="invisible"></div>
+            *}
+            
+            <div class="form-group form-group--submit">
+                <button class="btn btn-primary btn-lg btn-block bigButton" data-callback="onSubmit">ODESLAT ZPRÁVU</button>
+            </div>
+        </form><!-- Contact Form / End -->
+    </div>
+
+</div>
+   </div>
+   </div>
+
+</div>
+
+{/block}

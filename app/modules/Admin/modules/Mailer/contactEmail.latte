@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            body {
+                font-family: "Helvetica Neue","Helvetica","Arial","sans-serif";
+                font-size: 14px;
+                line-height: 1.42857143;
+                color: #333;
+                background-color: #fff;
+            }
+            .img_jumbotron_header {
+                max-width: 25%;
+            }
+            img {
+                vertical-align: middle;
+            }
+            img {
+                border: 0;
+            }
+            .header_title {
+                font-weight: 700;
+                text-shadow: 1px 1px 2px black, 0 0 25px grey, 0 0 5px white;
+            }
+            .h3, h3 {
+                font-size: 24px;
+            }
+            .h1, .h2, .h3, h1, h2, h3 {
+                margin-top: 20px;
+                margin-bottom: 10px;
+            }
+            .jumbotron_homepage {
+                padding-bottom: 10px;
+                text-align: center;
+                margin-top: 10px;
+                background-image: url({$basePath}/images/web/homepageHeaderImage.jpg);
+                background-size: cover;
+                background-position: top center;
+            }
+            .jumbotron {
+                padding-top: 30px;
+                padding-bottom: 30px;
+                margin-bottom: 30px;
+                color: inherit;
+                background-color: #eee;
+            }
+            .heading_mail,.main_text_mail{
+                text-align: center;
+            }
+        </style>
+        <title>{$heading}</title>
+    </head>
+    <body>
+        <div class="jumbotron jumbotron_homepage jumbotron-fluid">
+            <img class="img_jumbotron_header" src="{$basePath}/images/web/mainLogo.png">
+            <h3 class="display header_title" style="color: #fff;">Web amatérských tenisových soutěží okresu Blansko</h3>
+
+        </div>
+        <h1 class="heading_mail">{$heading}</h1>
+        <p class="main_text_mail">{$text}</p>
+    </body>
+</html>

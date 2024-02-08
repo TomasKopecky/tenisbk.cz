@@ -1,0 +1,154 @@
+{block container}
+<div class="content-wrapper">
+    <section class="content">
+        <div class="callout callout-info">
+            <h4>{include formTitle}</h4>
+
+            <p>{include formInfo}</p>
+        </div>
+        <!-- Default box -->
+
+
+        <!-- /.box-header -->
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">{include formTitleDetail}</h3>
+            </div>
+            <form n:name=$formName class="validate-on-load">                     
+                <div class="box-body">
+                    {if ($form->hasErrors())}
+                        {foreach $form->errors as $error}
+                            {if $error != NULL}
+                                {if substr($error,0,5)=='Chyba'}
+                                    <div class="callout callout-danger">
+                                        <h4>Chyba</h4>
+                                        <p>{$error }</p>
+                                    </div>
+                                {else}
+                                    <div class="callout callout-warning">
+                                        <h4>Upozornění</h4>
+                                        <p>{$error}</p>
+                                    </div>    
+                                {/if}
+                            {/if}
+                        {/foreach}
+                    {/if}
+
+                    <div class="form-group">
+                        <label>{$form['jmeno']->getLabel()}</label>
+
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-flag"></i>
+                            </div>
+                            <input class="form-control" n:name=jmeno>
+                        </div>
+                        <!-- /.input group -->
+                    </div>   
+
+                    {if isset($form['uzivatelske_jmeno']) }  
+                        <div class="form-group">
+
+                            <label>{$form['uzivatelske_jmeno']->getLabel()}</label>
+                            <div class="input-group">
+
+                                <div class="input-group-addon">
+
+                                    <i class="fa fa-address-card"></i>
+                                </div>
+                                <input n:name=uzivatelske_jmeno class="form-control">       
+                                <!-- /.input group -->
+                            </div>
+
+                        </div>
+                    {/if}
+                    <div class="form-group">
+
+                        <label>{$form['email']->getLabel()}</label>
+                        <div class="input-group">
+
+                            <div class="input-group-addon">
+
+                                <i class="fa fa-address-card"></i>
+                            </div>
+                            <input n:name=email class="form-control">      
+                            <!-- /.input group -->
+                        </div>
+
+                    </div>                
+                    <div class="form-group">
+
+                        <label>Uživatel aktivní</label>
+                        <div class="input-group">
+
+
+                            <input n:name=aktivni class="checkbox square">       
+                            <!-- /.input group -->
+                        </div>
+                    </div>
+                    {if isset($form['vyzva'])}
+                        <div class="form-group">
+
+                            <label>Zaslat výzvu</label>
+                            <div class="input-group">
+                                <input n:name=vyzva class="checkbox square">       
+                                <!-- /.input group -->
+                            </div>
+                        </div>
+                    {/if}
+                    {if isset($form['vyzva_button'])}
+                        <div class="form-group">
+                            <label>Zaslat výzvu</label>
+                                <input n:name=vyzva_button class="btn btn-block btn-success">
+                        </div>   
+                    {/if}
+
+                    <div class="form-group">
+                        <label>{$form['stav_registrace']->getLabel()}</label>
+                        <div class="input-group">
+
+                            <div class="input-group-addon">
+
+                                <i class="fa fa-address-card"></i>
+                            </div>
+                            <input n:name=stav_registrace class="form-control">       
+                            <!-- /.input group -->
+                        </div>
+                    </div>        
+
+                    {if isset($form['registracni_hash']) }  
+                        <div class="form-group">
+
+                            <label>{$form['registracni_hash']->getLabel()}</label>
+                            <div class="input-group">
+
+                                <div class="input-group-addon">
+
+                                    <i class="fa fa-address-card"></i>
+                                </div>
+                                <input n:name=registracni_hash class="form-control">       
+                                <!-- /.input group -->
+                            </div>
+
+
+                        </div>
+                    {/if}
+                    <div class="form-group">
+
+                        <label>{$form['uzivatel_info']->getLabel()}</label>
+                        <textarea n:name=uzivatel_info class="form-control"></textarea>
+                    </div>
+                    <!-- Date and time range -->
+                    <!-- /.form group -->
+
+                </div>
+                <input n:name=userButton class="btn btn-block btn-primary">
+            </form>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box-body -->
+
+    </section>
+
+</div>
+{/block}

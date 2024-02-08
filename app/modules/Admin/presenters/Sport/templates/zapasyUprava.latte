@@ -1,0 +1,31 @@
+{import '../../../templates/matchForms.latte'}
+{block title}
+ATS Blansko - Úprava zápasu
+{/block}
+{block formTitle}
+Úprava zápasu
+{/block}
+{block formInfo}
+Zde můžete upravovat data jednotlivých zápasů. Berte na vědomí, že při chybném zadání údajů utkání se tyto změny projeví ve všech dalších sekcích, zejména v tabulce pořadí.
+{/block}
+{block formTitleDetail}
+Upravit zápas
+{/block}
+{block deletedEntity}
+zvolený zápas?
+{/block}
+{block deleteModalName}
+zápasu
+{/block}
+{block deleteButtonName}
+zápas
+{/block}
+{block container}
+{include parent}
+{/block}
+{block js_admin}
+{include parent}
+{include js_nette_ajax}
+{include js_datepicker_basic}
+{include js_form_operator}
+{/block}

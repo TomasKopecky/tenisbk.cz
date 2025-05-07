@@ -10,9 +10,9 @@ use App\Module\ErrorMailer;
 class RegForm extends BasicForms// tzv. továrna pro zpracování formulářů v sekci úpravy a vkládání registrací {
 {
     private $registration,
-            $playersList,
-            $clubsList,
-            $mailer;
+        $playersList,
+        $clubsList,
+        $mailer;
 
     public function __construct(Registrations $registration, PlayersList $playersList, ClubsList $clubsList, ErrorMailer $mailer) {
         $this->registration = $registration;
@@ -27,7 +27,7 @@ class RegForm extends BasicForms// tzv. továrna pro zpracování formulářů v
             $this->registration->calcRegistration();
         }
     }
-    
+
     public function getOptionsList()
     {
         $this->playersList->calcPlayersList();
@@ -43,34 +43,34 @@ class RegForm extends BasicForms// tzv. továrna pro zpracování formulářů v
         $this->getOptionsList();
         $form = new Form();
         $form->addSelect('id_hrac', 'Hráč', $this->setPlayersAssoc($this->playersList->getPlayersList()))
-                ->setPrompt('Zvolte hráče')
-                ->setRequired('Je třeba vybrat registrovaného hráče');
+            ->setPrompt('Zvolte hráče')
+            ->setRequired('Je třeba vybrat registrovaného hráče');
         $form->addSelect('id_klub', 'Klub', $this->setClubsAssoc($this->clubsList->getClubsList()))
-                ->setPrompt('Zvolte klub')
-                ->setRequired('Je třeba vybrat klub pro registraci');
-        $form->addText('automaticka_registrace','Automatická registrace na celou sezonu - zvolte sezonu')
-                ->setHtmlType('number')
-                ->setRequired(false)
-                ->addRule(Form::RANGE, 'Lze zadat pouze ročník v rozmezí %d - %d', [2000, 2100]);
+            ->setPrompt('Zvolte klub')
+            ->setRequired('Je třeba vybrat klub pro registraci');
+        $form->addText('automaticka_registrace','Automatická registrace na celou sezonu - zvolte sezonu a stiskněte klávesu ENTER')
+            ->setHtmlType('number')
+            ->setRequired(false)
+            ->addRule(Form::RANGE, 'Lze zadat pouze ročník v rozmezí %d - %d', [2000, date("Y")]);
         $form->addText('datum_od', 'Datum od')
-                ->setHtmlAttribute('readonly')
-                ->setRequired('Zvolte datum od');
+            ->setHtmlAttribute('readonly')
+            ->setRequired('Zvolte datum od');
         $form->addText('datum_do', 'Datum do')
-                ->setRequired(false)
-                ->setHtmlAttribute('readonly');
+            ->setRequired(false)
+            ->setHtmlAttribute('readonly');
         $form->addText('hrac_muzi_poradi','Pořadí mužského hráče v klubu')
-                ->setHtmlType('number')
-                ->setRequired('Zadejte pořadí mužského hráče v klubu')
-                ->addRule(Form::RANGE, 'Lze zadat pouze čísla v rozmezí 1 - 20', [1,30]);
+            ->setHtmlType('number')
+            ->setRequired('Zadejte pořadí mužského hráče v klubu')
+            ->addRule(Form::RANGE, 'Lze zadat pouze čísla v rozmezí 1 - 20', [1,30]);
         $form->addTextArea('registrace_info', 'Info o registraci')
-                //->addRule(Form::PATTERN, 'Text nesmí začínat mezerou a obsahovat jiné znaky než písmena a interpunkční znaménka)', '^[^\s][A-Z ĚŠČŘĎŤŇŽÝÁÍÉÚŮ a-z ěščřďťňžýáíéúů \s-,.!]*$')
-                ->setAttribute('rows', 3)
-                ->setRequired(false)
-                ->setMaxLength(200);
+            //->addRule(Form::PATTERN, 'Text nesmí začínat mezerou a obsahovat jiné znaky než písmena a interpunkční znaménka)', '^[^\s][A-Z ĚŠČŘĎŤŇŽÝÁÍÉÚŮ a-z ěščřďťňžýáíéúů \s-,.!]*$')
+            ->setAttribute('rows', 3)
+            ->setRequired(false)
+            ->setMaxLength(200);
         $form->addSubmit('regButton', 'Uložit');
         $form->onValidate[] = [$this, 'validateDate'];
         if ($this->operation == 'update') {
-                    $this->start();
+            $this->start();
             $this->setDefaults($form);
             $form->onValidate[] = [$this, 'validateForm'];
         }
@@ -81,14 +81,14 @@ class RegForm extends BasicForms// tzv. továrna pro zpracování formulářů v
     public function validateForm($form) {
         $order = $form['hrac_muzi_poradi']->getValue() == 30 ? NULL : $form['hrac_muzi_poradi']->getValue();
         if (
-                str_replace(' - Z','',str_replace(' - M','',$form['id_hrac']->getSelectedItem())) == $this->registration->getPlayer()->getName() &&
-                $form['id_klub']->getSelectedItem() == $this->registration->getClub()->getName() &&
-                $form['datum_od']->getValue() == (is_null($this->registration->getDateSince()) ? null : date_format($this->registration->getDateSince(), "d.m.Y")) &&
-                $form['datum_do']->getValue() == (is_null($this->registration->getDateUntil()) ? null : date_format($this->registration->getDateUntil(), "d.m.Y")) &&
-                $order == $this->registration->getOrder() &&
-                //$form['hrac_muzi_poradi']->getValue() == $this->registration->getOrder() &&
-                $form['registrace_info']->getValue() == $this->registration->getDescriptions()) {
-        $form->addError('Ve formuláři jste neprovedli žádnou změnu');
+            str_replace(' - Z','',str_replace(' - M','',$form['id_hrac']->getSelectedItem())) == $this->registration->getPlayer()->getName() &&
+            $form['id_klub']->getSelectedItem() == $this->registration->getClub()->getName() &&
+            $form['datum_od']->getValue() == (is_null($this->registration->getDateSince()) ? null : date_format($this->registration->getDateSince(), "d.m.Y")) &&
+            $form['datum_do']->getValue() == (is_null($this->registration->getDateUntil()) ? null : date_format($this->registration->getDateUntil(), "d.m.Y")) &&
+            $order == $this->registration->getOrder() &&
+            //$form['hrac_muzi_poradi']->getValue() == $this->registration->getOrder() &&
+            $form['registrace_info']->getValue() == $this->registration->getDescriptions()) {
+            $form->addError('Ve formuláři jste neprovedli žádnou změnu');
         }
     }
 
@@ -130,15 +130,16 @@ class RegForm extends BasicForms// tzv. továrna pro zpracování formulářů v
         ]);
     }
 
-    private function handlePlayerOrder($form){
-            if ($form['hrac_muzi_poradi']->getValue() == 30){
-                unset($form['hrac_muzi_poradi']);
-            }
-    }
-    
+
+//    private function handlePlayerOrder($form){
+//        if ($form['hrac_muzi_poradi']->getValue() == 30){
+//            unset($form['hrac_muzi_poradi']);
+//        }
+//    }
+
     public function update($form) { //provede se po odeslání vyplněného formuláře pro úpravu hráče
         try {
-            $this->handlePlayerOrder($form);
+//            $this->handlePlayerOrder($form);
             $id = $this->presenter->getParameter('id');
             $values = $form->getValues();
             $this->registration->updateRegistration($id, $values);
@@ -160,7 +161,7 @@ class RegForm extends BasicForms// tzv. továrna pro zpracování formulářů v
 
     public function insert($form) { //provede se po odeslání vyplněného formuláře pro vložení nového hráče
         try {
-            $this->handlePlayerOrder($form);
+//            $this->handlePlayerOrder($form);
             $values = $form->getValues();
             $this->registration->insertRegistration($values);
             $this->registration->logInsert();
@@ -171,11 +172,11 @@ class RegForm extends BasicForms// tzv. továrna pro zpracování formulářů v
             //$this->presenter->flashMessage('Chyba při vkládání působení. Zadaný hráč - ' . $form['id_hrac']->getSelectedItem() . ' - je již ve zvoleném období v nějakém klubu zaregistrován. Změny vráceny zpět', 'error');
             //$this->presenter->redirect('Sport:registraceNova');
         } catch (\Nette\Neon\Exception $e) {
-            $form->addError(NULL);            
+            $form->addError(NULL);
             $this->mailer->setMessage('Chyba - vkládání registrace hráče v klubu', 'Nastala nespecifikovaná chyba při editaci registrace hráče v klubu - vkládání. Jednalo se o hráče ' . $form['id_hrac']->getValue() . ', v klubu ' . $form['id_klub']->getValue() . ', v obdobi od ' . $form['datum_od']->getValue() . ' do ' . $form['datum_do']->getValue() . '. Text chyby: ' . $e->getMessage());
             $this->mailer->setSenderReceiver("error@tenisbk.cz", "admin@tenisbk.cz");
             $this->mailer->sendMessage();
-            
+
 //$form->addError('Chyba při vkládání registrace. Nespecifikovaný typ, kontaktujte správce.');
             $this->presenter->flashMessage('Chyba při vkládání registrace. Nespecifikovaný typ, kontaktujte správce.', 'error');
             //$this->presenter->redirect('Sport:registraceNova');

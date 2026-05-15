@@ -21,9 +21,7 @@ class Players extends BasicEntity {
             $id,
             $name,
             $sex,
-            /*  OLD SOLUTION WITH THE BIRTH NUMBER
-             * $birthNumber,
-             */
+            $ctsRegistration,
             $birthYear,
             $hand,
             $height,
@@ -50,6 +48,11 @@ class Players extends BasicEntity {
     
     public function setSlug($slug) {
         $this->slug = $slug;
+    }
+
+    public function setCtsRegistration($cts)
+    {
+        $this->ctsRegistration = $cts;
     }
     
     public function setDescriptions($descriptions) {
@@ -88,6 +91,11 @@ class Players extends BasicEntity {
         return $this->slug;
     }
 
+    public function getCtsRegistration()
+    {
+        return $this->ctsRegistration;
+    }
+
     public function getDescriptions() {
         return $this->descriptions;
     }
@@ -101,6 +109,7 @@ class Players extends BasicEntity {
             $this->id = isset($playerData->id_hrac) ? $playerData->id_hrac : NULL;
             $this->name = isset($playerData->jmeno) ? $playerData->jmeno : NULL;
             $this->sex = isset($playerData->pohlavi) ? $playerData->pohlavi : NULL;
+            $this->ctsRegistration = isset($playerData->cts_registrace) ? $playerData->cts_registrace : NULL;
             $this->birthYear = isset($playerData->rok_narozeni) && $playerData->rok_narozeni != '' ? $playerData->rok_narozeni : NULL;
             $this->hand = isset($playerData->ruka) ? $playerData->ruka : NULL;
             $this->height = isset($playerData->vyska) ? $playerData->vyska : NULL;

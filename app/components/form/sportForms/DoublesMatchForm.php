@@ -227,7 +227,8 @@ class DoublesMatchForm extends BasicForms {
     public function setPlayersAssoc($players) { // převede získanou tabulku klubů z databáze na asoc. pole formát "id_hrac" => "jmeno"
         $playerArray = array();
         foreach ($players as $player) {
-            $playerArray[$player->getId()] = $player->getName();
+            $cts = $player->getCtsRegistration();
+            $playerArray[$player->getId()] = $player->getName() . ' - ' . $player->getBirthYear() . ' - ' . $player->getSex() . ($cts ? ' (ČTS REG)' : '');
         }
         $playerArray['null'] = 'null';
         return $playerArray;

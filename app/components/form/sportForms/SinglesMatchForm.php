@@ -167,7 +167,7 @@ class SinglesMatchForm extends BasicForms {
             $form->addHidden('typ_zapasu',$this->presenter->getAction());
         }
         if ($this->presenter->getAction() == 'zapasyNovyDvouhraMuzi' || $this->matchesTable->getMatchTypeId() == 1){
-            $form->addSelect('zapas_muzi_poradi', 'Domácí hráči', [1=>1,2=>2,3=>3])
+            $form->addSelect('zapas_muzi_poradi', 'Pořadové číslo zápasu', [1=>1,2=>2,3=>3])
                 ->setAttribute('class', 'form-control')
                 ->setPrompt('Zvolte pořadí zápasu mužů')
                 ->setRequired('Zvolte pořadí zápasu mužů');
@@ -234,10 +234,10 @@ class SinglesMatchForm extends BasicForms {
     public function setPlayersAssoc($players) { // převede získanou tabulku klubů z databáze na asoc. pole formát "id_hrac" => "jmeno"
         $playerArray = array();
         foreach ($players as $player) {
-            $playerArray[$player->getId()] = $player->getName();
+            $cts = $player->getCtsRegistration();
+            $playerArray[$player->getId()] = $player->getName() . ' - ' . $player->getBirthYear() . ' - ' . $player->getSex() . ($cts ? ' (ČTS REG)' : '');
         }
         $playerArray['null'] = 'null';
-//$playerArray[] = ['null' => 'null'];
         return $playerArray;
     }
 

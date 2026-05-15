@@ -3,6 +3,7 @@ Allow from all
 
 RewriteEngine On
 RewriteCond %{HTTPS} !=on
+RewriteCond %{ENV:DOCKER_ENV} !local
 RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
 
 # disable directory listing

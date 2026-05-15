@@ -170,6 +170,15 @@ class Registrations extends BasicEntity {
         }
     }
 
+    public function calcActiveRegistrationByPlayer($seasonYear = NULL) {
+        try {
+            $values = $this->readRegistrationByPlayer($seasonYear);
+            $this->setRegistration($values);
+        } catch (Nette\Neon\Exception $e) {
+            return $e;
+        }
+    }
+
     public function deleteRegistration() {
         try {
             $this->eraseRegistration();
@@ -204,6 +213,11 @@ class Registrations extends BasicEntity {
 
     private function eraseRegistration() {
         return $this->database->query('DELETE FROM registrace WHERE id_registrace = ?', (int) $this->id)->fetch();
+    }
+
+    private function readRegistrationByPlayer($seasonYear = NULL) {
+        $seasonYear = is_null($seasonYear) || $seasonYear == 0 ? date('Y') : $seasonYear;
+        return $this->database->query("SELECT * FROM registrace NATURAL JOIN hrac NATURAL JOIN klub WHERE id_hrac = ? AND CAST('1.1.'||? AS DATE) between datum_od and CASE WHEN datum_do IS NULL THEN NOW() ELSE datum_do END ORDER BY id_registrace DESC", $this->player->getId(), $seasonYear)->fetch();
     }
 
     private function readRegistration() {

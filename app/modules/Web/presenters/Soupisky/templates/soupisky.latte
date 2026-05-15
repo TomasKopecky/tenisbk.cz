@@ -37,6 +37,7 @@
                         <th>POHLAVI</th>
                         <th>HRÁČ</th>
                         <th>KLUB</th>
+                        <th>ČTS REG</th>
                         <th>POŘADÍ</th>
                         <th>OD</th>
                         <th>DO</th>
@@ -48,6 +49,7 @@
                             <td>{if ($registration->getPlayer()->getSex() == 'M')}<i class="fa fa-male mine_men"></i><span style="display:none">1</span>{else}<i class="fa fa-female mine_women"></i><span style="display:none">2</span>{/if}</td>
                             <td><a href="{link Hraci:detail $registration->getPlayer()->getSlug()}">{$registration->getPlayer()->getName()}</a></td>
                             <td><a href="{link Kluby:detail $registration->getClub()->getSlug()}">{$registration->getClub()->getName()}</a></td>
+                            <td class="text-center">{if $registration->getCtsRegistration()}<i class="fa fa-check text-success"></i>{else}<i class="fa fa-times text-danger"></i>{/if}</td>
                             <td>{if ($registration->getPlayer()->getSex() == 'M')}{$registration->getOrder()}{/if}</td>
                             <td>{date_format($registration->getDateSince(),'d.m.Y')}</td>
                             <td>{is_null($registration->getDateUntil()) === false ? date_format($registration->getDateUntil(),'d.m.Y') : NULL}</td>

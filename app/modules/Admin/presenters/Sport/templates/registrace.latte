@@ -42,6 +42,7 @@ registraci
                     <th>Pořadí</th>
                     <th>Datum od</th>
                     <th>Datum do</th>
+                    <th>Registrován v ČTS</th>
                     <th>Detail</th>
                 </tr>
                 </thead>
@@ -51,19 +52,20 @@ registraci
                     <td>{if ($registration->getPlayer()->getSex() == 'M')}<i class="fa fa-male mine_men"></i><span style="display:none">1</span>{else}<i class="fa fa-female mine_women"></i><span style="display:none">2</span>{/if}</td>
                     <td>{$registration->getPlayer()->getName()}</td>
                     <td>{$registration->getClub()->getName()}</td>
-                    <td>{$registration->getOrder()}</td>
+                    <td>{if ($registration->getPlayer()->getSex() == 'M')}{$registration->getOrder()}{/if}</td>
                     <td>{date_format($registration->getDateSince(),"Y-m-d")}</td>
                     <td>{if ($registration->getDateUntil() != null)}{date_format($registration->getDateUntil(),"Y-m-d")}{/if}</td>
+                    <td>{$registration->getCtsRegistration() ? 'Ano' : 'Ne'}</td>
                     <td>
-                    <div style="text-align: center;">
-                                <a class="btn btn-info editButton hidden-xs hidden-sm hidden-md" n:href="Sport:registraceUprava $registration->getId()"><i class="fa fa-edit"></i> Editace</a>
-                                 <a class="btn btn-info editButton hidden-lg" n:href="Sport:registraceUprava $registration->getId()"><i class="fa fa-edit"></i></a>
-                             
-                        {if $user->isInRole('Admin')}   
-                                <a class="btn btn-danger editButton hidden-xs hidden-sm hidden-md formDeleteButton" n:href="deleteRegistration! $registration->getId()"><i class="fa fa-trash-o"></i> Vymazat</a>
-                                <a class="btn btn-danger editButton hidden-lg formDeleteButton" n:href="deleteRegistration! $registration->getId()"><i class="fa fa-trash-o"></i></a>
-                    {/if}
-                        </div>
+                        <div style="text-align: center;">
+                                    <a class="btn btn-info editButton hidden-xs hidden-sm hidden-md" n:href="Sport:registraceUprava $registration->getId()"><i class="fa fa-edit"></i> Editace</a>
+                                    <a class="btn btn-info editButton hidden-lg" n:href="Sport:registraceUprava $registration->getId()"><i class="fa fa-edit"></i></a>
+                                
+                            {if $user->isInRole('Admin')}   
+                                    <a class="btn btn-danger editButton hidden-xs hidden-sm hidden-md formDeleteButton" n:href="deleteRegistration! $registration->getId()"><i class="fa fa-trash-o"></i> Vymazat</a>
+                                    <a class="btn btn-danger editButton hidden-lg formDeleteButton" n:href="deleteRegistration! $registration->getId()"><i class="fa fa-trash-o"></i></a>
+                            {/if}
+                            </div>
                     </td>
                 </tr>
             {/foreach}

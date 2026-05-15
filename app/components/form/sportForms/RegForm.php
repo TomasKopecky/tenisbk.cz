@@ -62,6 +62,8 @@ class RegForm extends BasicForms// tzv. továrna pro zpracování formulářů v
             ->setHtmlType('number')
             ->setRequired('Zadejte pořadí mužského hráče v klubu')
             ->addRule(Form::RANGE, 'Lze zadat pouze čísla v rozmezí 1 - 20', [1,30]);
+        $form->addCheckbox('cts_registrace')
+            ->setAttribute('class', 'checkbox square');
         $form->addTextArea('registrace_info', 'Info o registraci')
             //->addRule(Form::PATTERN, 'Text nesmí začínat mezerou a obsahovat jiné znaky než písmena a interpunkční znaménka)', '^[^\s][A-Z ĚŠČŘĎŤŇŽÝÁÍÉÚŮ a-z ěščřďťňžýáíéúů \s-,.!]*$')
             ->setAttribute('rows', 3)
@@ -126,6 +128,7 @@ class RegForm extends BasicForms// tzv. továrna pro zpracování formulářů v
             'datum_od' => is_null($this->registration->getDateSince()) ? null : date_format($this->registration->getDateSince(), "d.m.Y"),
             'datum_do' => is_null($this->registration->getDateUntil()) ? null : date_format($this->registration->getDateUntil(), "d.m.Y"),
             'hrac_muzi_poradi' => $this->registration->getOrder(),
+            'cts_registrace' => $this->registration->getCtsRegistration(),
             'registrace_info' => $this->registration->getDescriptions()
         ]);
     }

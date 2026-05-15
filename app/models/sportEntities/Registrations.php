@@ -26,6 +26,7 @@ class Registrations extends BasicEntity {
             $dateSince,
             $dateUntil,
             $order,
+            $ctsRegistration,
             $descriptions,
             $activeYears;
 
@@ -51,6 +52,11 @@ class Registrations extends BasicEntity {
     
     public function setOrder($order){
          $this->order = $order;
+    }
+
+    public function setCtsRegistration($ctsRegistration)
+    {
+        $this->ctsRegistration = $ctsRegistration;
     }
 
     public function setDescriptions($descriptions) {
@@ -79,6 +85,11 @@ class Registrations extends BasicEntity {
     
     public function getOrder(){
         return $this->order;
+    }
+
+    public function getCtsRegistration()
+    {
+        return $this->ctsRegistration;
     }
 
     public function getDescriptions() {
@@ -110,6 +121,7 @@ class Registrations extends BasicEntity {
             $this->dateSince = $registrationData->datum_od ?? $registrationData->datum_od != '' ?? NULL;
             $this->dateUntil = ($registrationData->datum_do && $registrationData->datum_do != '') ? $registrationData->datum_do : NULL;
             $this->order = ($registrationData->hrac_muzi_poradi ?? NULL);
+            $this->ctsRegistration = $registrationData->cts_registrace ?? NULL;
             $this->descriptions = isset($registrationData->registrace_info) && $registrationData->registrace_info != '' ? $this->descriptions = $registrationData->registrace_info : NULL;
         }
     }
@@ -183,11 +195,11 @@ class Registrations extends BasicEntity {
     }
 
     private function createRegistration() {
-        return $this->database->query('SELECT * FROM registrace_vkladani(?,?,?,?,?,?)', (int) $this->player->getId(), (int) $this->club->getId(), $this->dateSince, $this->dateUntil, $this->order, $this->descriptions)->fetch();
+        return $this->database->query('SELECT * FROM registrace_vkladani(?,?,?,?,?,?,?)', (int) $this->player->getId(), (int) $this->club->getId(), $this->dateSince, $this->dateUntil, $this->order, $this->ctsRegistration, $this->descriptions)->fetch();
     }
 
     private function editRegistration() {
-        return $this->database->query('SELECT * FROM registrace_uprava(?,?,?,?,?,?,?)', (int) $this->id, (int) $this->player->getId(), (int) $this->club->getId(), $this->dateSince, $this->dateUntil, $this->order, $this->descriptions)->fetch();
+        return $this->database->query('SELECT * FROM registrace_uprava(?,?,?,?,?,?,?,?)', (int) $this->id, (int) $this->player->getId(), (int) $this->club->getId(), $this->dateSince, $this->dateUntil, $this->order, $this->ctsRegistration, $this->descriptions)->fetch();
     }
 
     private function eraseRegistration() {

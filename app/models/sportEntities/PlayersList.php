@@ -42,12 +42,12 @@ class PlayersList extends Players {
      private function readPlayersListByYearAndClub($clubId, $sex, $season) {
          if ($sex == 'X')
          {
-             return $this->database->query("SELECT DISTINCT id_hrac, jmeno FROM registrace NATURAL JOIN hrac WHERE id_klub = ? AND CAST('1.1.'||? AS DATE) BETWEEN datum_od AND CASE WHEN datum_do IS NULL THEN NOW() ELSE datum_do END", (int) $clubId, (int) $season)->fetchAll();
+             return $this->database->query("SELECT DISTINCT * FROM registrace NATURAL JOIN hrac WHERE id_klub = ? AND CAST('1.1.'||? AS DATE) BETWEEN datum_od AND CASE WHEN datum_do IS NULL THEN NOW() ELSE datum_do END", (int) $clubId, (int) $season)->fetchAll();
         
          }
          else
          {
-        return $this->database->query("SELECT DISTINCT id_hrac, jmeno FROM registrace NATURAL JOIN hrac WHERE pohlavi = ? AND id_klub = ? AND CAST('1.1.'||? AS DATE) BETWEEN datum_od AND CASE WHEN datum_do IS NULL THEN NOW() ELSE datum_do END", $sex, (int) $clubId, (int) $season)->fetchAll();
+        return $this->database->query("SELECT DISTINCT * FROM registrace NATURAL JOIN hrac WHERE pohlavi = ? AND id_klub = ? AND CAST('1.1.'||? AS DATE) BETWEEN datum_od AND CASE WHEN datum_do IS NULL THEN NOW() ELSE datum_do END", $sex, (int) $clubId, (int) $season)->fetchAll();
          }
     }
 

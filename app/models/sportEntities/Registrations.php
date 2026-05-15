@@ -26,6 +26,7 @@ class Registrations extends BasicEntity {
             $dateSince,
             $dateUntil,
             $order,
+            $ctsRegistration,
             $descriptions,
             $activeYears;
 
@@ -51,6 +52,11 @@ class Registrations extends BasicEntity {
     
     public function setOrder($order){
          $this->order = $order;
+    }
+
+    public function setCtsRegistration($ctsRegistration)
+    {
+        $this->ctsRegistration = $ctsRegistration;
     }
 
     public function setDescriptions($descriptions) {
@@ -79,6 +85,11 @@ class Registrations extends BasicEntity {
     
     public function getOrder(){
         return $this->order;
+    }
+
+    public function getCtsRegistration()
+    {
+        return $this->ctsRegistration;
     }
 
     public function getDescriptions() {
@@ -110,6 +121,7 @@ class Registrations extends BasicEntity {
             $this->dateSince = $registrationData->datum_od ?? $registrationData->datum_od != '' ?? NULL;
             $this->dateUntil = ($registrationData->datum_do && $registrationData->datum_do != '') ? $registrationData->datum_do : NULL;
             $this->order = ($registrationData->hrac_muzi_poradi ?? NULL);
+            $this->ctsRegistration = $registrationData->cts_registrace ?? NULL;
             $this->descriptions = isset($registrationData->registrace_info) && $registrationData->registrace_info != '' ? $this->descriptions = $registrationData->registrace_info : NULL;
         }
     }
@@ -158,6 +170,15 @@ class Registrations extends BasicEntity {
         }
     }
 
+    public function calcActiveRegistrationByPlayer($seasonYear = NULL) {
+        try {
+            $values = $this->readRegistrationByPlayer($seasonYear);
+            $this->setRegistration($values);
+        } catch (Nette\Neon\Exception $e) {
+            return $e;
+        }
+    }
+
     public function deleteRegistration() {
         try {
             $this->eraseRegistration();
@@ -183,15 +204,20 @@ class Registrations extends BasicEntity {
     }
 
     private function createRegistration() {
-        return $this->database->query('SELECT * FROM registrace_vkladani(?,?,?,?,?,?)', (int) $this->player->getId(), (int) $this->club->getId(), $this->dateSince, $this->dateUntil, $this->order, $this->descriptions)->fetch();
+        return $this->database->query('SELECT * FROM registrace_vkladani(?,?,?,?,?,?,?)', (int) $this->player->getId(), (int) $this->club->getId(), $this->dateSince, $this->dateUntil, $this->order, $this->ctsRegistration, $this->descriptions)->fetch();
     }
 
     private function editRegistration() {
-        return $this->database->query('SELECT * FROM registrace_uprava(?,?,?,?,?,?,?)', (int) $this->id, (int) $this->player->getId(), (int) $this->club->getId(), $this->dateSince, $this->dateUntil, $this->order, $this->descriptions)->fetch();
+        return $this->database->query('SELECT * FROM registrace_uprava(?,?,?,?,?,?,?,?)', (int) $this->id, (int) $this->player->getId(), (int) $this->club->getId(), $this->dateSince, $this->dateUntil, $this->order, $this->ctsRegistration, $this->descriptions)->fetch();
     }
 
     private function eraseRegistration() {
         return $this->database->query('DELETE FROM registrace WHERE id_registrace = ?', (int) $this->id)->fetch();
+    }
+
+    private function readRegistrationByPlayer($seasonYear = NULL) {
+        $seasonYear = is_null($seasonYear) || $seasonYear == 0 ? date('Y') : $seasonYear;
+        return $this->database->query("SELECT * FROM registrace NATURAL JOIN hrac NATURAL JOIN klub WHERE id_hrac = ? AND CAST('1.1.'||? AS DATE) between datum_od and CASE WHEN datum_do IS NULL THEN NOW() ELSE datum_do END ORDER BY id_registrace DESC", $this->player->getId(), $seasonYear)->fetch();
     }
 
     private function readRegistration() {

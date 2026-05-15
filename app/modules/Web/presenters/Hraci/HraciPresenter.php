@@ -9,6 +9,7 @@ use App\Model\Entity\SportEntity\ClubsList;
 use App\Model\Entity\SportEntity\PlayerStatsList;
 use App\Model\Entity\SportEntity\PlaysTableList;
 use App\Model\Entity\SportEntity\MatchesTableList;
+use App\Model\Entity\SportEntity\Registrations;
 
 class HraciPresenter extends BasicPresenter {
 
@@ -19,14 +20,16 @@ class HraciPresenter extends BasicPresenter {
             $clubs,
             $playerStatsList,
             $matchesTableList,
+            $registrations,
             $ajax = false;
 
-    public function __construct(ClubStatsList $clubStatsList, PlaysTableList $playsTableList, Players $players, ClubsList $clubs, PlayerStatsList $playerStatsList, MatchesTableList $matchesTableList) {
+    public function __construct(ClubStatsList $clubStatsList, PlaysTableList $playsTableList, Players $players, ClubsList $clubs, PlayerStatsList $playerStatsList, MatchesTableList $matchesTableList, Registrations $registrations) {
         parent::__construct($clubStatsList, $playsTableList);
         $this->players = $players;
         $this->clubs = $clubs;
         $this->playerStatsList = $playerStatsList;
         $this->matchesTableList = $matchesTableList;
+        $this->registrations = $registrations;
     }
 
     public function beforeRender() {
@@ -118,7 +121,6 @@ class HraciPresenter extends BasicPresenter {
             }
             $this->playerStatsSet($playerStatsAll, $stats);
         }
-        //print_r($playerStatsAll);
         $singlesIndex > 0 ? $singles->setSuccessRate($singles->getSuccessRate()/$singlesIndex) : NULL;
         $doublesIndex > 0 ? $doubles->setSuccessRate($doubles->getSuccessRate()/$doublesIndex) : NULL;
         $mixIndex > 0 ? $doublesMix->setSuccessRate($doublesMix->getSuccessRate()/$mixIndex) : NULL;
@@ -136,12 +138,19 @@ class HraciPresenter extends BasicPresenter {
         $this->template->matches = $this->matchesTableList->getMatchesTableList();
     }
 
+    private function getPlayerRegistrationBySeason() {
+        $this->registrations->setPlayer($this->players);
+        $seasonYear = $this->seasonYear === 0 ? date('Y') : $this->seasonYear;
+        $this->registrations->calcActiveRegistrationByPlayer($seasonYear);
+        $this->template->currentRegistration = $this->registrations;
+    }
+
     private function getPlayerInfo() {
         $this->template->player = $this->players;
         $this->clubs->setPlayer($this->players);
         $this->clubs->calcClubsByPlayer();
-        //bdump($this->clubs);
         $this->template->clubs = $this->clubs->getClubsList();
+        $this->getPlayerRegistrationBySeason();
     }
 
     public function handlePlayerStatYear($year, $tab) { // handle na ajax událost (změna roku) v šabloně s detaily o hráči

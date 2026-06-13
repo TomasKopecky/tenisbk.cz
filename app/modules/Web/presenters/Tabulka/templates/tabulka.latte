@@ -20,7 +20,7 @@
         </select>
         <select id="matchType" class="form-control selectYear">
             {foreach $matchTypeList as $key => $value}
-                <option value="{$key}">{$key}</option>       
+                <option value="{$value}">{$value}</option>       
             {/foreach}
         </select>
     </div>
@@ -68,9 +68,9 @@
                         <tr>
                             <td>{*$iterator->counter*}</td>
                             <td><a href="{link Kluby:detail $fTable->getClub()->getSlug()/*$fTable->getClub()->getId()*/ }">{$fTable->getClub()->getName()}</a></td>
-                            <td>{$matchType == 'Všechny typy zápasů' ? $fTable->getPlays() : ''}</td>
-                            <td>{$matchType == 'Všechny typy zápasů' ? $fTable->getWins() : ''}</td>
-                            <td>{$matchType == 'Všechny typy zápasů' ? $fTable->getDefeats() : ''}</td>
+                            <td>{$matchType == App\Model\Entity\BasicEntity::MATCH_TYPE[0] ? $fTable->getPlays() : ''}</td>
+                            <td>{$matchType == App\Model\Entity\BasicEntity::MATCH_TYPE[0] ? $fTable->getWins() : ''}</td>
+                            <td>{$matchType == App\Model\Entity\BasicEntity::MATCH_TYPE[0] ? $fTable->getDefeats() : ''}</td>
                             <td>{$fTable->getMatches()}</td>
                             <td>{$fTable->getSets()}</td>
                             <td>{$fTable->getGames()}</td>
@@ -82,7 +82,7 @@
                             <td>{$fTable->getGamesWon()}</td>
                             <td>{$fTable->getGamesLost()}</td>
                             *}
-                            <td>{$matchType == 'Všechny typy zápasů' ? $fTable->getPoints() : ''}</td>
+                            <td>{$matchType == App\Model\Entity\BasicEntity::MATCH_TYPE[0] ? $fTable->getPoints() : ''}</td>
                             <td>{$fTable->getMatchesLost()}</td>
                             <td>{$fTable->getSetsLost()}</td>
                             <td>{$fTable->getGamesLost()}</td>

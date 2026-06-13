@@ -18,12 +18,12 @@ use Nette;
 abstract class BasicEntity {
 
     const MATCH_TYPE = array(
-        "Všechny typy zápasů" => 0,
-        "Dvouhra muži" => 1,
-        "Čtyřhra muži" => 2,
-        "Dvouhra ženy" => 3,
-        "Čtyřhra mix" => 4);
-        //"Čtyřhra ženy" => 5);
+        "Všechny typy zápasů",
+        "Dvouhra muži",
+        "Čtyřhra muži",
+        "Dvouhra ženy",
+        "Čtyřhra mix"
+    );
     
     const PLAYER_SEX = array(
         "Všechna pohlaví" => 'X',
@@ -33,6 +33,20 @@ abstract class BasicEntity {
     const HAND = array(
         "Pravá" => 'P',
         "Levá" => 'L',);
+
+    const MATCH_STANDARD_COUNT = array(
+        self::MATCH_TYPE[1] => 3,
+        self::MATCH_TYPE[2] => 1,
+        self::MATCH_TYPE[3] => 1,
+        self::MATCH_TYPE[4] => 1
+    );
+
+    const MATCH_ALTERNATIVE_COUNT = array(
+        self::MATCH_TYPE[1] => 4,
+        self::MATCH_TYPE[2] => 2,
+        self::MATCH_TYPE[3] => 0,
+        self::MATCH_TYPE[4] => 0
+    );
 
     /**
      * @var Nette\Database\Context
@@ -48,7 +62,7 @@ abstract class BasicEntity {
     
     public function setMatchTypeId($matchTypeId) {
         try {
-            if (!in_array($matchTypeId, BasicEntity::MATCH_TYPE)) {
+            if (!array_key_exists($matchTypeId, BasicEntity::MATCH_TYPE)) {
                 throw new \Exception("Chyba nastavení třídy " . get_class() . " - chybně nastavené ID typu zápasu");
             }
             $this->matchTypeId = $matchTypeId;
@@ -57,12 +71,12 @@ abstract class BasicEntity {
         }
     }
 
-    public function setMatchTypeName($matchType) {
+    public function setMatchTypeName($matchTypeName) {
         try {
-            if (!array_key_exists($matchType, BasicEntity::MATCH_TYPE)) {
+            if (!in_array($matchTypeName, BasicEntity::MATCH_TYPE)) {
                 throw new \Exception("Chyba nastavení třídy " . get_class() . " - chybně nastavený typ zápasu");
             }
-            $this->matchTypeId = BasicEntity::MATCH_TYPE[$matchType];
+            $this->matchTypeId = array_search($matchTypeName, BasicEntity::MATCH_TYPE);
         } catch (\Nette\Neon\Exception $ex) {
             return $ex;
         }
@@ -90,7 +104,7 @@ abstract class BasicEntity {
     
     public function getMatchTypeName()
     {
-        return array_search($this->matchTypeId, $this::MATCH_TYPE);
+        return $this::MATCH_TYPE[$this->matchTypeId];
     }
     
     public function getPlayerSexValue()

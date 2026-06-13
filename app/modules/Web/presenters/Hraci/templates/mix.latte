@@ -14,7 +14,7 @@
                 </thead>
                 <tbody>
                 {foreach $matches as $doublesMix}
-                    {if $doublesMix->getMatchTypeName() == 'Čtyřhra mix'}
+                    {if $doublesMix->getMatchTypeName() == App\Model\Entity\BasicEntity::MATCH_TYPE[4]}
                 <tr role="row">
                   <td></td>
                   <td>

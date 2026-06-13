@@ -10,6 +10,7 @@ use App\Model\Entity\SportEntity\PlayerStatsList;
 use App\Model\Entity\SportEntity\PlaysTableList;
 use App\Model\Entity\SportEntity\MatchesTableList;
 use App\Model\Entity\SportEntity\Registrations;
+use App\Model\Entity\BasicEntity;
 
 class HraciPresenter extends BasicPresenter {
 
@@ -107,15 +108,15 @@ class HraciPresenter extends BasicPresenter {
         $playerStatsAll = $this->playerStatsList->getNewInstance();
         $playerStatsAll->setRankingPosition($this->playerStatsList->getRankingPosition());
         foreach ($allStats as $stats) {
-            if ($stats->getMatchTypeName() == 'Dvouhra muži' || $stats->getMatchTypeName() == 'Dvouhra ženy') {
+            if ($stats->getMatchTypeName() == BasicEntity::MATCH_TYPE[1] || $stats->getMatchTypeName() == BasicEntity::MATCH_TYPE[3]) {
                 $this->playerStatsSet($singles, $stats);
                 $singlesIndex++;
             }
-            if ($stats->getMatchTypeName() == 'Čtyřhra muži' /* || $stats->getMatchTypeName() == 'Čtyřhra ženy'*/) {
+            if ($stats->getMatchTypeName() == BasicEntity::MATCH_TYPE[2] /* || $stats->getMatchTypeName() == BasicEntity::MATCH_TYPE[3]*/) {
                 $this->playerStatsSet($doubles, $stats);
                 $doublesIndex++;
             }
-            if ($stats->getMatchTypeName() == 'Čtyřhra mix') {
+            if ($stats->getMatchTypeName() == BasicEntity::MATCH_TYPE[4]) {
                 $this->playerStatsSet($doublesMix, $stats);
                 $mixIndex++;
             }

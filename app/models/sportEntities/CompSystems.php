@@ -23,7 +23,8 @@ class CompSystems extends BasicEntity {
             $competition,
             $season,
             $roundSystem,
-            $descriptions;
+            $descriptions,
+            $alternativeMatchSystem;
 
     public function setId($id) {
         $this->id = $id;
@@ -43,6 +44,10 @@ class CompSystems extends BasicEntity {
 
     public function setDescriptions($descriptions) {
         $this->descriptions = $descriptions;
+    }
+
+    public function setAlternativeMatchSystem($alternativeMatchSystem) {
+        $this->alternativeMatchSystem = $alternativeMatchSystem;
     }
 
     public function getId() {
@@ -65,6 +70,10 @@ class CompSystems extends BasicEntity {
         return $this->descriptions;
     }
 
+    public function getAlternativeMatchSystem() {
+        return $this->alternativeMatchSystem;
+    }
+
     public function getNewInstance() {
         return new self($this->database);
     }
@@ -79,6 +88,7 @@ class CompSystems extends BasicEntity {
             $this->season = isset($compSystemData->rocnik) ? $compSystemData->rocnik : NULL;
             $this->roundSystem = isset($compSystemData->system_kol) ? $compSystemData->system_kol : NULL;
             $this->descriptions = isset($compSystemData->soutez_system_info) && $compSystemData->soutez_system_info != '' ? $compSystemData->soutez_system_info : NULL;
+            $this->alternativeMatchSystem = isset($compSystemData->alternativni_system_zapasu) ? $compSystemData->alternativni_system_zapasu : NULL;
         }
     }
 
@@ -131,11 +141,11 @@ class CompSystems extends BasicEntity {
     }
 
     private function createCompSystem() {
-        return $this->database->query('SELECT * FROM systemy_vkladani(?,?,?,?)', (int) $this->competition->getId(), (int) $this->season, (int) $this->roundSystem, $this->descriptions)->fetch();
+        return $this->database->query('SELECT * FROM systemy_vkladani(?,?,?,?,?)', (int) $this->competition->getId(), (int) $this->season, (int) $this->roundSystem, $this->descriptions, $this->alternativeMatchSystem)->fetch();
     }
 
     private function editCompSystem() {
-        return $this->database->query('SELECT * FROM systemy_uprava(?,?,?,?,?)', (int) $this->id, (int) $this->competition->getId(), (int) $this->season, (int) $this->roundSystem, $this->descriptions)->fetch();
+        return $this->database->query('SELECT * FROM systemy_uprava(?,?,?,?,?,?)', (int) $this->id, (int) $this->competition->getId(), (int) $this->season, (int) $this->roundSystem, $this->descriptions, $this->alternativeMatchSystem)->fetch();
     }
 
     private function eraseCompSystem() {
@@ -143,7 +153,26 @@ class CompSystems extends BasicEntity {
     }
 
     private function readCompSystem() {
-        return $this->database->query('SELECT * FROM soutez_system NATURAL JOIN soutez WHERE id_soutez_system = ?', (int) $this->id)->fetch();
+        $conditions = [];
+
+        if ($this->id !== null) {
+            $conditions['id_soutez_system'] = (int) $this->id;
+        }
+        if ($this->season !== null) {
+            $conditions['rocnik'] = (int) $this->season;
+        }
+        if ($this->competition !== null) {
+            $conditions['id_soutez'] = (int) $this->competition->getId();
+        }
+
+        if (empty($conditions)) {
+            throw new \Exception('readCompSystem called with no filter conditions.');
+        }
+
+        return $this->database->query(
+            'SELECT * FROM soutez_system NATURAL JOIN soutez WHERE ?and',
+            $conditions
+        )->fetch();
     }
 
 }

@@ -90,13 +90,13 @@ utkání/zápas
                 <tbody>                        
                     {var $menSingles, $menDoubles, $womenSingles, $mixDoubles = 0}
                     {foreach $matchesTableList as $matches}
-                        {if $matches->getMatchTypeName() == 'Dvouhra muži'}
+                        {if $matches->getMatchTypeName() == App\Model\Entity\BasicEntity::MATCH_TYPE[1]}
                             {php $menSingles++}
-                        {elseif $matches->getMatchTypeName() == 'Dvouhra ženy'}
+                        {elseif $matches->getMatchTypeName() == App\Model\Entity\BasicEntity::MATCH_TYPE[3]}
                             {php $womenSingles++}
-                        {elseif $matches->getMatchTypeName() == 'Čtyřhra muži'}
+                        {elseif $matches->getMatchTypeName() == App\Model\Entity\BasicEntity::MATCH_TYPE[2]}
                             {php $menDoubles++}
-                        {elseif $matches->getMatchTypeName() == 'Čtyřhra mix'}
+                        {elseif $matches->getMatchTypeName() == App\Model\Entity\BasicEntity::MATCH_TYPE[4]}
                             {php $mixDoubles++}
                         {/if}
                         <tr>
@@ -142,40 +142,68 @@ utkání/zápas
                 </tbody>                
             </table>
         </div>
+
+        {var $menSinglesLimit = $playsTable->getAlternativeMatchSystem()
+            ? App\Model\Entity\BasicEntity::MATCH_ALTERNATIVE_COUNT[App\Model\Entity\BasicEntity::MATCH_TYPE[1]]
+            : App\Model\Entity\BasicEntity::MATCH_STANDARD_COUNT[App\Model\Entity\BasicEntity::MATCH_TYPE[1]]
+        }
+
+        {var $womenSinglesLimit = $playsTable->getAlternativeMatchSystem()
+            ? App\Model\Entity\BasicEntity::MATCH_ALTERNATIVE_COUNT[App\Model\Entity\BasicEntity::MATCH_TYPE[3]]
+            : App\Model\Entity\BasicEntity::MATCH_STANDARD_COUNT[App\Model\Entity\BasicEntity::MATCH_TYPE[3]]
+        }
+
+        {var $menDoublesLimit = $playsTable->getAlternativeMatchSystem()
+            ? App\Model\Entity\BasicEntity::MATCH_ALTERNATIVE_COUNT[App\Model\Entity\BasicEntity::MATCH_TYPE[2]]
+            : App\Model\Entity\BasicEntity::MATCH_STANDARD_COUNT[App\Model\Entity\BasicEntity::MATCH_TYPE[2]]
+        }
+
+        {var $mixDoublesLimit = $playsTable->getAlternativeMatchSystem()
+            ? App\Model\Entity\BasicEntity::MATCH_ALTERNATIVE_COUNT[App\Model\Entity\BasicEntity::MATCH_TYPE[4]]
+            : App\Model\Entity\BasicEntity::MATCH_STANDARD_COUNT[App\Model\Entity\BasicEntity::MATCH_TYPE[4]]
+        }
+
         <div class="row">
+
+            {if $menSinglesLimit > 0}
             <div class="col-lg-3 col-xs-6">
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3>{$menSingles ?? 0}/3</h3>
-
-                        <p>Dvouhra muži</p>
+                        <h3>{$menSingles ?? 0}/{$menSinglesLimit}</h3>
+                        <p>{App\Model\Entity\BasicEntity::MATCH_TYPE[1]}</p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-male"></i>
                     </div>
-                    <a n:href="Sport:zapasyNovyDvouhraMuzi idPlay=>$playsTable->getId()" n:class="$menSingles >= 3 ? 'btn disabled small-box-footer' : 'small-box-footer'">Vložit zápas <i class="fa fa-arrow-circle-right"></i></a>
+                    <a n:href="Sport:zapasyNovyDvouhraMuzi idPlay=>$playsTable->getId()" n:class="$menSingles >= $menSinglesLimit ? 'btn disabled small-box-footer' : 'small-box-footer'">Vložit zápas <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
+            {/if}
+
+            {if $womenSinglesLimit > 0}
             <div class="col-lg-3 col-xs-6">
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3>{$womenSingles ?? 0}/1</h3>
+                        <h3>{$womenSingles ?? 0}/{$womenSinglesLimit}</h3>
 
                         <p>Dvouhra ženy</p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-female"></i>
                     </div>
-                    <a n:href="Sport:zapasyNovyDvouhraZeny idPlay=>$playsTable->getId()" n:class="$womenSingles >= 1 ? 'btn disabled small-box-footer' : 'small-box-footer'">Vložit zápas <i class="fa fa-arrow-circle-right"></i></a>
+                    <a n:href="Sport:zapasyNovyDvouhraZeny idPlay=>$playsTable->getId()" n:class="$womenSingles >= $womenSinglesLimit ? 'btn disabled small-box-footer' : 'small-box-footer'">Vložit zápas <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
+            {/if}
+
+            {if $menDoublesLimit > 0}
             <div class="col-lg-3 col-xs-6">
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>{$menDoubles ?? 0}/1</h3>
+                        <h3>{$menDoubles ?? 0}/{$menDoublesLimit}</h3>
 
                         <p>Čtyřhra muži</p>
                     </div>
@@ -183,14 +211,17 @@ utkání/zápas
                         <i class="fa fa-male"></i>
                         <i class="fa fa-male"></i>
                     </div>
-                    <a n:href="Sport:zapasyNovyCtyrhraMuzi idPlay=>$playsTable->getId()" n:class="$menDoubles >= 1 ? 'btn disabled small-box-footer' : 'small-box-footer'">Vložit zápas <i class="fa fa-arrow-circle-right"></i></a>
+                    <a n:href="Sport:zapasyNovyCtyrhraMuzi idPlay=>$playsTable->getId()" n:class="$menDoubles >= $menDoublesLimit ? 'btn disabled small-box-footer' : 'small-box-footer'">Vložit zápas <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
+            {/if}
+
+            {if $mixDoublesLimit > 0}
             <div class="col-lg-3 col-xs-6">
                 <!-- small box -->
                 <div class="small-box bg-blue">
                     <div class="inner">
-                        <h3>{$mixDoubles ?? 0}/1</h3>
+                        <h3>{$mixDoubles ?? 0}/{$mixDoublesLimit}</h3>
 
                         <p>Čtyřhra mix</p>
                     </div>
@@ -198,9 +229,11 @@ utkání/zápas
                         <i class="fa fa-male"></i>
                         <i class="fa fa-female"></i>
                     </div>
-                    <a n:href="Sport:zapasyNovyCtyrhraMix idPlay=>$playsTable->getId()" n:class="$mixDoubles >= 1 ? 'btn disabled small-box-footer' : 'small-box-footer'">Vložit zápas <i class="fa fa-arrow-circle-right"></i></a>
+                    <a n:href="Sport:zapasyNovyCtyrhraMix idPlay=>$playsTable->getId()" n:class="$mixDoubles >= $mixDoublesLimit ? 'btn disabled small-box-footer' : 'small-box-footer'">Vložit zápas <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
+            {/if}
+
         </div>
 
         <!-- /.box-body -->

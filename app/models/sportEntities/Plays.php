@@ -29,6 +29,7 @@ class Plays extends BasicEntity {
             $lossDefaultVisitors,
             $date,
             /* $dateAlternative, */
+            $alternativeMatchSystem,
             $descriptions;
 
     public function setId($id) {
@@ -68,6 +69,10 @@ class Plays extends BasicEntity {
 
     public function setLossDefaultVisitors($lossDefaultVisitors) {
         $this->lossDefaultVisitors = $lossDefaultVisitors;
+    }
+
+    public function setAlternativeMatchSystem($alternativeMatchSystem) {
+        $this->alternativeMatchSystem = $alternativeMatchSystem;
     }
 
     public function setDescriptions($descriptions) {
@@ -111,6 +116,10 @@ class Plays extends BasicEntity {
 
     public function getLossDefaultVisitors() {
         return $this->lossDefaultVisitors;
+    }
+
+    public function getAlternativeMatchSystem() {
+        return $this->alternativeMatchSystem;
     }
 
     public function getDescriptions() {

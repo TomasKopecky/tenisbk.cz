@@ -1,10 +1,12 @@
 <?php
 
+use App\Model\Entity\SportEntity\Competitions;
 use Nette\Application\UI\Form;
 use App\Form\BasicFormService\BasicForms;
 use App\Model\Entity\SportEntity\PlaysTable;
 use App\Model\Entity\SportEntity\ClubsList;
 use App\Model\Entity\SportEntity\CompetitionsList;
+use App\Model\Entity\SportEntity\CompSystems;
 use App\Module\ErrorMailer;
 
 class PlayForm extends BasicForms {
@@ -12,14 +14,18 @@ class PlayForm extends BasicForms {
     private $playsTable,
             $clubsList,
             $competitionsList,
+            $competition,
+            $compSystems,
             $year,
             $comp,
             $mailer;
 
-    public function __construct(PlaysTable $playsTable, ClubsList $clubsList, CompetitionsList $competitionsList, ErrorMailer $mailer) {
+    public function __construct(PlaysTable $playsTable, ClubsList $clubsList, CompetitionsList $competitionsList, Competitions $competition, CompSystems $compSystems, ErrorMailer $mailer) {
         $this->playsTable = $playsTable;
         $this->clubsList = $clubsList;
         $this->competitionsList = $competitionsList;
+        $this->competition = $competition;
+        $this->compSystems = $compSystems;
         $this->mailer = $mailer;
     }
 
@@ -46,6 +52,15 @@ class PlayForm extends BasicForms {
         //$this->clubsList->calcClubsList();
     }
 
+    private function getCompSystem()
+    {
+        $this->competition->setId($this->comp);
+
+        $this->compSystems->setCompetition($this->competition);
+        $this->compSystems->setSeason($this->year);
+        $this->compSystems->calcCompSystem();
+    }
+
     public function create($operation, $presenter, $playsTable = null, $year = null, $comp = null) { // základní metoda s parametry pro obslužnou metodu formuláře (update, insert)
         $this->presenter = $presenter;
         $this->operation = $operation;
@@ -57,6 +72,8 @@ class PlayForm extends BasicForms {
         $this->start();
         $this->getClubList();
         $this->getCompList();
+        $this->getCompSystem();
+
         $form = new Form();
         $form->addSelect('id_soutez', 'Soutěž', $this->setCompetitionsAssoc($this->competitionsList->getCompetitionsList()))
                 ->setPrompt('Zvolte soutěž')
@@ -102,6 +119,12 @@ class PlayForm extends BasicForms {
                 ->setAttribute('class', 'form-control pull-right date')
                 ->setHtmlAttribute('readonly')
                 ->setRequired('Zvolte datum');
+
+        if ($this->compSystems->getAlternativeMatchSystem()) {
+                $form->addCheckbox('alternativni_system_zapasu')
+                ->setAttribute('class', 'checkbox square');
+        }
+
         $form->addTextArea('utkani_info', 'Info o utkání')
                 ->setAttribute('class', 'form-control')
                 //->addRule(Form::PATTERN, 'Text nesmí začínat mezerou a obsahovat jiné znaky než písmena a interpunkční znaménka)', '^[^\s][A-Z ĚŠČŘĎŤŇŽÝÁÍÉÚŮ a-z ěščřďťňžýáíéúů \s-,.!]*$')
@@ -120,6 +143,10 @@ class PlayForm extends BasicForms {
     }
 
     public function validateForm($form) {
+        $alternativeMatchSystemControl = $form->getComponent('alternativni_system_zapasu', false);
+        $alternativeMatchSystemUnchanged = $alternativeMatchSystemControl === null
+                || $alternativeMatchSystemControl->getValue() == $this->playsTable->getAlternativeMatchSystem();
+
         if (
                 $form['rocnik']->getValue() == $this->playsTable->getSeason() &&
                 $form['kolo']->getValue() == $this->playsTable->getRound()->getNumber() &&
@@ -129,6 +156,7 @@ class PlayForm extends BasicForms {
                 $form['klub_hoste']->getSelectedItem() == $this->playsTable->getClubVisitors()->getName() &&
                 $form['utkani_datum']->getValue() == (is_null($this->playsTable->getDate()) ? null : date_format($this->playsTable->getDate(), "d.m.Y")) &&
                 /* $form['datum_nahradni']->getValue() == (is_null($this->playsTable->getDateAlternative()) ? null : date_format($this->playsTable->getDateAlternative(), "d.m.Y")) && */
+                $alternativeMatchSystemUnchanged &&
                 $form['utkani_info']->getValue() == $this->playsTable->getDescriptions()) {
             $form->addError('Ve formuláři jste neprovedli žádnou změnu');
         }
@@ -156,7 +184,7 @@ class PlayForm extends BasicForms {
             $form['klub_domaci']->setPrompt('Zvolte domácí klub');
             $form['klub_hoste']->setPrompt('Zvolte hostující klub');
         } else {
-            $form->setDefaults([
+            $defaults = [
                 'id_soutez' => $this->playsTable->getCompetition()->getId(),
                 'rocnik' => $this->playsTable->getSeason(),
                 'kolo' => $this->playsTable->getRound()->getNumber(),
@@ -165,9 +193,16 @@ class PlayForm extends BasicForms {
                 'utkani_kontumace_domaci' => $this->playsTable->getLossDefaultHome(),
                 'utkani_kontumace_hoste' => $this->playsTable->getLossDefaultVisitors(),
                 'utkani_datum' => is_null($this->playsTable->getDate()) ? null : date_format($this->playsTable->getDate(), "d.m.Y"),
+                'alternativni_system_zapasu' => $this->playsTable->getAlternativeMatchSystem(),
                 /* 'datum_nahradni' => is_null($this->playsTable->getDateAlternative()) ? null : date_format($this->playsTable->getDateAlternative(), "d.m.Y"), */
                 'utkani_info' => $this->playsTable->getDescriptions()
-            ]);
+            ];
+
+            if ($form->getComponent('alternativni_system_zapasu', false) !== null) {
+                $defaults['alternativni_system_zapasu'] = $this->playsTable->getAlternativeMatchSystem();
+            }
+
+            $form->setDefaults($defaults);
         }
     }
 
@@ -179,8 +214,8 @@ class PlayForm extends BasicForms {
             $this->playsTable->logUpdate();
         } catch (\Nette\Database\DriverException $e) {
             //$form->addError('Chyba při úpravě registrace. Zadaný hráč byl je již ve zvoleném období v nějakém klubu zaregistrován. Změny vráceny zpět.');
-            $this->presenter->flashMessage('Chyba při úpravě utkání. Utkání s danými parametry nelze takto upravit, zkontrolujte správnost všech údajů, tedy správnou příslušnost klubů k soutěži v kombinaci s ročníkem a systémem soutěží. Není již uvedené utkání vloženo? Změny vráceny zpět.', 'error');
-            //$this->presenter->flashMessage($this->getDatabaseErrorText($e), 'error'); // výpis chyby přímo z triggerové funkce z databáze
+            //$this->presenter->flashMessage('Chyba při úpravě utkání. Utkání s danými parametry nelze takto upravit, zkontrolujte správnost všech údajů, tedy správnou příslušnost klubů k soutěži v kombinaci s ročníkem a systémem soutěží. Není již uvedené utkání vloženo? Změny vráceny zpět.', 'error');
+            $this->presenter->flashMessage($this->getDatabaseErrorText($e), 'error'); // výpis chyby přímo z triggerové funkce z databáze
             $this->presenter->redirect('Sport:utkaniUprava', $this->presenter->getParameter('id'));
         } catch (\Nette\Neon\Exception $e) {
             $this->mailer->setMessage('Chyba - úprava utkání', 'Nastala nespecifikovaná chyba při editaci utkání - úpravě. Jednalo se o utkání s id ' . $this->presenter->getParameter('id') . ' v ročníku ' . $form['rocnik']->getValue() . ' kole ' . $form['kolo']->getValue() . ' mezi kluby' . $form['klub_domaci']->getValue() . ' a ' . $form['klub_hoste']->getValue() . '. Text chyby: ' . $e->getMessage());

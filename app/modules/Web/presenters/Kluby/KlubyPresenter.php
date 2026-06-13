@@ -8,6 +8,7 @@ use App\Model\Entity\SportEntity\PlaysTableList;
 use App\Model\Entity\SportEntity\Clubs;
 use App\Model\Entity\SportEntity\ClubStats;
 use App\Model\Entity\SportEntity\CompetitionsList;
+use App\Model\Entity\BasicEntity;
 
 class KlubyPresenter extends BasicPresenter {
 
@@ -96,7 +97,7 @@ class KlubyPresenter extends BasicPresenter {
         $menSinglesStats = $this->clubStats->getNewInstance();
         $menSinglesStats->setClubs($this->clubs);
         $menSinglesStats->setSeasonYear($this->seasonYear);
-        $menSinglesStats->setMatchTypeName("Dvouhra muži");
+        $menSinglesStats->setMatchTypeName(BasicEntity::MATCH_TYPE[1]);
         $menSinglesStats->setCompetition($this->competitionsList);
         $menSinglesStats->getClubStats();
         $this->template->menSinglesStats = $menSinglesStats;
@@ -104,7 +105,7 @@ class KlubyPresenter extends BasicPresenter {
         $womenSinglesStats = $this->clubStats->getNewInstance();
         $womenSinglesStats->setClubs($this->clubs);
         $womenSinglesStats->setSeasonYear($this->seasonYear);
-        $womenSinglesStats->setMatchTypeName("Dvouhra ženy");
+        $womenSinglesStats->setMatchTypeName(BasicEntity::MATCH_TYPE[3]);
         $womenSinglesStats->setCompetition($this->competitionsList);
         $womenSinglesStats->getClubStats();
         $this->template->womenSinglesStats = $womenSinglesStats;

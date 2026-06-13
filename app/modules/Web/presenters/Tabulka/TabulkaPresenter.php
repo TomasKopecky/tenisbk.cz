@@ -6,6 +6,7 @@ use Web\BasicPresenters\BasicPresenter;
 use App\Model\Entity\SportEntity\ClubStatsList;
 use App\Model\Entity\SportEntity\PlaysTableList;
 use App\Model\Entity\SportEntity\CompetitionsList;
+Use App\Model\Entity\BasicEntity;
 
 class TabulkaPresenter extends BasicPresenter {
 
@@ -26,7 +27,7 @@ class TabulkaPresenter extends BasicPresenter {
         $this->template->selectedYear = $this->seasonYear = isset($this->seasonYear) ? $this->seasonYear : date('Y');
         //bdump($this->seasonYear); // show current season year in the debug panel
         $this->template->selectedCompetition = $this->competition = $this->competition ?? 0;
-        $this->template->matchType = $this->matchType = $this->matchType ?? "Všechny typy zápasů";
+        $this->template->matchType = $this->matchType = $this->matchType ?? BasicEntity::MATCH_TYPE[0];
     }
 
     public function renderDefault() {

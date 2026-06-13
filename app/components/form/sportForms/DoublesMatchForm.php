@@ -293,6 +293,11 @@ class DoublesMatchForm extends BasicForms {
             $idPlay = $this->presenter->getParameter('idPlay');
             $matchType = $this->presenter->getAction() == 'zapasyNovyCtyrhraMuzi' ? 2 : 4;
             $values = $form->getValues();
+
+            if (isset($values['typ_zapasu'])) {
+                $values['typ_zapasu'] = $values['typ_zapasu'] == 'zapasyNovyCtyrhraMuzi' ? 2 : 4;
+            }
+
             $this->matchesTable->insertMatchesTable($idPlay, $matchType, $this->setsHome, $this->setsVisitors, $this->winHome, $this->winVisitors, $values);
             $this->matchesTable->setResult($this->result);
             $this->matchesTable->logInsert();

@@ -167,7 +167,8 @@ class SinglesMatchForm extends BasicForms {
             $form->addHidden('typ_zapasu',$this->presenter->getAction());
         }
         if ($this->presenter->getAction() == 'zapasyNovyDvouhraMuzi' || $this->matchesTable->getMatchTypeId() == 1){
-            $form->addSelect('zapas_muzi_poradi', 'Pořadové číslo zápasu', [1=>1,2=>2,3=>3])
+            $menPlayersOrder = $this->playsTable->getAlternativeMatchSystem() ? [1=>1,2=>2,3=>3,4=>4] : [1=>1,2=>2,3=>3];
+            $form->addSelect('zapas_muzi_poradi', 'Pořadí zápasu mužů', $menPlayersOrder)
                 ->setAttribute('class', 'form-control')
                 ->setPrompt('Zvolte pořadí zápasu mužů')
                 ->setRequired('Zvolte pořadí zápasu mužů');
@@ -175,6 +176,7 @@ class SinglesMatchForm extends BasicForms {
     }
 
     public function validateResults($form) {
+        bdump("validatin");
         $values = $form->getValues();
         $this->result = new Results();
         $this->result->setFormResults($values);
@@ -184,6 +186,7 @@ class SinglesMatchForm extends BasicForms {
         $checkResult->setHomeRetire($form['skrec_domaci']->getValue());
         $checkResult->setVisitorsRetire($form['skrec_hoste']->getValue());
         $checkResult->fullCheck();
+        bdump($checkResult->getErrors());
         foreach ($checkResult->getErrors() as $error) {
             $form->addError($error);
         }
@@ -198,6 +201,7 @@ class SinglesMatchForm extends BasicForms {
     }
 
     public function validateForm($form) {
+        bdump("validateForm");
         if (
                 $form['hrac1_domaci']->getValue() == $this->matchesTable->getPlayerHome1()->getId() &&
                 $form['hrac1_hoste']->getValue() == $this->matchesTable->getPlayerVisitors1()->getId() &&
@@ -218,7 +222,7 @@ class SinglesMatchForm extends BasicForms {
                 $form['tb1_hoste']->getValue() == $this->matchesTable->getResults()->getTb1Visitors() &&
                 $form['tb2_hoste']->getValue() == $this->matchesTable->getResults()->getTb2Visitors() &&
                 $form['tb3_hoste']->getValue() == $this->matchesTable->getResults()->getTb3Visitors() &&
-                $form['zapas_muzi_poradi']->getValue() == $this->matchesTable->getMatchMenOrder() &&
+                (!isset($form['zapas_muzi_poradi']) || $form['zapas_muzi_poradi']->getValue() == $this->matchesTable->getMatchMenOrder()) &&
                 $form['zapas_info']->getValue() == $this->matchesTable->getDescriptions()) {
             $form->addError('Ve formuláři jste neprovedli žádnou změnu');
         }
@@ -292,10 +296,14 @@ class SinglesMatchForm extends BasicForms {
 
     public function insert($form) { //provede se po odeslání vyplněného formuláře pro vložení nového hráče
         try {
-            //bdump($form->getValues());
             $idPlay = $this->presenter->getParameter('idPlay');
             $matchType = $this->presenter->getAction() == 'zapasyNovyDvouhraMuzi' ? 1 : 3;
             $values = $form->getValues();
+            
+            if (isset($values['typ_zapasu'])) {
+                $values['typ_zapasu'] = $values['typ_zapasu'] == 'zapasyNovyDvouhraMuzi' ? 1 : 3;
+            }
+                
             $this->matchesTable->insertMatchesTable($idPlay, $matchType, $this->setsHome, $this->setsVisitors, $this->winHome, $this->winVisitors, $values);
             $this->matchesTable->setResult($this->result);
             $this->matchesTable->logInsert();

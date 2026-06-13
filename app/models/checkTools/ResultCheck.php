@@ -553,12 +553,10 @@ class ResultsCheck {
     private function matchStandardCheck() {
         if ($this->getHomeLossDefault() && $this->getVisitorsLossDefault()) {
             $this->errors[] = 'Nelze kontumovat zápas oběma stranami, kontumace musí proběhnout pouze ve prospěch jedné strany';
-            return false;
         }
         $this->checkIfSetsAreSetWithoutPrevious();
         $this->checkIfSetsAreSetCorrectly();
         $this->checkIfTbsAreSetCorrectly();
-        return true;
     }
 
     public function fullCheck() {

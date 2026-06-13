@@ -22,23 +22,12 @@ abstract class FuncEntity extends BasicEntity {
             $playerSex,
             $seasonYear;
 
-    public function setMatchTypeName($matchType) {
-        try {
-            if (!array_key_exists($matchType, BasicEntity::MATCH_TYPE)) {
-                throw new \Exception("Chyba nastavení třídy " . get_class() . " - chybně nastavený typ zápasu");
-            }
-            $this->matchTypeId = BasicEntity::MATCH_TYPE[$matchType];
-        } catch (\Nette\Neon\Exception $ex) {
-            return $ex;
-        }
-    }
-
     public function setPlayerSexKey($playerSex) {
         try {
             if (!array_key_exists($playerSex, BasicEntity::PLAYER_SEX)) {
                 throw new \Exception("Chyba nastavení třídy " . get_class() . " - chybně nastavené pohlaví hráče");
             }
-            $this->playerSexId = BasicEntity::PLAYER_SEX[$playerSex];
+            $this->playerSex = BasicEntity::PLAYER_SEX[$playerSex];
         } catch (\Nette\Neon\Exception $ex) {
             return $ex;
         }

@@ -14,7 +14,7 @@
                 </thead>
                 <tbody>
                 {foreach $matches as $doubles}
-                    {if $doubles->getMatchTypeName() == 'Čtyřhra muži' /* || $doubles->getMatchTypeName() == 'Čtyřhra ženy'*/ }
+                    {if $doubles->getMatchTypeName() == App\Model\Entity\BasicEntity::MATCH_TYPE[2] /* || $doubles->getMatchTypeName() == 'Čtyřhra ženy'*/ }
                 <tr role="row">
                   <td></td>
                   <td>

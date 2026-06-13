@@ -102,6 +102,7 @@ class PlaysTable extends Plays {
             isset($playsData->vyh_hos) ? $this->setWinVisitors($playsData->vyh_hos) : NULL;
             isset($playsData->utkani_kontumace_domaci) ? $this->setLossDefaultHome($playsData->utkani_kontumace_domaci) : NULL;
             isset($playsData->utkani_kontumace_hoste) ? $this->setLossDefaultVisitors($playsData->utkani_kontumace_hoste) : NULL;
+            isset($playsData->alternativni_system_zapasu) ? $this->setAlternativeMatchSystem($playsData->alternativni_system_zapasu) : NULL;
             isset($playsData->utkani_info) && $playsData->utkani_info != '' ? $this->descriptions = $playsData->utkani_info : NULL;
         }
     }
@@ -174,12 +175,12 @@ class PlaysTable extends Plays {
     }
 
     private function createPlaysTable() {
-        return $this->database->query('SELECT * FROM utkani_vkladani(?,?,?,?,?,?,?,?)', (int) $this->round->getNumber(), (int) $this->season, (int) $this->clubHome->getId(), (int) $this->clubVisitors->getId(), $this->getLossDefaultHome(), $this->getLossDefaultVisitors(), $this->date, $this->descriptions
+        return $this->database->query('SELECT * FROM utkani_vkladani(?,?,?,?,?,?,?,?,?)', (int) $this->round->getNumber(), (int) $this->season, (int) $this->clubHome->getId(), (int) $this->clubVisitors->getId(), $this->getLossDefaultHome(), $this->getLossDefaultVisitors(), $this->date, $this->alternativeMatchSystem, $this->descriptions
                 )->fetch();
     }
 
     private function editPlaysTable() {
-        return $this->database->query('SELECT * FROM utkani_uprava(?,?,?,?,?,?,?,?,?)', (int) $this->id, (int) $this->round->getNumber(), (int) $this->season, (int) $this->clubHome->getId(), (int) $this->clubVisitors->getId(), $this->getLossDefaultHome(), $this->getLossDefaultVisitors(), $this->date, $this->descriptions)->fetch();
+        return $this->database->query('SELECT * FROM utkani_uprava(?,?,?,?,?,?,?,?,?,?)', (int) $this->id, (int) $this->round->getNumber(), (int) $this->season, (int) $this->clubHome->getId(), (int) $this->clubVisitors->getId(), $this->getLossDefaultHome(), $this->getLossDefaultVisitors(), $this->date, $this->alternativeMatchSystem, $this->descriptions)->fetch();
     }
 
     private function readPlaysTable() {

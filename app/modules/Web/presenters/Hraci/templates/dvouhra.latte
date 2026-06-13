@@ -14,7 +14,7 @@
                 </thead>
                 <tbody>
                 {foreach $matches as $singles}
-                    {if $singles->getMatchTypeName() == 'Dvouhra muži' || $singles->getMatchTypeName() == 'Dvouhra ženy'}
+                    {if $singles->getMatchTypeName() == App\Model\Entity\BasicEntity::MATCH_TYPE[1] || $singles->getMatchTypeName() == App\Model\Entity\BasicEntity::MATCH_TYPE[3]}
                 <tr role="row">
                   <td></td>
                   <td>{if $singles->getPlayerHome1()->getId() != $player->getId()}<a class="resultDetailLinks" n:href="Hraci:detail /*$singles->getPlayerHome1()->getId(),*/ $singles->getPlayerHome1()->getSlug()">{$singles->getPlayerHome1()->getName()}</a>{else}{$singles->getPlayerHome1()->getName()}{/if}{if $singles->getRetireHome()} - SKREČ{/if}</td>
